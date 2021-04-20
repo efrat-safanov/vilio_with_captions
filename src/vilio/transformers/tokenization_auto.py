@@ -34,8 +34,6 @@ from .configuration_auto import (
     MBartConfig,
     MobileBertConfig,
     OpenAIGPTConfig,
-    PegasusConfig,
-    ReformerConfig,
     RetriBertConfig,
     RobertaConfig,
     T5Config,
@@ -59,8 +57,6 @@ from .tokenization_longformer import LongformerTokenizer
 from .tokenization_marian import MarianTokenizer
 from .tokenization_mobilebert import MobileBertTokenizer, MobileBertTokenizerFast
 from .tokenization_openai import OpenAIGPTTokenizer, OpenAIGPTTokenizerFast
-from .tokenization_pegasus import PegasusTokenizer
-from .tokenization_reformer import ReformerTokenizer
 from .tokenization_retribert import RetriBertTokenizer, RetriBertTokenizerFast
 from .tokenization_roberta import RobertaTokenizer, RobertaTokenizerFast
 from .tokenization_t5 import T5Tokenizer
@@ -81,14 +77,12 @@ TOKENIZER_MAPPING = OrderedDict(
         (DistilBertConfig, (DistilBertTokenizer, DistilBertTokenizerFast)),
         (AlbertConfig, (AlbertTokenizer, None)),
         (CamembertConfig, (CamembertTokenizer, None)),
-        (PegasusConfig, (PegasusTokenizer, None)),
         (MBartConfig, (MBartTokenizer, None)),
         (XLMRobertaConfig, (XLMRobertaTokenizer, None)),
         (MarianConfig, (MarianTokenizer, None)),
         (BartConfig, (BartTokenizer, None)),
         (LongformerConfig, (LongformerTokenizer, None)),
         (RobertaConfig, (RobertaTokenizer, RobertaTokenizerFast)),
-        (ReformerConfig, (ReformerTokenizer, None)),
         (ElectraConfig, (ElectraTokenizer, ElectraTokenizerFast)),
         (BertConfig, (BertTokenizer, BertTokenizerFast)),
         (OpenAIGPTConfig, (OpenAIGPTTokenizer, OpenAIGPTTokenizerFast)),

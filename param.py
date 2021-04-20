@@ -76,6 +76,8 @@ def parse_args():
     # Training configuration
     parser.add_argument("--multiGPU", action='store_const', default=False, const=True)
     parser.add_argument("--numWorkers", dest='num_workers', default=4)
+   
+    parser.add_argument("--tr_unimodal_name", dest='tr_unimodal_name', default = False)
 
     # Parse the arguments.
     args = parser.parse_args()

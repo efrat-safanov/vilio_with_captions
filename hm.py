@@ -168,8 +168,9 @@ class HM:
 
             id2ans = {}
             id2prob = {}
+            stop = False
 
-            for i, (ids, feats, boxes, sent, target) in iter_wrapper(enumerate(loader)):
+            for i, (ids, feats, boxes, sent, caption, target) in iter_wrapper(enumerate(loader)):
 
                 if ups == args.midsave:
                     self.save("MID")
@@ -182,7 +183,7 @@ class HM:
                 feats, boxes, target = feats.cuda(), boxes.cuda(), target.long().cuda()
 
                 # Model expects visual feats as tuple of feats & boxes
-                logit = self.model(sent, (feats, boxes))
+                logit = self.model(sent, caption, (feats, boxes))
 
                 # Note: LogSoftmax does not change order, hence there should be nothing wrong with taking it as our prediction 
                 # In fact ROC AUC stays the exact same for logsoftmax / normal softmax, but logsoftmax is better for loss calculation
@@ -244,15 +245,23 @@ class HM:
                                 # Only save BEST when no midsave is specified to save space
                                 #if args.midsave < 0:
                                 #    self.save("BEST")
+                                if epoch > 1:
+                                    split = 'test_seen'
+                                    self.predict(get_tuple(split, bs=args.batch_size,shuffle=False, drop_last=False),dump=os.path.join(args.output, '{}_{}_{}_{}.csv'.format(args.exp, split, epoch, ups)))
+                            else:
+                                stop = True
 
                             log_str += "\nEpoch(U) %d(%d): DEV AC %0.2f RA %0.4f \n" % (epoch, ups, acc*100.,roc_auc*100)
                             log_str += "Epoch(U) %d(%d): BEST AC %0.2f RA %0.4f \n" % (epoch, ups, best_acc*100., best_roc*100.)
     
                         print(log_str, end='')
-
+                
                         with open(self.output + "/log.log", 'a') as f:
                             f.write(log_str)
                             f.flush()
+                        #if stop == True:
+                        #    break
+                        #    print("stopping because no improvement")
 
         if (epoch + 1) == args.epochs:
             if args.contrib:
@@ -268,9 +277,10 @@ class HM:
 
         for i, datum_tuple in enumerate(loader):
 
-            ids, feats, boxes, sent = datum_tuple[:4]
+            ids, feats, boxes, sent, caption = datum_tuple[:5]
 
             self.model.eval()
+
 
             if args.swa:
                 self.swa_model.eval()
@@ -278,14 +288,14 @@ class HM:
             with torch.no_grad():
                 
                 feats, boxes = feats.cuda(), boxes.cuda()
-                logit = self.model(sent, (feats, boxes))
+                logit = self.model(sent, caption, (feats, boxes))
 
                 # Note: LogSoftmax does not change order, hence there should be nothing wrong with taking it as our prediction
                 logit = self.logsoftmax(logit)
                 score = logit[:, 1]
 
                 if args.swa:
-                    logit = self.swa_model(sent, (feats, boxes))
+                    logit = self.swa_model(sent, caption, (feats, boxes))
                     logit = self.logsoftmax(logit)
 
                 _, predict = logit.max(1)
@@ -358,8 +368,8 @@ def main():
         hm.train(hm.train_tuple, hm.valid_tuple)
 
         # If we also test afterwards load the last model
-        if args.test is not None:
-            hm.load(os.path.join(hm.output, "LAST" + args.train + ".pth"))
+#        if args.test is not None:
+#            hm.load(os.path.join(hm.output, "LAST" + args.train + ".pth"))
 
     if args.test is not None:
         # We can specify multiple test args e.g. test,test_unseen

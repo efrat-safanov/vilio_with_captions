@@ -28,9 +28,24 @@ class HMTorchDataset(Dataset):
         self.raw_data = []
         for split in self.splits:
             path = os.path.join("data/", f"{split}.jsonl")
-            self.raw_data.extend(
-                    [json.loads(jline) for jline in open(path, "r").read().split('\n')]
-            )
+            #print(path)
+            path_to_captions = os.path.join("data/", f"image_captioning_{split}.csv")
+            #print(path_to_captions)
+            captions = {}
+            for csvline in open(path_to_captions, "r").read().split('\n')[1:]:
+                if csvline != '':
+                    single_id, caption = csvline.split(",")
+                    captions[int(single_id)] = caption
+            for jline in open(path, "r").read().split('\n'):
+                if jline != '':
+                    initial = json.loads(jline)
+                    if initial["id"] in captions:
+                        initial["caption"] = captions[initial["id"]]
+                    else:
+                        initial["caption"] = ''
+
+                    self.raw_data.append(initial)
+                    
         print("Load %d data from split(s) %s." % (len(self.raw_data), self.name))
 
         # List to dict (for evaluation and others)
@@ -69,6 +84,7 @@ class HMTorchDataset(Dataset):
 
         img_id = datum['id']
         text = datum['text']
+        caption = datum['caption']
 
 
         # Get image info
@@ -110,9 +126,9 @@ class HMTorchDataset(Dataset):
         # Provide label (target) - From hm_data
         if 'label' in datum:
             target = torch.tensor(datum["label"], dtype=torch.float) 
-            return img_id, feats, boxes, text, target
+            return img_id, feats, boxes, text, caption, target
         else:
-            return img_id, feats, boxes, text
+            return img_id, feats, boxes, text, caption
 
 class HMEvaluator:
     def __init__(self, dataset):

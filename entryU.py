@@ -12,6 +12,7 @@ from src.vilio.modeling_bertU import BertU
 from src.vilio.modeling_robertaU import RobertaU
 
 from src.vilio.transformers.tokenization_auto import AutoTokenizer
+from src.vilio.transformers.modeling_auto import AutoModelForSequenceClassification, AutoModel
 
 from torch.nn.utils.rnn import pad_sequence
 
@@ -26,7 +27,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 
 class ModelU(nn.Module):
-    def __init__(self, args=args, max_seq_len=100+args.num_features, num_features=args.num_features, tr_name=args.tr):
+    def __init__(self, args=args, max_seq_len=100+args.num_features, num_features=args.num_features, tr_name=args.tr, tr_unimodal_name=args.tr_unimodal_name):
         """
         max_seq_len: How long our input will be in total!
         num_features: How much of that input will be bboxes
@@ -48,6 +49,7 @@ class ModelU(nn.Module):
             self.model, loading_info = RobertaU.from_pretrained(self.tr_name, img_dim=2048, output_loading_info=True)
         elif tr_name.startswith("bert"):
             self.model, loading_info = BertU.from_pretrained(self.tr_name, img_dim=2048, output_loading_info=True)
+            
 
         print("UNEXPECTED: ", loading_info["unexpected_keys"])
         print("MISSING: ", loading_info["missing_keys"])
@@ -61,17 +63,20 @@ class ModelU(nn.Module):
             self.model.embeddings.token_type_embeddings = nn.Embedding(2, self.model.config.hidden_size)             
             # Initialize it
             self.model.embeddings.token_type_embeddings.weight.data.normal_(mean=0.0, std=self.model.config.initializer_range)
-
-
+        if tr_unimodal_name != '':
+            #self.unimodal_model = AutoModelForSequenceClassification.from_pretrained(tr_unimodal_name, output_hidden_states=True)
+            self.unimodal_model = AutoModel.from_pretrained(tr_unimodal_name, output_hidden_states=True)
+            self.unimodal_model.train()
         ### CLASSIFICATION HEADS ###
         # Note: LXRT Default classifier tends to perform best; For Albert gelu_new outperforms gelu
         # LXRTModel Default classifier (Note: This classifier is also used in UNITER!)
-
+        roberta_dim = 768
+        updated_dim = self.dim + roberta_dim
         self.classifier = nn.Sequential(
-            nn.Linear(self.dim, self.dim * 2),
+            nn.Linear(updated_dim, updated_dim * 2),
             GeLU(),
-            BertLayerNorm(self.dim * 2, eps=1e-12),
-            nn.Linear(self.dim * 2, 2)
+            BertLayerNorm(updated_dim * 2, eps=1e-12),
+            nn.Linear(updated_dim * 2, 2)
         )
         self.classifier.apply(self.init_weights)
 
@@ -142,11 +147,12 @@ class ModelU(nn.Module):
         return input_ids, img_feats, img_pos_feats, attn_masks, gather_index
 
 
-    def preprocess_bert(self, sents, visual_feats, num_features, tokenizer):
+    def preprocess_bert(self, sents, captions, visual_feats, num_features, tokenizer):
         """
         Copied & adapted from UNITER Repo.
         """
         iids = []
+        capt_iids = []
         attn_masks = []
 
         for (i, sent) in enumerate(sents):
@@ -158,22 +164,26 @@ class ModelU(nn.Module):
                 sent = sent[0].upper() + sent[1:]
 
             tokens = tokenizer.tokenize(sent)
-
-            tokens = ["[CLS]"] + tokens + ["[SEP]"]
+            #:wq
+            #print(captions[i])
+            tokens = ["[CLS]"] + tokens + ["[SEP]"] #+ tokenizer.tokenize(captions[i]) + ["[SEP]"] 
             input_ids = tokenizer.convert_tokens_to_ids(tokens)
-
+            caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
             attn_mask = [1] * (len(input_ids) + num_features)
 
             input_ids = torch.tensor(input_ids)
+            caption_input_ids = input_ids.clone().detach()        
             attn_mask = torch.tensor(attn_mask)
 
             iids.append(input_ids)
+            capt_iids.append(caption_input_ids)
             attn_masks.append(attn_mask)
 
 
         txt_lens = [i.size(0) for i in iids]
 
         input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
+        caption_input_ids = pad_sequence(capt_iids, batch_first=True, padding_value=0)
         attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
 
         img_feats, img_pos_feats = visual_feats
@@ -188,18 +198,31 @@ class ModelU(nn.Module):
 
         gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
 
-        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index
+        return input_ids, caption_input_ids, img_feats, img_pos_feats, attn_masks, gather_index
 
-    def forward(self, sents, visual_feats):
+    def forward(self, sents, captions, visual_feats):
         
         if self.tr_name.startswith("roberta"):
             input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_roberta(sents, visual_feats, self.num_features, self.tokenizer)
         elif self.tr_name.startswith("bert"):
-            input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, visual_feats, self.num_features, self.tokenizer)
+            input_ids, capt_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
-
-        output = self.classifier(pooled_output)
+        unimodal_out = self.unimodal_model(capt_ids.cuda())
+        #print(len(unimodal_out))
+        #print(unimodal_out[0].shape)
+        #print(len(unimodal_out[1]))
+        #print(unimodal_out[1].shape)
+        #print(unimodal_out[1][12].shape)
+        #print(unimodal_out[1][11].shape)
+        #print(unimodal_out[1][0].shape)
+        #print(len(unimodal_out))
+        #print(pooled_output.shape)
+        #print(unimodal_out[1][12][:,-1,:].shape)
+        input_for_classifier = torch.cat((pooled_output, unimodal_out[0][:,-1,:]), dim=1)
+        #input_for_classifier = torch.cat((pooled_output, unimodal_out[1][12][:,-1,:]), dim=1)
+        #print(input_for_classifier.shape)
+        output = self.classifier(input_for_classifier)
 
         return output
 
@@ -268,6 +291,11 @@ class ModelU(nn.Module):
 
         # Load weights to model
         self.model.load_state_dict(state_dict, strict=False)
+
+    #def eval(self):
+    #    self.model.eval()
+    #    self.unimodal_model.eval()
+    #    self.classifier.eval()
 
     def init_weights(self, module):
         """ Initialize the weights """
