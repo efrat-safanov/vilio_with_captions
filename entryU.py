@@ -168,11 +168,11 @@ class ModelU(nn.Module):
             #print(captions[i])
             tokens = ["[CLS]"] + tokens + ["[SEP]"] #+ tokenizer.tokenize(captions[i]) + ["[SEP]"] 
             input_ids = tokenizer.convert_tokens_to_ids(tokens)
-            caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
+            caption_input_ids = input_ids[1:] + tokenizer.convert_tokens_to_ids(tokenizer.tokenize(captions[i])) 
             attn_mask = [1] * (len(input_ids) + num_features)
 
             input_ids = torch.tensor(input_ids)
-            caption_input_ids = input_ids.clone().detach()        
+            caption_input_ids = torch.tensor(caption_input_ids)#input_ids.clone().detach()        
             attn_mask = torch.tensor(attn_mask)
 
             iids.append(input_ids)
