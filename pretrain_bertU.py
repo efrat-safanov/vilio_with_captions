@@ -581,8 +581,12 @@ class LXMERT:
                 #dont use the same example for a negative case
                 if sample[0] == i:
                     continue
+                
+                print("orig meme: " + sent)
+                print("orig caption: " + captions[i])
+                print("adding negative example: " + captions[sample[0]])
                  
-                neg_caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[sample[i]]) + ["[SEP]"]) 
+                neg_caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[sample[0]]) + ["[SEP]"]) 
                 attn_mask = [1] * (len(neg_caption_input_ids) + 2*num_features)
     
                 caption_input_ids = torch.tensor(neg_caption_input_ids)
@@ -709,7 +713,7 @@ class LXMERT:
             if epoch == 5:
                 self.save("Epoch%02d" % (epoch+1))
 
-        self.save("LAST")
+        self.save("LASTPRetrain")
 
 
     def save(self, name):
