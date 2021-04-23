@@ -63,15 +63,10 @@ class ModelU(nn.Module):
             self.model.embeddings.token_type_embeddings = nn.Embedding(2, self.model.config.hidden_size)             
             # Initialize it
             self.model.embeddings.token_type_embeddings.weight.data.normal_(mean=0.0, std=self.model.config.initializer_range)
-        if tr_unimodal_name != '':
-            #self.unimodal_model = AutoModelForSequenceClassification.from_pretrained(tr_unimodal_name, output_hidden_states=True)
-            self.unimodal_model = AutoModel.from_pretrained(tr_unimodal_name, output_hidden_states=True)
-            self.unimodal_model.train()
         ### CLASSIFICATION HEADS ###
         # Note: LXRT Default classifier tends to perform best; For Albert gelu_new outperforms gelu
         # LXRTModel Default classifier (Note: This classifier is also used in UNITER!)
-        roberta_dim = 768
-        updated_dim = self.dim + roberta_dim
+        updated_dim = self.dim
         self.classifier = nn.Sequential(
             nn.Linear(updated_dim, updated_dim * 2),
             GeLU(),
@@ -152,7 +147,6 @@ class ModelU(nn.Module):
         Copied & adapted from UNITER Repo.
         """
         iids = []
-        capt_iids = []
         attn_masks = []
 
         for (i, sent) in enumerate(sents):
@@ -169,36 +163,33 @@ class ModelU(nn.Module):
             tokens = ["[CLS]"] + tokens + ["[SEP]"] #+ tokenizer.tokenize(captions[i]) + ["[SEP]"] 
             input_ids = tokenizer.convert_tokens_to_ids(tokens)
             caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
-            attn_mask = [1] * (len(input_ids) + num_features)
+            attn_mask = [1] * (len(caption_input_ids) + 2*num_features)
 
-            input_ids = torch.tensor(input_ids)
-            caption_input_ids = input_ids.clone().detach()        
+            caption_input_ids = torch.tensor(input_ids)
             attn_mask = torch.tensor(attn_mask)
 
-            iids.append(input_ids)
-            capt_iids.append(caption_input_ids)
+            iids.append(caption_input_ids)
             attn_masks.append(attn_mask)
 
 
         txt_lens = [i.size(0) for i in iids]
 
         input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
-        caption_input_ids = pad_sequence(capt_iids, batch_first=True, padding_value=0)
         attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
 
         img_feats, img_pos_feats = visual_feats
         # image batches
-        num_bbs = [f.size(0) for f in img_feats]
+        num_bbs = [f.size(0)*2 for f in img_feats]
 
-        img_feats = self.pad_tensors(img_feats, num_bbs)
-        img_pos_feats = self.pad_tensors(img_pos_feats, num_bbs)
+        img_feats = self.pad_tensors(torch.cat(img_feats,img_feats), num_bbs)
+        img_pos_feats = self.pad_tensors(torch.cat(img_pos_feats, img_pos_feats), num_bbs)
 
         bs, max_tl = input_ids.size()
         out_size = attn_masks.size(1)
 
         gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
 
-        return input_ids, caption_input_ids, img_feats, img_pos_feats, attn_masks, gather_index
+        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index
 
     def forward(self, sents, captions, visual_feats):
         
@@ -208,21 +199,7 @@ class ModelU(nn.Module):
             input_ids, capt_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
-        unimodal_out = self.unimodal_model(capt_ids.cuda())
-        #print(len(unimodal_out))
-        #print(unimodal_out[0].shape)
-        #print(len(unimodal_out[1]))
-        #print(unimodal_out[1].shape)
-        #print(unimodal_out[1][12].shape)
-        #print(unimodal_out[1][11].shape)
-        #print(unimodal_out[1][0].shape)
-        #print(len(unimodal_out))
-        #print(pooled_output.shape)
-        #print(unimodal_out[1][12][:,-1,:].shape)
-        input_for_classifier = torch.cat((pooled_output, unimodal_out[0][:,-1,:]), dim=1)
-        #input_for_classifier = torch.cat((pooled_output, unimodal_out[1][12][:,-1,:]), dim=1)
-        #print(input_for_classifier.shape)
-        output = self.classifier(input_for_classifier)
+        output = self.classifier(pooled_output)
 
         return output
 

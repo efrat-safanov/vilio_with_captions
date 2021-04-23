@@ -18,6 +18,7 @@ from torch import nn
 from src.vilio.transformers.modeling_bert import BertLayerNorm as FusedLayerNorm
 from src.vilio.transformers.modeling_bert import BertLayerNorm, BertPreTrainedModel
 from src.vilio.transformers.configuration_bert import BertConfig
+from src.vilio.ot import optimal_transport_dist
 
 import math
 import torch
@@ -560,6 +561,7 @@ class BertUPretraining(BertPreTrainedModel):
                  task_obj_predict=True,
                  visual_losses='',
                  task_qa=False,
+                 task_ctm=True,
                  num_answers=2):
         super().__init__(config)
         # Configuration
@@ -571,9 +573,11 @@ class BertUPretraining(BertPreTrainedModel):
         self.task_obj_predict = task_obj_predict
         self.task_matched = task_matched
         self.task_qa = task_qa
+        self.task_ctm = task_ctm
 
         # LXRT backbone
         self.bert = BertU(config)
+        self.ctm_output = nn.Linear(config.hidden_size, 2)
 
         # Pre-training heads
         self.cls = BertPreTrainingHeads(config, self.bert.embeddings.word_embeddings.weight)
@@ -585,7 +589,7 @@ class BertUPretraining(BertPreTrainedModel):
 
 
     def forward(self, input_ids, position_ids, img_feats, img_pos_feats, attn_masks, gather_index, masked_lm_labels=None, 
-                obj_labels=None, matched_label=None, ans=None):
+                obj_labels=None, matched_label=None, ctm_targets=None, ans=None):
     
         sequence_output, pooled_output = self.bert(
             input_ids, None, img_feats, img_pos_feats, attn_masks, gather_index
@@ -618,6 +622,60 @@ class BertUPretraining(BertPreTrainedModel):
             )
             total_loss += matched_loss
             losses += (matched_loss.detach(),)
+        
+        if ctm_targets is not None and self.task_ctm:
+            itm_loss, ot_loss = self.forward_ctm(input_ids, position_ids, img_feats, img_pos_feats,
+                    attn_masks, gather_index, ctm_targets, ot_inputs=None,
+                    compute_loss=True)
+            total_loss += itm_loss
+            losses += (itm_loss.detach(),)
 
 
         return total_loss, torch.stack(losses).unsqueeze(0), answer_score.detach()
+    
+    #caption text matching
+    def forward_ctm(self, input_ids, position_ids, img_feat, img_pos_feat,
+                    attention_mask, gather_index, targets, ot_inputs=None,
+                    compute_loss=True):
+        
+        sequence_output, pooled_output = self.bert(
+            input_ids, None, img_feat, img_pos_feat, attention_mask, gather_index
+        )
+        
+        ctm_scores = self.ctm_output(pooled_output)
+
+        # OT loss
+        if ot_inputs is not None:
+            #need to update it
+            ot_scatter = ot_inputs['ot_scatter']
+
+            b = sequence_output.size(0)
+            tl = input_ids.size(1)
+            il = img_feat.size(1)
+            max_l = max(ot_inputs['scatter_max'] + 1, tl+il)
+
+            ot_scatter = ot_scatter.unsqueeze(-1).expand_as(sequence_output)
+            ctx_emb = torch.zeros(b, max_l, self.config.hidden_size,
+                                  dtype=sequence_output.dtype,
+                                  device=sequence_output.device
+                                  ).scatter_(dim=1, index=ot_scatter,
+                                             src=sequence_output)
+            txt_emb = ctx_emb[:, :tl, :]
+            img_emb = ctx_emb[:, tl:tl+il, :]
+
+            txt_pad = ot_inputs['txt_pad']
+            img_pad = ot_inputs['img_pad']
+            # NOTE: run in fp32 for stability
+            ot_dist = optimal_transport_dist(txt_emb.float(), img_emb.float(),
+                                             txt_pad, img_pad).to(txt_emb)
+            ot_pos_dist = ot_dist.masked_select(targets == 1)
+            ot_neg_dist = ot_dist.masked_select(targets == 0)
+            ot_loss = (ot_pos_dist, ot_neg_dist)
+        else:
+            ot_loss = None
+
+        if compute_loss:
+            itm_loss = F.cross_entropy(ctm_scores, targets, reduction='none')
+            return itm_loss, ot_loss
+        else:
+            return ctm_scores, ot_loss

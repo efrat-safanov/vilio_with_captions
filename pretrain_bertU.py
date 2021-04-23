@@ -482,6 +482,290 @@ class LXMERT:
 
         # Load weights to model
         self.model.load_state_dict(state_dict, strict=False)
+        
+        
+  
+  class CTMBert:
+    def __init__(self, max_seq_length, num_features):
+        super().__init__()
+        self.max_seq_length = max_seq_length
+        self.num_features = num_features
+
+        self.tokenizer = AutoTokenizer.from_pretrained(args.tr, do_lower_case=True)
+
+        # Build model
+        self.model = BertUPretraining.from_pretrained(
+            args.tr,
+            visual_losses=None,
+            task_matched=None,
+            task_obj_predict=None,
+            task_mask_lm=None,
+            task_ctm=True
+        )
+        
+        # Weight initialization and loading
+        if args.from_scratch:
+            print("Train from Scratch: re-initialize all BERT weights.")
+            self.model.apply(self.model.init_bert_weights)
+        if args.loadfin is not None:
+            self.load(args.loadfin)
+        if args.loadpre is not None:
+            self.loadpre(args.loadpre)
+
+        # GPU Options
+        self.model = self.model.cuda()
+        if args.multiGPU:
+            self.model = nn.DataParallel(self.model)
+
+    def pad_tensors(self, tensors, lens=None, pad=0):
+        """Copied from UNITER Repo --- B x [T, ...]"""
+        if lens is None:
+            lens = [t.size(0) for t in tensors]
+        max_len = max(lens)
+        bs = len(tensors)
+        hid = tensors[0].size(-1)
+        dtype = tensors[0].dtype
+        output = torch.zeros(bs, max_len, hid, dtype=dtype)
+        if pad:
+            output.data.fill_(pad)
+        for i, (t, l) in enumerate(zip(tensors, lens)):
+            output.data[i, :l, ...] = t.data
+        return output
+    
+    def get_gather_index(self, txt_lens, num_bbs, batch_size, max_len, out_size):
+
+        assert len(txt_lens) == len(num_bbs) == batch_size
+        gather_index = torch.arange(0, out_size, dtype=torch.long,
+                                    ).unsqueeze(0).repeat(batch_size, 1)
+
+
+        for i, (tl, nbb) in enumerate(zip(txt_lens, num_bbs)):
+            # NOTE: SEQ_LEN + Num BBOXES MUST BE < MAX_SEQ LEN for this to work! Else non singleton dimension error! 
+            gather_index.data[i, tl:tl+nbb] = torch.arange(max_len, max_len+nbb, dtype=torch.long).data
+
+        return gather_index
+    
+    
+    def preprocess_bert(self, sents, captions, visual_feats):
+        """
+        Copied & adapted from UNITER Repo.
+        """
+        iids = []
+        attn_masks = []
+        ctm_targets = []
+        num_features = self.num_features
+        
+        #for every positive sample, sample a negative randomly - double the batch size
+
+        for (i, sent) in enumerate(sents):
+
+            sent = " ".join(str(sent).split())
+            
+            tokens = tokenizer.tokenize(sent)
+            tokens = ["[CLS]"] + tokens + ["[SEP]"]
+            input_ids = self.tokenizer.convert_tokens_to_ids(tokens)
+            
+            caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
+            attn_mask = [1] * (len(caption_input_ids) + 2*num_features)
+
+            caption_input_ids = torch.tensor(caption_input_ids)
+            attn_mask = torch.tensor(attn_mask)
+
+            iids.append(caption_input_ids)
+            attn_masks.append(attn_mask)
+            matched = torch.tensor([1])
+            ctm_targets.append(matched)
+            
+            #add 1 more negative sample - look at 2 random from this batch
+            for sample in random.sample(list(enumerate(sents)), 2):
+                #dont use the same example for a negative case
+                if sample[0] == i:
+                    continue
+                 
+                neg_caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[sample[i]]) + ["[SEP]"]) 
+                attn_mask = [1] * (len(neg_caption_input_ids) + 2*num_features)
+    
+                caption_input_ids = torch.tensor(neg_caption_input_ids)
+                attn_mask = torch.tensor(attn_mask)
+    
+                iids.append(caption_input_ids)
+                attn_masks.append(attn_mask)
+                matched = torch.tensor([0])
+                ctm_targets.append(matched)
+                break
+
+        txt_lens = [i.size(0) for i in iids]
+
+        input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
+        attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
+
+        img_feats, img_pos_feats = visual_feats
+        # image batches
+        num_bbs = [f.size(0)*2 for f in img_feats]
+
+        img_feats = self.pad_tensors(torch.cat(img_feats,img_feats), num_bbs)
+        img_pos_feats = self.pad_tensors(torch.cat(img_pos_feats, img_pos_feats), num_bbs)
+
+        bs, max_tl = input_ids.size()
+        out_size = attn_masks.size(1)
+
+        gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
+
+        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index, ctm_targets
+
+
+    def forward(self, sents, captions, visual_feats):
+
+        if args.tr.startswith("bert"):
+            input_ids, img_feats, img_pos_feats, attn_masks, gather_index, matched_ctm_targets = self.preprocess_bert(sents, captions, visual_feats)
+
+        """
+        forward(self, input_ids, token_type_ids=None, attention_mask=None, masked_lm_labels=None,
+                visual_feats=None, pos=None, obj_labels=None, matched_label=None, ans=None):
+        """
+
+        loss, losses, ans_logit = self.model(
+            input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda(),
+            ctm_targets=matched_ctm_targets.cuda()
+        )
+
+        return loss, losses.detach().cpu(), ans_logit
+
+    def train_batch(self, optim, scheduler, sents, captions, visual_feats):
+        optim.zero_grad()
+        loss, losses, ans_logit = self.forward(sents, captions, visual_feats)
+        if args.multiGPU:
+            loss = loss.mean()
+            losses = losses.mean(0)
+        loss.backward()
+        nn.utils.clip_grad_norm_(self.model.parameters(), 1.)
+        optim.step()
+        scheduler.step()
+
+        return loss.item(), losses.cpu().numpy(), ans_logit
+
+    def valid_batch(self, sents, captions, visual_feats):
+        with torch.no_grad():
+            loss, losses, ans_logit = self.forward(sents, captions, visual_feats)
+            if args.multiGPU:
+                loss = loss.mean()
+                losses = losses.mean(0)
+        return loss.item(), losses.cpu().numpy(), ans_logit
+
+
+    def train(self, train_tuple: DataTuple, eval_tuple: DataTuple):
+
+        dset, train_ld, evaluator = train_tuple
+        iter_wrapper = (lambda x: tqdm(x, total=len(train_ld))) if args.tqdm else (lambda x: x)
+
+        print("Batches:", len(train_ld))
+        # Optimizer
+        batch_per_epoch = len(train_ld)
+        t_total = int(batch_per_epoch * args.epochs)
+        warmup_ratio = 0.05
+        warmup_iters = int(t_total * warmup_ratio)
+
+        print("Batch per epoch: %d" % batch_per_epoch)
+        print("Total Iters: %d" % t_total)
+        print("Warm up Iters: %d" % warmup_iters)
+
+        optim = AdamW(self.model.parameters(), lr=args.lr)
+        #scheduler = get_linear_schedule_with_warmup(optim, warmup_iters, t_total)
+        # We use cos scheduler here, as it ends smoother than linear & we take the LAST model.
+        scheduler = get_cosine_schedule_with_warmup(optim, warmup_iters, t_total)
+
+        # Train
+        best_eval_loss = 9595.
+        for epoch in range(args.epochs):
+            # Train
+            self.model.train()
+            total_loss = 0.
+            total_losses = 0.
+            uid2ans = {}
+            for i, (ids, feats, boxes, sent, caption, target) in iter_wrapper(enumerate(train_ld)):
+                feats, boxes, target = feats.cuda(), boxes.cuda(), target.long().cuda()
+                loss, losses, logit = self.train_batch(optim, scheduler, sent, caption, (feats, boxes))
+                
+                total_loss += loss
+                total_losses += losses
+
+                if args.task_qa:
+                    score, label = logit.max(1)
+                    for datum, l in zip(batch, label.cpu().numpy()):
+                        uid = datum.uid
+                        ans = train_tuple.dataset.answer_table.id2ans(l)
+                        uid2ans[uid] = ans
+
+            print("The training loss for Epoch %d is %0.4f" % (epoch, total_loss / batch_per_epoch))
+            losses_str = "The losses are "
+            # Somehow had to add [0] here, which is not in or repo
+            for name, loss in zip(LOSSES_NAME, total_losses[0]):
+                losses_str += "%s: %0.4f " % (name, loss / batch_per_epoch)
+            print(losses_str)
+
+            if args.task_qa:
+                train_tuple.evaluator.evaluate(uid2ans, pprint=True)
+                
+            if epoch == 5:
+                self.save("Epoch%02d" % (epoch+1))
+
+        self.save("LAST")
+
+
+    def save(self, name):
+        torch.save(self.model.state_dict(),
+                   os.path.join(args.output, "%s_BU.pth" % name))
+
+    def load(self, path):
+        print("Load BERT extractor from %s" % path)
+        state_dict = torch.load("%s" % path)
+        self.model.load_state_dict(state_dict)
+
+    def loadpre(self, path):
+        # Load state_dict from snapshot file
+        print("Load pre-trained model from %s" % path)
+        state_dict = torch.load("%s" % path)
+        new_state_dict = {}
+        for key, value in state_dict.items():
+            
+            # We need Bert keys
+            key = "bert." + key
+
+
+            if 'uniter.' in key:
+                key = key.replace('uniter.', '')
+
+            # Unfortuantely their models are pretrained on bert-large-cased
+            # Uncommenting the following will allow using an uncased model
+            #if key.startswith("embeddings.word_embeddings.weight"):
+            #    print("SKIPPING:", key)
+            #    continue
+
+            if key.startswith("bert.img_embeddings.pos_linear.weight"):
+                value = value[:, :4].clone()
+                print("MODIFYING:", key)
+
+            if key.startswith("module."):
+                new_state_dict[key[len("module."):]] = value
+            else:
+                new_state_dict[key] = value
+        state_dict = new_state_dict
+
+        # Print out the differences of pre-trained and model weights.
+        load_keys = set(state_dict.keys())
+        model_keys = set(self.model.state_dict().keys())
+        print()
+        print("Weights in loaded but not in model:")
+        for key in sorted(load_keys.difference(model_keys)):
+            print(key)
+        print()
+        print("Weights in model but not in loaded:")
+        for key in sorted(model_keys.difference(load_keys)):
+            print(key)
+        print()
+
+        # Load weights to model
+        self.model.load_state_dict(state_dict, strict=False)
 
 if __name__ == "__main__":
 
