@@ -36,8 +36,8 @@ class ModelU(nn.Module):
         To not loose any input, make sure num_features + longest input sentence < max_seq_len.
         """
         super().__init__()
-        self.max_seq_len = max_seq_len
-        self.num_features = num_features
+        self.max_seq_len = 100+15+num_features*2
+        self.num_features = num_features*2
         self.tr_name = tr_name
 
         ### BUILD TOKENIZER ###
@@ -181,8 +181,8 @@ class ModelU(nn.Module):
         # image batches
         num_bbs = [f.size(0)*2 for f in img_feats]
 
-        img_feats = self.pad_tensors(torch.cat(img_feats,img_feats), num_bbs)
-        img_pos_feats = self.pad_tensors(torch.cat(img_pos_feats, img_pos_feats), num_bbs)
+        img_feats = self.pad_tensors(torch.cat((img_feats,img_feats),1), num_bbs)
+        img_pos_feats = self.pad_tensors(torch.cat((img_pos_feats, img_pos_feats),1), num_bbs)
 
         bs, max_tl = input_ids.size()
         out_size = attn_masks.size(1)
@@ -196,7 +196,7 @@ class ModelU(nn.Module):
         if self.tr_name.startswith("roberta"):
             input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_roberta(sents, visual_feats, self.num_features, self.tokenizer)
         elif self.tr_name.startswith("bert"):
-            input_ids, capt_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
+            input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
         output = self.classifier(pooled_output)
