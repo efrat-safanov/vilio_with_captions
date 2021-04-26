@@ -70,17 +70,19 @@ class HMPretrainCTM:
 
         args.ctm_task = True
         print(args)
-        self.model = CTMBert(args)
+        num_features = args.num_features
+        max_seq_len = 115 + num_features
+        self.model = CTMBert(max_seq_len, num_features)
 
         # Load pre-trained weights from paths
         if args.loadpre is not None:
-            self.model.load(args.loadpre)
+            self.model.loadpre(args.loadpre)
 
         # GPU options
         if args.multiGPU:
             self.model.lxrt_encoder.multi_gpu()
 
-        self.model = self.model.cuda()
+        #self.model = self.model.cuda()
 
 
         if args.train is not None:
@@ -100,47 +102,59 @@ class HMPretrainCTM:
 
         no_decay = ['bias', 'LayerNorm.weight']
 
-        params = list(self.model.named_parameters())
-        if args.reg:
-            optimizer_grouped_parameters = [
-                {"params": [p for n, p in params if is_backbone(n)], "lr": args.lr},
-                {"params": [p for n, p in params if not is_backbone(n)], "lr": args.lr * 500},
-            ]
+        #params = list(self.model.named_parameters())
+        #if args.reg:
+        #    optimizer_grouped_parameters = [
+        #        {"params": [p for n, p in params if is_backbone(n)], "lr": args.lr},
+        #        {"params": [p for n, p in params if not is_backbone(n)], "lr": args.lr * 500},
+        #    ]
 
-            for n, p in self.model.named_parameters():
-                print(n)
+        #    for n, p in self.model.named_parameters():
+        #        print(n)
 
-            self.optim = AdamW(optimizer_grouped_parameters, lr=args.lr)
-        else:
-            optimizer_grouped_parameters = [
-                {'params': [p for n, p in params if not any(nd in n for nd in no_decay)], 'weight_decay': args.wd},
-                {'params': [p for n, p in params if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
-                ]
+        #     self.optim = AdamW(optimizer_grouped_parameters, lr=args.lr)
+        #else:
+        #    optimizer_grouped_parameters = [
+        #        {'params': [p for n, p in params if not any(nd in n for nd in no_decay)], 'weight_decay': args.wd},
+        #        {'params': [p for n, p in params if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
+        #        ]
 
-            self.optim = AdamW(optimizer_grouped_parameters, lr=args.lr)
+        #    self.optim = AdamW(optimizer_grouped_parameters, lr=args.lr)
 
-        if args.train is not None:
-            self.scheduler = get_linear_schedule_with_warmup(self.optim, self.t_total * 0.1, self.t_total)
+        #if args.train is not None:
+        #    self.scheduler = get_linear_schedule_with_warmup(self.optim, self.t_total * 0.1, self.t_total)
         
         self.output = args.output
         os.makedirs(self.output, exist_ok=True)
 
         # SWA Method:
-        if args.contrib:
-            self.optim = SWA(self.optim, swa_start=self.t_total * 0.75, swa_freq=5, swa_lr=args.lr)
+        #if args.contrib:
+        #    self.optim = SWA(self.optim, swa_start=self.t_total * 0.75, swa_freq=5, swa_lr=args.lr)
 
-        if args.swa: 
-            self.swa_model = AveragedModel(self.model)
-            self.swa_start = self.t_total * 0.75
-            self.swa_scheduler = SWALR(self.optim, swa_lr=args.lr)
+        #if args.swa: 
+        #    self.swa_model = AveragedModel(self.model)
+        #    self.swa_start = self.t_total * 0.75
+        #    self.swa_scheduler = SWALR(self.optim, swa_lr=args.lr)
 
     def train(self, train_tuple, eval_tuple):
         self.model.train(train_tuple, eval_tuple)
 
+    def predict(self, eval_tuple: DataTuple, dump=None, out_csv=True):
+
+        id2ans, id2prob, evaluator = self.model.predict(eval_tuple)
+
+        if dump is not None:
+            if out_csv == True:
+                evaluator.dump_csv(id2ans, id2prob, dump)
+            else:
+                evaluator.dump_result(id2ans, dump)
+
+        return id2ans, id2prob, evaluator
+
 
     def evaluate(self, eval_tuple: DataTuple, dump=None):
         """Evaluate all data in data_tuple."""
-        id2ans, id2prob = self.predict(eval_tuple, dump=dump)
+        id2ans, id2prob, evaluator = self.predict(eval_tuple, dump=dump)
 
         acc = eval_tuple.evaluator.evaluate(id2ans)
         roc_auc = eval_tuple.evaluator.roc_auc(id2prob)
@@ -178,22 +192,22 @@ def main():
     hm = HMPretrainCTM()
 
     # Load Model
-    if args.loadfin is not None:
-        hm.load(args.loadfin)
+    #if args.loadfin is not None:
+    #    hm.load(args.loadfin)
         
-    if args.test is not None:
+    #if args.test is not None:
         # We can specify multiple test args e.g. test,test_unseen
-        for split in args.test.split(","):
+    #    for split in args.test.split(","):
             # Evaluate before:
-            if 'dev' in split or 'valid' in split or 'train' in split:
-                result = hm.evaluate(
-                    get_tuple(split, bs=args.batch_size,
-                            shuffle=False, drop_last=False),
-                    dump=os.path.join(args.output, '{}_{}.csv'.format(args.exp, split))
-                )
-                print(result)
-            else:
-                assert False, "No such test option for %s" % args.test
+    #        if 'dev' in split or 'valid' in split or 'train' in split:
+    #            result = hm.evaluate(
+    #                get_tuple(split, bs=args.batch_size,
+    #                        shuffle=False, drop_last=False),
+    #                dump=os.path.join(args.output, '{}_{}.csv'.format(args.exp, split))
+    #            )
+    #            print(result)
+    #        else:
+    #            assert False, "No such test option for %s" % args.test
 
     # Train and/or Test:
     if args.train is not None:

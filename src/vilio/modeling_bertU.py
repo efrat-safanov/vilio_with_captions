@@ -589,7 +589,7 @@ class BertUPretraining(BertPreTrainedModel):
 
 
     def forward(self, input_ids, position_ids, img_feats, img_pos_feats, attn_masks, gather_index, masked_lm_labels=None, 
-                obj_labels=None, matched_label=None, ctm_targets=None, ans=None):
+                obj_labels=None, matched_label=None, ctm_targets=None, ans=None, compute_loss=True):
     
         sequence_output, pooled_output = self.bert(
             input_ids, None, img_feats, img_pos_feats, attn_masks, gather_index
@@ -626,7 +626,7 @@ class BertUPretraining(BertPreTrainedModel):
         if ctm_targets is not None and self.task_ctm:
             itm_loss, ot_loss = self.forward_ctm(input_ids, position_ids, img_feats, img_pos_feats,
                     attn_masks, gather_index, ctm_targets, ot_inputs=None,
-                    compute_loss=True)
+                    compute_loss=compute_loss)
             total_loss += itm_loss
             losses += (itm_loss.detach(),)
 
@@ -675,7 +675,11 @@ class BertUPretraining(BertPreTrainedModel):
             ot_loss = None
 
         if compute_loss:
+            #print("computing loss")
+            #print(ctm_scores)
+            #print(targets)
             itm_loss = F.cross_entropy(ctm_scores, targets, reduction='none')
+            #print(itm_loss)
             return itm_loss, ot_loss
         else:
             return ctm_scores, ot_loss

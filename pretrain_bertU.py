@@ -7,6 +7,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+from torch.nn import functional as F
 
 from param import args
 
@@ -49,10 +50,10 @@ def get_tuple(splits: str, bs: int, shuffle=False, drop_last=False, topk=-1) -> 
     return DataTuple(dataset=dset, torchdset=tset, loader=data_loader, evaluator=evaluator)
     
 # Create pretrain.jsonl & traindev data
-clean_data("./data")
+#clean_data("./data")
 
-train_tuple = get_tuple(args.train, args.batch_size, shuffle=True, drop_last=True)
-valid_tuple = None
+#train_tuple = get_tuple(args.train, args.batch_size, shuffle=True, drop_last=True)
+#valid_tuple = None
 
 class InputFeatures(object):
     """A single set of features of data."""
@@ -237,6 +238,7 @@ class LXMERT:
         if args.loadfin is not None:
             self.load(args.loadfin)
         if args.loadpre is not None:
+            print("loading pre")
             self.loadpre(args.loadpre)
 
         # GPU Options
@@ -485,7 +487,7 @@ class LXMERT:
         
         
   
-  class CTMBert:
+class CTMBert:      
     def __init__(self, max_seq_length, num_features):
         super().__init__()
         self.max_seq_length = max_seq_length
@@ -510,7 +512,11 @@ class LXMERT:
         if args.loadfin is not None:
             self.load(args.loadfin)
         if args.loadpre is not None:
-            self.loadpre(args.loadpre)
+            print("loading pretrained model insides")
+            #self.loadpre(args.loadpre)
+            print("finished load")
+
+        self.logsoftmax = nn.LogSoftmax(dim=1)
 
         # GPU Options
         self.model = self.model.cuda()
@@ -561,19 +567,21 @@ class LXMERT:
 
             sent = " ".join(str(sent).split())
             
-            tokens = tokenizer.tokenize(sent)
+            tokens = self.tokenizer.tokenize(sent)
             tokens = ["[CLS]"] + tokens + ["[SEP]"]
             input_ids = self.tokenizer.convert_tokens_to_ids(tokens)
             
-            caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
-            attn_mask = [1] * (len(caption_input_ids) + 2*num_features)
+            caption_input_ids = input_ids + self.tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
+            attn_mask = [1] * (len(caption_input_ids) + num_features)
 
             caption_input_ids = torch.tensor(caption_input_ids)
             attn_mask = torch.tensor(attn_mask)
 
             iids.append(caption_input_ids)
             attn_masks.append(attn_mask)
-            matched = torch.tensor([1])
+            target = torch.Tensor(1).long()
+            target.data.fill_(1)
+            matched = target.long()
             ctm_targets.append(matched)
             
             #add 1 more negative sample - look at 2 random from this batch
@@ -582,12 +590,12 @@ class LXMERT:
                 if sample[0] == i:
                     continue
                 
-                print("orig meme: " + sent)
-                print("orig caption: " + captions[i])
-                print("adding negative example: " + captions[sample[0]])
+                #print("orig meme: " + sent)
+                #print("orig caption: " + captions[i])
+                #print("adding negative example: " + captions[sample[0]])
                  
-                neg_caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[sample[0]]) + ["[SEP]"]) 
-                attn_mask = [1] * (len(neg_caption_input_ids) + 2*num_features)
+                neg_caption_input_ids = input_ids + self.tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(captions[sample[0]]) + ["[SEP]"]) 
+                attn_mask = [1] * (len(neg_caption_input_ids) + num_features)
     
                 caption_input_ids = torch.tensor(neg_caption_input_ids)
                 attn_mask = torch.tensor(attn_mask)
@@ -595,20 +603,33 @@ class LXMERT:
                 iids.append(caption_input_ids)
                 attn_masks.append(attn_mask)
                 matched = torch.tensor([0])
+                target = torch.Tensor(1).long()
+                target.data.fill_(0)
+                matched = target.long()
                 ctm_targets.append(matched)
                 break
-
+        
+        img_feats, img_pos_feats = visual_feats
+        img_feats_double = []
+        img_pos_feats_double = []
+        for (i, img_feat) in enumerate(img_feats):
+            img_feats_double.append(img_feat)
+            img_feats_double.append(img_feat)
+            img_pos_feats_double.append(img_pos_feats[i])
+            img_pos_feats_double.append(img_pos_feats[i])
+            
         txt_lens = [i.size(0) for i in iids]
-
+        #print(len(txt_lens))
         input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
         attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
-
-        img_feats, img_pos_feats = visual_feats
-        # image batches
-        num_bbs = [f.size(0)*2 for f in img_feats]
-
-        img_feats = self.pad_tensors(torch.cat(img_feats,img_feats), num_bbs)
-        img_pos_feats = self.pad_tensors(torch.cat(img_pos_feats, img_pos_feats), num_bbs)
+        #print(ctm_targets)
+        #ctm_targets = pad_sequence(ctm_targets, batch_first=True, padding_value=0)  
+        ctm_targets = torch.cat(ctm_targets, dim=0)
+        #print(ctm_targets)
+        num_bbs = [f.size(0) for f in img_feats_double]
+        
+        img_feats = self.pad_tensors(img_feats_double, num_bbs)
+        img_pos_feats = self.pad_tensors(img_pos_feats_double,  num_bbs)
 
         bs, max_tl = input_ids.size()
         out_size = attn_masks.size(1)
@@ -618,7 +639,7 @@ class LXMERT:
         return input_ids, img_feats, img_pos_feats, attn_masks, gather_index, ctm_targets
 
 
-    def forward(self, sents, captions, visual_feats):
+    def forward(self, sents, captions, visual_feats, compute_loss=True):
 
         if args.tr.startswith("bert"):
             input_ids, img_feats, img_pos_feats, attn_masks, gather_index, matched_ctm_targets = self.preprocess_bert(sents, captions, visual_feats)
@@ -630,7 +651,7 @@ class LXMERT:
 
         loss, losses, ans_logit = self.model(
             input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda(),
-            ctm_targets=matched_ctm_targets.cuda()
+            ctm_targets=matched_ctm_targets.cuda(), compute_loss=compute_loss
         )
 
         return loss, losses.detach().cpu(), ans_logit
@@ -641,6 +662,7 @@ class LXMERT:
         if args.multiGPU:
             loss = loss.mean()
             losses = losses.mean(0)
+        loss = loss.mean()
         loss.backward()
         nn.utils.clip_grad_norm_(self.model.parameters(), 1.)
         optim.step()
@@ -650,12 +672,57 @@ class LXMERT:
 
     def valid_batch(self, sents, captions, visual_feats):
         with torch.no_grad():
-            loss, losses, ans_logit = self.forward(sents, captions, visual_feats)
+            loss, losses, ans_logit = self.forward(sents, captions, visual_feats, compute_loss=False)
             if args.multiGPU:
                 loss = loss.mean()
                 losses = losses.mean(0)
-        return loss.item(), losses.cpu().numpy(), ans_logit
+        return loss
 
+    def predict(self, eval_tuple: DataTuple):
+
+        dset, loader, evaluator = eval_tuple
+        id2ans = {}
+        id2prob = {}
+        val_loss = 0
+        tot_score = 0
+
+        for i, datum_tuple in enumerate(loader):
+
+            ids, feats, boxes, sent, caption = datum_tuple[:5]
+
+            self.model.eval()
+
+
+            #if args.swa:
+            #    self.swa_model.eval()
+
+            with torch.no_grad():
+
+                feats, boxes = feats.cuda(), boxes.cuda()
+                scores = self.valid_batch(sent, caption, (feats, boxes))#self.model(sent, caption, (feats, boxes))
+
+                targets = datum_tuple[5:]
+                loss = F.cross_entropy(scores, targets, reduction='sum')
+                val_loss += loss.item()
+                tot_score += (scores.max(dim=-1)[1] == targets).sum().item()
+
+                #if args.swa:
+                #    logit = self.swa_model(sent, caption, (feats, boxes))
+                #    logit = self.logsoftmax(logit)
+
+                _, predict = logit.max(0)
+
+                print(predict)
+                for qid, l in zip(ids, predict.cpu().numpy()):
+                    id2ans[qid] = l
+
+                # Getting probas for Roc Auc
+                for qid, l in zip(ids, score.cpu().numpy()):
+                    id2prob[qid] = l
+
+
+        return id2ans, id2prob, evaluator
+ 
 
     def train(self, train_tuple: DataTuple, eval_tuple: DataTuple):
 
@@ -703,9 +770,9 @@ class LXMERT:
             print("The training loss for Epoch %d is %0.4f" % (epoch, total_loss / batch_per_epoch))
             losses_str = "The losses are "
             # Somehow had to add [0] here, which is not in or repo
-            for name, loss in zip(LOSSES_NAME, total_losses[0]):
-                losses_str += "%s: %0.4f " % (name, loss / batch_per_epoch)
-            print(losses_str)
+            #for name, loss in zip(LOSSES_NAME, total_losses[0]):
+            #    losses_str += "%s: %0.4f " % (name, loss / batch_per_epoch)
+            #print(losses_str)
 
             if args.task_qa:
                 train_tuple.evaluator.evaluate(uid2ans, pprint=True)
@@ -718,14 +785,67 @@ class LXMERT:
 
     def save(self, name):
         torch.save(self.model.state_dict(),
-                   os.path.join(args.output, "%s_BU.pth" % name))
+                   os.path.join(args.output, "%s_withval_BU.pth" % name))
 
     def load(self, path):
         print("Load BERT extractor from %s" % path)
         state_dict = torch.load("%s" % path)
         self.model.load_state_dict(state_dict)
 
+    
     def loadpre(self, path):
+        # Load state_dict from snapshot file
+        print("Load pre-trained model from %s" % path)
+        state_dict = torch.load("%s" % path)
+        new_state_dict = {}
+        for key, value in state_dict.items():
+
+            if 'uniter.' in key:
+                key = key.replace('uniter.', '')
+            
+            key = "bert." + key
+            print(key)
+            # Unfortuantely their models are pretrained on bert-large-cased
+            # Uncommenting the following will allow using an uncased model
+            #if key.startswith("embeddings.word_embeddings.weight"):
+            #    print("SKIPPING:", key)
+            #    continue
+
+            if key.startswith("bert.img_embeddings.pos_linear.weight"):
+                if args.num_pos == 6: # Loading all 7 (not 6) for UNITER
+                    new_state_dict[key] = value
+                else:
+                    new_state_dict[key] = value[:, :4]
+                    print("MODIFYING:", key)
+            elif key.startswith("module."):
+                new_state_dict[key[len("module."):]] = value
+            # Masked pretrained model
+            #elif key.startswith("bert."):
+            #    print("SAVING {} as {}.".format(key, key[5:]))
+            #    new_state_dict[key[5:]] = value
+            else:
+                new_state_dict[key] = value
+
+        state_dict = new_state_dict
+
+        # Print out the differences of pre-trained and model weights.
+        load_keys = set(state_dict.keys())
+        model_keys = set(self.model.state_dict().keys())
+        print()
+        print("Weights in loaded but not in model:")
+        for key in sorted(load_keys.difference(model_keys)):
+            print(key)
+        print()
+        print("Weights in model but not in loaded:")
+        for key in sorted(model_keys.difference(load_keys)):
+            print(key)
+        print()
+
+        # Load weights to model
+        self.model.load_state_dict(state_dict, strict=False)
+
+
+    def loadpre2(self, path):
         # Load state_dict from snapshot file
         print("Load pre-trained model from %s" % path)
         state_dict = torch.load("%s" % path)
@@ -745,9 +865,9 @@ class LXMERT:
             #    print("SKIPPING:", key)
             #    continue
 
-            if key.startswith("bert.img_embeddings.pos_linear.weight"):
-                value = value[:, :4].clone()
-                print("MODIFYING:", key)
+        #    if key.startswith("bert.img_embeddings.pos_linear.weight"):
+        #        value = value[:, :4].clone()
+        #        print("MODIFYING:", key)
 
             if key.startswith("module."):
                 new_state_dict[key[len("module."):]] = value

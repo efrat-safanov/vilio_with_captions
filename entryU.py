@@ -36,8 +36,10 @@ class ModelU(nn.Module):
         To not loose any input, make sure num_features + longest input sentence < max_seq_len.
         """
         super().__init__()
-        self.max_seq_len = 100+15+num_features*2
-        self.num_features = num_features*2
+        #self.max_seq_len = max_seq_len
+        #self.max_seq_len = 100+15+2*num_features
+        self.max_seq_len = 100+15+num_features
+        self.num_features = num_features
         self.tr_name = tr_name
 
         ### BUILD TOKENIZER ###
@@ -163,12 +165,14 @@ class ModelU(nn.Module):
             tokens = ["[CLS]"] + tokens + ["[SEP]"] #+ tokenizer.tokenize(captions[i]) + ["[SEP]"] 
             input_ids = tokenizer.convert_tokens_to_ids(tokens)
             caption_input_ids = input_ids + tokenizer.convert_tokens_to_ids(tokenizer.tokenize(captions[i]) + ["[SEP]"]) 
-            attn_mask = [1] * (len(caption_input_ids) + 2*num_features)
-
-            caption_input_ids = torch.tensor(input_ids)
+            #attn_mask = [1] * (len(caption_input_ids) + num_features*2)
+            attn_mask = [1] * (len(caption_input_ids) + num_features)
+            caption_input_ids = torch.tensor(caption_input_ids)
+            #input_ids = torch.tensor(input_ids)
             attn_mask = torch.tensor(attn_mask)
 
             iids.append(caption_input_ids)
+            #iids.append(input_ids)
             attn_masks.append(attn_mask)
 
 
@@ -176,17 +180,25 @@ class ModelU(nn.Module):
 
         input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
         attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
-
+        
         img_feats, img_pos_feats = visual_feats
         # image batches
-        num_bbs = [f.size(0)*2 for f in img_feats]
-
-        img_feats = self.pad_tensors(torch.cat((img_feats,img_feats),1), num_bbs)
-        img_pos_feats = self.pad_tensors(torch.cat((img_pos_feats, img_pos_feats),1), num_bbs)
-
+        #num_bbs = []
+        #for f in img_feats:
+        #    num_bbs.append(f.size(0))
+        #    num_bbs.append(f.size(0))
+        num_bbs = [f.size(0) for f in img_feats]
+        #print(img_feats.size())
+        #img_feats = self.pad_tensors(torch.cat((img_feats,img_feats),0), num_bbs)
+        img_feats = self.pad_tensors(img_feats, num_bbs)
+        
+        #img_pos_feats = self.pad_tensors(torch.cat((img_pos_feats, img_pos_feats),0), num_bbs)
+        img_pos_feats = self.pad_tensors(img_pos_feats, num_bbs)
+        #print(img_feats.size())
         bs, max_tl = input_ids.size()
+        #print(max_tl)
         out_size = attn_masks.size(1)
-
+        #print(out_size)
         gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
 
         return input_ids, img_feats, img_pos_feats, attn_masks, gather_index
@@ -198,6 +210,11 @@ class ModelU(nn.Module):
         elif self.tr_name.startswith("bert"):
             input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
+        #print(input_ids.size())
+        #print(img_feats.size())
+        #print(img_pos_feats.size())
+        #print(attn_masks.size())
+        #print(gather_index)
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
         output = self.classifier(pooled_output)
 
