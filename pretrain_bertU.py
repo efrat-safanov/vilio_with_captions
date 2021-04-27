@@ -580,7 +580,7 @@ class CTMBert:
             iids.append(caption_input_ids)
             attn_masks.append(attn_mask)
             target = torch.Tensor(1).long()
-            target.data.fill_(1)
+            target.data.fill_(0)
             matched = target.long()
             ctm_targets.append(matched)
             
@@ -602,9 +602,9 @@ class CTMBert:
     
                 iids.append(caption_input_ids)
                 attn_masks.append(attn_mask)
-                matched = torch.tensor([0])
+                #matched = torch.tensor([0])
                 target = torch.Tensor(1).long()
-                target.data.fill_(0)
+                target.data.fill_(1)
                 matched = target.long()
                 ctm_targets.append(matched)
                 break
@@ -685,13 +685,14 @@ class CTMBert:
         id2prob = {}
         val_loss = 0
         tot_score = 0
+        num_ex = 0
 
         for i, datum_tuple in enumerate(loader):
 
             ids, feats, boxes, sent, caption = datum_tuple[:5]
 
             self.model.eval()
-
+            num_ex += ids.size(0)
 
             #if args.swa:
             #    self.swa_model.eval()
@@ -701,7 +702,10 @@ class CTMBert:
                 feats, boxes = feats.cuda(), boxes.cuda()
                 scores = self.valid_batch(sent, caption, (feats, boxes))#self.model(sent, caption, (feats, boxes))
 
-                targets = datum_tuple[5:]
+                #targets = datum_tuple[5:]
+                #print(targets)
+                targets = torch.cat([torch.tensor([1,0])]*ids.size(0)).cuda()
+                print(targets)
                 loss = F.cross_entropy(scores, targets, reduction='sum')
                 val_loss += loss.item()
                 tot_score += (scores.max(dim=-1)[1] == targets).sum().item()
@@ -710,17 +714,17 @@ class CTMBert:
                 #    logit = self.swa_model(sent, caption, (feats, boxes))
                 #    logit = self.logsoftmax(logit)
 
-                _, predict = logit.max(0)
+                #i_, predict = logit.max(0)
 
-                print(predict)
-                for qid, l in zip(ids, predict.cpu().numpy()):
-                    id2ans[qid] = l
+                #print(predict)
+                #for qid, l in zip(ids, predict.cpu().numpy()):
+                #    id2ans[qid] = l
 
                 # Getting probas for Roc Auc
-                for qid, l in zip(ids, score.cpu().numpy()):
-                    id2prob[qid] = l
+                #for qid, l in zip(ids, score.cpu().numpy()):
+                #    id2prob[qid] = l
 
-
+        print("The validation loss is %0.4f" % (val_loss / num_ex))
         return id2ans, id2prob, evaluator
  
 
