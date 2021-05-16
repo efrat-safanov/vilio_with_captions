@@ -552,17 +552,19 @@ class CTMBert:
         return gather_index
     
     
-    def preprocess_bert(self, sents, captions, visual_feats):
+    def preprocess_bert(self, sents, captions, visual_feats, target_arr):
         """
         Copied & adapted from UNITER Repo.
         """
         iids = []
+        iids_memes = []
         attn_masks = []
         ctm_targets = []
         num_features = self.num_features
         
         #for every positive sample, sample a negative randomly - double the batch size
 
+        
         for (i, sent) in enumerate(sents):
 
             sent = " ".join(str(sent).split())
@@ -578,16 +580,20 @@ class CTMBert:
             attn_mask = torch.tensor(attn_mask)
 
             iids.append(caption_input_ids)
+            iids_memes.append(torch.tensor(input_ids))
             attn_masks.append(attn_mask)
             target = torch.Tensor(1).long()
-            target.data.fill_(0)
+            match_value = 1
+            if target_arr[i] == 1: #it is hateful, therefore not aligned
+                match_value = 0
+            target.data.fill_(match_value)
             matched = target.long()
             ctm_targets.append(matched)
-            
+            #print(target) 
             #add 1 more negative sample - look at 2 random from this batch
-            for sample in random.sample(list(enumerate(sents)), 2):
+            """for sample in random.sample(list(enumerate(sents)), 3):
                 #dont use the same example for a negative case
-                if sample[0] == i:
+                if sample[0] == i: #or target_arr[sample[0]] == 1:
                     continue
                 
                 #print("orig meme: " + sent)
@@ -601,24 +607,31 @@ class CTMBert:
                 attn_mask = torch.tensor(attn_mask)
     
                 iids.append(caption_input_ids)
+                iids_memes.append(torch.tensor(input_ids))
                 attn_masks.append(attn_mask)
                 #matched = torch.tensor([0])
                 target = torch.Tensor(1).long()
-                target.data.fill_(1)
+                #it is aligned
+                #match_value = 1
+                #if target_arr[sample[0]] == 1: #it is hateful, therefore not aligned
+                match_value = 0
+                target.data.fill_(match_value)
                 matched = target.long()
                 ctm_targets.append(matched)
-                break
+                break"""
         
         img_feats, img_pos_feats = visual_feats
         img_feats_double = []
-        img_pos_feats_double = []
+        """img_pos_feats_double = []
         for (i, img_feat) in enumerate(img_feats):
             img_feats_double.append(img_feat)
             img_feats_double.append(img_feat)
             img_pos_feats_double.append(img_pos_feats[i])
             img_pos_feats_double.append(img_pos_feats[i])
-            
+        """    
         txt_lens = [i.size(0) for i in iids]
+        onlymeme_lens = [i.size(0) for i in iids_memes]
+        onlycaption_lens = [iids[i].size(0) - iids_memes[i].size(0) for i  in range(len(iids_memes))]
         #print(len(txt_lens))
         input_ids = pad_sequence(iids, batch_first=True, padding_value=0)
         attn_masks = pad_sequence(attn_masks, batch_first=True, padding_value=0)
@@ -626,23 +639,54 @@ class CTMBert:
         #ctm_targets = pad_sequence(ctm_targets, batch_first=True, padding_value=0)  
         ctm_targets = torch.cat(ctm_targets, dim=0)
         #print(ctm_targets)
-        num_bbs = [f.size(0) for f in img_feats_double]
-        
-        img_feats = self.pad_tensors(img_feats_double, num_bbs)
-        img_pos_feats = self.pad_tensors(img_pos_feats_double,  num_bbs)
+        #num_bbs = [f.size(0) for f in img_feats_double]
+        num_bbs = [f.size(0) for f in img_feats]
+        #img_feats = self.pad_tensors(img_feats_double, num_bbs)
+        #img_pos_feats = self.pad_tensors(img_pos_feats_double,  num_bbs)
 
         bs, max_tl = input_ids.size()
         out_size = attn_masks.size(1)
+        max_meme = max(onlymeme_lens)
+        max_nbb = max(onlycaption_lens)
+        #print(max_tl)
+        #print(max_meme)
+        #print(onlymeme_lens)
+        ot_scatter = self._compute_ot_scatter(onlymeme_lens, max_meme, max_tl)
+        #print(ot_scatter.size())
+        txt_pad = self._compute_pad(onlymeme_lens, max_meme)
+        img_pad = self._compute_pad(onlycaption_lens, max_nbb)
+        ot_inputs = {'ot_scatter': ot_scatter,
+                 'max_meme' : max_meme,
+                 'max_caption' : max_nbb,
+                 'onlymeme_lens': onlymeme_lens,
+                 'onlycaption_lens': onlycaption_lens,
+                 'scatter_max': ot_scatter.max().item(),
+                 'txt_pad': txt_pad,
+                 'img_pad': img_pad}
 
         gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
 
-        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index, ctm_targets
+        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index, ctm_targets, ot_inputs
 
+    def _compute_pad(self, lens, max_len):
+        pad = torch.zeros(len(lens), max_len, dtype=torch.uint8)
+        for i, l in enumerate(lens):
+            pad.data[i, l:].fill_(1)
+        return pad
+    
+    def _compute_ot_scatter(self, txt_lens, max_txt_len, joint_len):
+        ot_scatter = torch.arange(0, joint_len, dtype=torch.long
+                              ).unsqueeze(0).repeat(len(txt_lens), 1)
+        for i, tl in enumerate(txt_lens):
+            max_ind = max_txt_len + (joint_len-tl)
+            ot_scatter.data[i, tl:] = torch.arange(max_txt_len, max_ind,
+                                               dtype=torch.long).data
+        return ot_scatter
 
-    def forward(self, sents, captions, visual_feats, compute_loss=True):
+    def forward(self, sents, captions, visual_feats, target, compute_loss=True):
 
         if args.tr.startswith("bert"):
-            input_ids, img_feats, img_pos_feats, attn_masks, gather_index, matched_ctm_targets = self.preprocess_bert(sents, captions, visual_feats)
+            input_ids, img_feats, img_pos_feats, attn_masks, gather_index, matched_ctm_targets, ot_scatter = self.preprocess_bert(sents, captions, visual_feats, target)
 
         """
         forward(self, input_ids, token_type_ids=None, attention_mask=None, masked_lm_labels=None,
@@ -651,14 +695,14 @@ class CTMBert:
 
         loss, losses, ans_logit = self.model(
             input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda(),
-            ctm_targets=matched_ctm_targets.cuda(), compute_loss=compute_loss
+            ctm_targets=matched_ctm_targets.cuda(), compute_loss=compute_loss#, ot_inputs=ot_scatter
         )
 
-        return loss, losses.detach().cpu(), ans_logit
+        return loss, losses.detach().cpu(), ans_logit, matched_ctm_targets, ot_scatter
 
-    def train_batch(self, optim, scheduler, sents, captions, visual_feats):
+    def train_batch(self, optim, scheduler, sents, captions, visual_feats, target):
         optim.zero_grad()
-        loss, losses, ans_logit = self.forward(sents, captions, visual_feats)
+        loss, losses, ans_logit, matched_ctm_targets,ot_scatter = self.forward(sents, captions, visual_feats, target)
         if args.multiGPU:
             loss = loss.mean()
             losses = losses.mean(0)
@@ -670,13 +714,14 @@ class CTMBert:
 
         return loss.item(), losses.cpu().numpy(), ans_logit
 
-    def valid_batch(self, sents, captions, visual_feats):
+    def valid_batch(self, sents, captions, visual_feats, target):
         with torch.no_grad():
-            loss, losses, ans_logit = self.forward(sents, captions, visual_feats, compute_loss=False)
+            loss, losses, ans_logit, matched_ctm_targets,ot_scatter = self.forward(sents, captions, visual_feats, target, compute_loss=False)
             if args.multiGPU:
                 loss = loss.mean()
                 losses = losses.mean(0)
-        return loss
+
+        return loss,matched_ctm_targets,ot_scatter
 
     def predict(self, eval_tuple: DataTuple):
 
@@ -689,7 +734,7 @@ class CTMBert:
 
         for i, datum_tuple in enumerate(loader):
 
-            ids, feats, boxes, sent, caption = datum_tuple[:5]
+            ids, feats, boxes, sent, caption, target  = datum_tuple[:6]
 
             self.model.eval()
             num_ex += ids.size(0)
@@ -700,15 +745,15 @@ class CTMBert:
             with torch.no_grad():
 
                 feats, boxes = feats.cuda(), boxes.cuda()
-                scores = self.valid_batch(sent, caption, (feats, boxes))#self.model(sent, caption, (feats, boxes))
-
+                scores,matched_ctm_targets,ot_scatter = self.valid_batch(sent, caption, (feats, boxes), target)#self.model(sent, caption, (feats, boxes))
+                scores.cuda()
+                
                 #targets = datum_tuple[5:]
                 #print(targets)
-                targets = torch.cat([torch.tensor([1,0])]*ids.size(0)).cuda()
-                print(targets)
-                loss = F.cross_entropy(scores, targets, reduction='sum')
+                #print(targets)
+                loss = F.cross_entropy(scores, matched_ctm_targets.cuda(), reduction='sum')
                 val_loss += loss.item()
-                tot_score += (scores.max(dim=-1)[1] == targets).sum().item()
+                tot_score += (scores.max(dim=-1)[1] == matched_ctm_targets.cuda()).sum().item()
 
                 #if args.swa:
                 #    logit = self.swa_model(sent, caption, (feats, boxes))
@@ -723,8 +768,9 @@ class CTMBert:
                 # Getting probas for Roc Auc
                 #for qid, l in zip(ids, score.cpu().numpy()):
                 #    id2prob[qid] = l
-
+        val_acc = tot_score / num_ex
         print("The validation loss is %0.4f" % (val_loss / num_ex))
+        print("Acc score: %0.4f" % val_acc)
         return id2ans, id2prob, evaluator
  
 
@@ -751,6 +797,7 @@ class CTMBert:
 
         # Train
         best_eval_loss = 9595.
+        self.predict(eval_tuple)
         for epoch in range(args.epochs):
             # Train
             self.model.train()
@@ -759,10 +806,10 @@ class CTMBert:
             uid2ans = {}
             for i, (ids, feats, boxes, sent, caption, target) in iter_wrapper(enumerate(train_ld)):
                 feats, boxes, target = feats.cuda(), boxes.cuda(), target.long().cuda()
-                loss, losses, logit = self.train_batch(optim, scheduler, sent, caption, (feats, boxes))
+                loss, losses, logit = self.train_batch(optim, scheduler, sent, caption, (feats, boxes), target)
                 
                 total_loss += loss
-                total_losses += losses
+                #total_losses += losses
 
                 if args.task_qa:
                     score, label = logit.max(1)
@@ -772,6 +819,7 @@ class CTMBert:
                         uid2ans[uid] = ans
 
             print("The training loss for Epoch %d is %0.4f" % (epoch, total_loss / batch_per_epoch))
+            self.predict(eval_tuple)
             losses_str = "The losses are "
             # Somehow had to add [0] here, which is not in or repo
             #for name, loss in zip(LOSSES_NAME, total_losses[0]):
@@ -789,7 +837,7 @@ class CTMBert:
 
     def save(self, name):
         torch.save(self.model.state_dict(),
-                   os.path.join(args.output, "%s_withval_BU.pth" % name))
+                   os.path.join(args.output, "%s_train_BU_hateful.pth" % name))
 
     def load(self, path):
         print("Load BERT extractor from %s" % path)

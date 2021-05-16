@@ -589,7 +589,9 @@ class BertUPretraining(BertPreTrainedModel):
 
 
     def forward(self, input_ids, position_ids, img_feats, img_pos_feats, attn_masks, gather_index, masked_lm_labels=None, 
-                obj_labels=None, matched_label=None, ctm_targets=None, ans=None, compute_loss=True):
+                obj_labels=None, matched_label=None, ctm_targets=None, ans=None, compute_loss=True, ot_inputs=None):
+
+        itm_ot_lambda = 0.1
     
         sequence_output, pooled_output = self.bert(
             input_ids, None, img_feats, img_pos_feats, attn_masks, gather_index
@@ -625,9 +627,20 @@ class BertUPretraining(BertPreTrainedModel):
         
         if ctm_targets is not None and self.task_ctm:
             itm_loss, ot_loss = self.forward_ctm(input_ids, position_ids, img_feats, img_pos_feats,
-                    attn_masks, gather_index, ctm_targets, ot_inputs=None,
+                    attn_masks, gather_index, ctm_targets, ot_inputs=ot_inputs,
                     compute_loss=compute_loss)
-            total_loss += itm_loss
+            loss = itm_loss
+            if ot_loss is not None:
+                ot_pos, ot_neg = ot_loss
+                ot_loss = (ot_pos.sum() - ot_neg.sum()
+                           ) / (ot_pos.size(0) + ot_neg.size(0))
+
+                # NOTE: be ware of empty tensor
+                ot_pos = ot_pos.mean().item()
+                ot_neg = ot_neg.mean().item()
+
+                loss = itm_loss + itm_ot_lambda * ot_loss
+            total_loss += loss
             losses += (itm_loss.detach(),)
 
 
@@ -646,15 +659,21 @@ class BertUPretraining(BertPreTrainedModel):
 
         # OT loss
         if ot_inputs is not None:
-            #need to update it
+            #print(ot_inputs)
             ot_scatter = ot_inputs['ot_scatter']
 
             b = sequence_output.size(0)
-            tl = input_ids.size(1)
-            il = img_feat.size(1)
+            tl = ot_inputs['max_meme']#max(input_ids.size(1)) #max size of meme text
+            il = ot_inputs['max_caption'] #max size of caption text
+            tot_text = input_ids.size(1)
             max_l = max(ot_inputs['scatter_max'] + 1, tl+il)
 
-            ot_scatter = ot_scatter.unsqueeze(-1).expand_as(sequence_output)
+            #print(sequence_output.size())
+            #print(ot_scatter.size())
+            #print(tl)
+            #print(il)
+            #ot_scatter = ot_scatter.unsqueeze(-1).expand(sequence_output.size(0), input_ids.size(1), sequence_output.size(2)).cuda()
+            ot_scatter = ot_scatter.unsqueeze(-1).expand_as(sequence_output).cuda()
             ctx_emb = torch.zeros(b, max_l, self.config.hidden_size,
                                   dtype=sequence_output.dtype,
                                   device=sequence_output.device
@@ -663,8 +682,8 @@ class BertUPretraining(BertPreTrainedModel):
             txt_emb = ctx_emb[:, :tl, :]
             img_emb = ctx_emb[:, tl:tl+il, :]
 
-            txt_pad = ot_inputs['txt_pad']
-            img_pad = ot_inputs['img_pad']
+            txt_pad = ot_inputs['txt_pad'].cuda()
+            img_pad = ot_inputs['img_pad'].cuda()
             # NOTE: run in fp32 for stability
             ot_dist = optimal_transport_dist(txt_emb.float(), img_emb.float(),
                                              txt_pad, img_pad).to(txt_emb)

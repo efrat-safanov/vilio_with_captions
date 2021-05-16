@@ -245,7 +245,7 @@ class HM:
                                 # Only save BEST when no midsave is specified to save space
                                 #if args.midsave < 0:
                                 #    self.save("BEST")
-                                if epoch > 1:
+                                if epoch > -1:
                                     split = 'test_seen'
                                     self.predict(get_tuple(split, bs=args.batch_size,shuffle=False, drop_last=False),dump=os.path.join(args.output, '{}_{}_{}_{}.csv'.format(args.exp, split, epoch, ups)))
                             else:

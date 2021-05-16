@@ -150,6 +150,7 @@ class ModelU(nn.Module):
         """
         iids = []
         attn_masks = []
+        mid_indices = []
 
         for (i, sent) in enumerate(sents):
 
@@ -174,7 +175,7 @@ class ModelU(nn.Module):
             iids.append(caption_input_ids)
             #iids.append(input_ids)
             attn_masks.append(attn_mask)
-
+            mid_indices.append(len(caption_input_ids)-1)
 
         txt_lens = [i.size(0) for i in iids]
 
@@ -199,16 +200,17 @@ class ModelU(nn.Module):
         #print(max_tl)
         out_size = attn_masks.size(1)
         #print(out_size)
+        #print(mid_indices)
         gather_index = self.get_gather_index(txt_lens, num_bbs, bs, max_tl, out_size)
 
-        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index
+        return input_ids, img_feats, img_pos_feats, attn_masks, gather_index, torch.tensor(mid_indices).cuda()
 
     def forward(self, sents, captions, visual_feats):
         
         if self.tr_name.startswith("roberta"):
             input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_roberta(sents, visual_feats, self.num_features, self.tokenizer)
         elif self.tr_name.startswith("bert"):
-            input_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
+            input_ids, img_feats, img_pos_feats, attn_masks, gather_index, input_ids_mid_indices = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
         #print(input_ids.size())
         #print(img_feats.size())
@@ -217,6 +219,9 @@ class ModelU(nn.Module):
         #print(gather_index)
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
         output = self.classifier(pooled_output)
+        #output = self.classifier(seq_out[torch.arange(seq_out.size(0)), input_ids_mid_indices]+pooled_output)
+        #merged = torch.cat((pooled_output, seq_out[torch.arange(seq_out.size(0)), input_ids_mid_indices]), 1)
+        #output = self.classifier(merged)
 
         return output
 
