@@ -1,0 +1,538 @@
+2021-04-30 22:24:01.132298: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertUPretraining were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias', 'ctm_output.weight', 'ctm_output.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Load 9096 data from split(s) traindev.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 9096 images in file data/HM_img.tsv in 54 seconds.
+Use 9096 data in torch dataset
+
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 41 seconds.
+Use 500 data in torch dataset
+
+Namespace(acc=1, batch_size=8, case=False, clip=5.0, combine=False, contrib=True, ctm_task=True, dropout=0.1, epochs=10, exp='U36', from_scratch=False, llayers=9, loadfin=None, loadpre='./data/uniter-large.pt', lr=1e-05, midsave=-1, model='U', multiGPU=False, num_features=36, num_pos=6, num_workers=4, obj_mask_rate=0.15, optim='bert', output='./data', qa_sets=None, reg=False, rlayers=5, seed=129, subtest=False, subtrain=False, swa=False, task_hm=False, task_mask_lm=False, task_matched=False, task_obj_predict=False, task_qa=False, test='dev_seen,test_seen', topk=-1, tqdm=False, tr='bert-large-cased', tr_unimodal_name=False, train='traindev', tsv=True, valid='dev_seen', visual_losses='obj,attr,feat', wd=0.0, word_mask_rate=0.15, xlayers=5)
+loading pretrained model insides
+finished load
+Load pre-trained model from ./data/uniter-large.pt
+bert.embeddings.word_embeddings.weight
+bert.embeddings.position_embeddings.weight
+bert.embeddings.token_type_embeddings.weight
+bert.embeddings.LayerNorm.weight
+bert.embeddings.LayerNorm.bias
+bert.img_embeddings.img_linear.weight
+bert.img_embeddings.img_linear.bias
+bert.img_embeddings.img_layer_norm.weight
+bert.img_embeddings.img_layer_norm.bias
+bert.img_embeddings.pos_layer_norm.weight
+bert.img_embeddings.pos_layer_norm.bias
+bert.img_embeddings.pos_linear.weight
+bert.img_embeddings.pos_linear.bias
+bert.img_embeddings.mask_embedding.weight
+bert.img_embeddings.LayerNorm.weight
+bert.img_embeddings.LayerNorm.bias
+bert.encoder.layer.0.attention.self.query.weight
+bert.encoder.layer.0.attention.self.query.bias
+bert.encoder.layer.0.attention.self.key.weight
+bert.encoder.layer.0.attention.self.key.bias
+bert.encoder.layer.0.attention.self.value.weight
+bert.encoder.layer.0.attention.self.value.bias
+bert.encoder.layer.0.attention.output.dense.weight
+bert.encoder.layer.0.attention.output.dense.bias
+bert.encoder.layer.0.attention.output.LayerNorm.weight
+bert.encoder.layer.0.attention.output.LayerNorm.bias
+bert.encoder.layer.0.intermediate.dense.weight
+bert.encoder.layer.0.intermediate.dense.bias
+bert.encoder.layer.0.output.dense.weight
+bert.encoder.layer.0.output.dense.bias
+bert.encoder.layer.0.output.LayerNorm.weight
+bert.encoder.layer.0.output.LayerNorm.bias
+bert.encoder.layer.1.attention.self.query.weight
+bert.encoder.layer.1.attention.self.query.bias
+bert.encoder.layer.1.attention.self.key.weight
+bert.encoder.layer.1.attention.self.key.bias
+bert.encoder.layer.1.attention.self.value.weight
+bert.encoder.layer.1.attention.self.value.bias
+bert.encoder.layer.1.attention.output.dense.weight
+bert.encoder.layer.1.attention.output.dense.bias
+bert.encoder.layer.1.attention.output.LayerNorm.weight
+bert.encoder.layer.1.attention.output.LayerNorm.bias
+bert.encoder.layer.1.intermediate.dense.weight
+bert.encoder.layer.1.intermediate.dense.bias
+bert.encoder.layer.1.output.dense.weight
+bert.encoder.layer.1.output.dense.bias
+bert.encoder.layer.1.output.LayerNorm.weight
+bert.encoder.layer.1.output.LayerNorm.bias
+bert.encoder.layer.2.attention.self.query.weight
+bert.encoder.layer.2.attention.self.query.bias
+bert.encoder.layer.2.attention.self.key.weight
+bert.encoder.layer.2.attention.self.key.bias
+bert.encoder.layer.2.attention.self.value.weight
+bert.encoder.layer.2.attention.self.value.bias
+bert.encoder.layer.2.attention.output.dense.weight
+bert.encoder.layer.2.attention.output.dense.bias
+bert.encoder.layer.2.attention.output.LayerNorm.weight
+bert.encoder.layer.2.attention.output.LayerNorm.bias
+bert.encoder.layer.2.intermediate.dense.weight
+bert.encoder.layer.2.intermediate.dense.bias
+bert.encoder.layer.2.output.dense.weight
+bert.encoder.layer.2.output.dense.bias
+bert.encoder.layer.2.output.LayerNorm.weight
+bert.encoder.layer.2.output.LayerNorm.bias
+bert.encoder.layer.3.attention.self.query.weight
+bert.encoder.layer.3.attention.self.query.bias
+bert.encoder.layer.3.attention.self.key.weight
+bert.encoder.layer.3.attention.self.key.bias
+bert.encoder.layer.3.attention.self.value.weight
+bert.encoder.layer.3.attention.self.value.bias
+bert.encoder.layer.3.attention.output.dense.weight
+bert.encoder.layer.3.attention.output.dense.bias
+bert.encoder.layer.3.attention.output.LayerNorm.weight
+bert.encoder.layer.3.attention.output.LayerNorm.bias
+bert.encoder.layer.3.intermediate.dense.weight
+bert.encoder.layer.3.intermediate.dense.bias
+bert.encoder.layer.3.output.dense.weight
+bert.encoder.layer.3.output.dense.bias
+bert.encoder.layer.3.output.LayerNorm.weight
+bert.encoder.layer.3.output.LayerNorm.bias
+bert.encoder.layer.4.attention.self.query.weight
+bert.encoder.layer.4.attention.self.query.bias
+bert.encoder.layer.4.attention.self.key.weight
+bert.encoder.layer.4.attention.self.key.bias
+bert.encoder.layer.4.attention.self.value.weight
+bert.encoder.layer.4.attention.self.value.bias
+bert.encoder.layer.4.attention.output.dense.weight
+bert.encoder.layer.4.attention.output.dense.bias
+bert.encoder.layer.4.attention.output.LayerNorm.weight
+bert.encoder.layer.4.attention.output.LayerNorm.bias
+bert.encoder.layer.4.intermediate.dense.weight
+bert.encoder.layer.4.intermediate.dense.bias
+bert.encoder.layer.4.output.dense.weight
+bert.encoder.layer.4.output.dense.bias
+bert.encoder.layer.4.output.LayerNorm.weight
+bert.encoder.layer.4.output.LayerNorm.bias
+bert.encoder.layer.5.attention.self.query.weight
+bert.encoder.layer.5.attention.self.query.bias
+bert.encoder.layer.5.attention.self.key.weight
+bert.encoder.layer.5.attention.self.key.bias
+bert.encoder.layer.5.attention.self.value.weight
+bert.encoder.layer.5.attention.self.value.bias
+bert.encoder.layer.5.attention.output.dense.weight
+bert.encoder.layer.5.attention.output.dense.bias
+bert.encoder.layer.5.attention.output.LayerNorm.weight
+bert.encoder.layer.5.attention.output.LayerNorm.bias
+bert.encoder.layer.5.intermediate.dense.weight
+bert.encoder.layer.5.intermediate.dense.bias
+bert.encoder.layer.5.output.dense.weight
+bert.encoder.layer.5.output.dense.bias
+bert.encoder.layer.5.output.LayerNorm.weight
+bert.encoder.layer.5.output.LayerNorm.bias
+bert.encoder.layer.6.attention.self.query.weight
+bert.encoder.layer.6.attention.self.query.bias
+bert.encoder.layer.6.attention.self.key.weight
+bert.encoder.layer.6.attention.self.key.bias
+bert.encoder.layer.6.attention.self.value.weight
+bert.encoder.layer.6.attention.self.value.bias
+bert.encoder.layer.6.attention.output.dense.weight
+bert.encoder.layer.6.attention.output.dense.bias
+bert.encoder.layer.6.attention.output.LayerNorm.weight
+bert.encoder.layer.6.attention.output.LayerNorm.bias
+bert.encoder.layer.6.intermediate.dense.weight
+bert.encoder.layer.6.intermediate.dense.bias
+bert.encoder.layer.6.output.dense.weight
+bert.encoder.layer.6.output.dense.bias
+bert.encoder.layer.6.output.LayerNorm.weight
+bert.encoder.layer.6.output.LayerNorm.bias
+bert.encoder.layer.7.attention.self.query.weight
+bert.encoder.layer.7.attention.self.query.bias
+bert.encoder.layer.7.attention.self.key.weight
+bert.encoder.layer.7.attention.self.key.bias
+bert.encoder.layer.7.attention.self.value.weight
+bert.encoder.layer.7.attention.self.value.bias
+bert.encoder.layer.7.attention.output.dense.weight
+bert.encoder.layer.7.attention.output.dense.bias
+bert.encoder.layer.7.attention.output.LayerNorm.weight
+bert.encoder.layer.7.attention.output.LayerNorm.bias
+bert.encoder.layer.7.intermediate.dense.weight
+bert.encoder.layer.7.intermediate.dense.bias
+bert.encoder.layer.7.output.dense.weight
+bert.encoder.layer.7.output.dense.bias
+bert.encoder.layer.7.output.LayerNorm.weight
+bert.encoder.layer.7.output.LayerNorm.bias
+bert.encoder.layer.8.attention.self.query.weight
+bert.encoder.layer.8.attention.self.query.bias
+bert.encoder.layer.8.attention.self.key.weight
+bert.encoder.layer.8.attention.self.key.bias
+bert.encoder.layer.8.attention.self.value.weight
+bert.encoder.layer.8.attention.self.value.bias
+bert.encoder.layer.8.attention.output.dense.weight
+bert.encoder.layer.8.attention.output.dense.bias
+bert.encoder.layer.8.attention.output.LayerNorm.weight
+bert.encoder.layer.8.attention.output.LayerNorm.bias
+bert.encoder.layer.8.intermediate.dense.weight
+bert.encoder.layer.8.intermediate.dense.bias
+bert.encoder.layer.8.output.dense.weight
+bert.encoder.layer.8.output.dense.bias
+bert.encoder.layer.8.output.LayerNorm.weight
+bert.encoder.layer.8.output.LayerNorm.bias
+bert.encoder.layer.9.attention.self.query.weight
+bert.encoder.layer.9.attention.self.query.bias
+bert.encoder.layer.9.attention.self.key.weight
+bert.encoder.layer.9.attention.self.key.bias
+bert.encoder.layer.9.attention.self.value.weight
+bert.encoder.layer.9.attention.self.value.bias
+bert.encoder.layer.9.attention.output.dense.weight
+bert.encoder.layer.9.attention.output.dense.bias
+bert.encoder.layer.9.attention.output.LayerNorm.weight
+bert.encoder.layer.9.attention.output.LayerNorm.bias
+bert.encoder.layer.9.intermediate.dense.weight
+bert.encoder.layer.9.intermediate.dense.bias
+bert.encoder.layer.9.output.dense.weight
+bert.encoder.layer.9.output.dense.bias
+bert.encoder.layer.9.output.LayerNorm.weight
+bert.encoder.layer.9.output.LayerNorm.bias
+bert.encoder.layer.10.attention.self.query.weight
+bert.encoder.layer.10.attention.self.query.bias
+bert.encoder.layer.10.attention.self.key.weight
+bert.encoder.layer.10.attention.self.key.bias
+bert.encoder.layer.10.attention.self.value.weight
+bert.encoder.layer.10.attention.self.value.bias
+bert.encoder.layer.10.attention.output.dense.weight
+bert.encoder.layer.10.attention.output.dense.bias
+bert.encoder.layer.10.attention.output.LayerNorm.weight
+bert.encoder.layer.10.attention.output.LayerNorm.bias
+bert.encoder.layer.10.intermediate.dense.weight
+bert.encoder.layer.10.intermediate.dense.bias
+bert.encoder.layer.10.output.dense.weight
+bert.encoder.layer.10.output.dense.bias
+bert.encoder.layer.10.output.LayerNorm.weight
+bert.encoder.layer.10.output.LayerNorm.bias
+bert.encoder.layer.11.attention.self.query.weight
+bert.encoder.layer.11.attention.self.query.bias
+bert.encoder.layer.11.attention.self.key.weight
+bert.encoder.layer.11.attention.self.key.bias
+bert.encoder.layer.11.attention.self.value.weight
+bert.encoder.layer.11.attention.self.value.bias
+bert.encoder.layer.11.attention.output.dense.weight
+bert.encoder.layer.11.attention.output.dense.bias
+bert.encoder.layer.11.attention.output.LayerNorm.weight
+bert.encoder.layer.11.attention.output.LayerNorm.bias
+bert.encoder.layer.11.intermediate.dense.weight
+bert.encoder.layer.11.intermediate.dense.bias
+bert.encoder.layer.11.output.dense.weight
+bert.encoder.layer.11.output.dense.bias
+bert.encoder.layer.11.output.LayerNorm.weight
+bert.encoder.layer.11.output.LayerNorm.bias
+bert.encoder.layer.12.attention.self.query.weight
+bert.encoder.layer.12.attention.self.query.bias
+bert.encoder.layer.12.attention.self.key.weight
+bert.encoder.layer.12.attention.self.key.bias
+bert.encoder.layer.12.attention.self.value.weight
+bert.encoder.layer.12.attention.self.value.bias
+bert.encoder.layer.12.attention.output.dense.weight
+bert.encoder.layer.12.attention.output.dense.bias
+bert.encoder.layer.12.attention.output.LayerNorm.weight
+bert.encoder.layer.12.attention.output.LayerNorm.bias
+bert.encoder.layer.12.intermediate.dense.weight
+bert.encoder.layer.12.intermediate.dense.bias
+bert.encoder.layer.12.output.dense.weight
+bert.encoder.layer.12.output.dense.bias
+bert.encoder.layer.12.output.LayerNorm.weight
+bert.encoder.layer.12.output.LayerNorm.bias
+bert.encoder.layer.13.attention.self.query.weight
+bert.encoder.layer.13.attention.self.query.bias
+bert.encoder.layer.13.attention.self.key.weight
+bert.encoder.layer.13.attention.self.key.bias
+bert.encoder.layer.13.attention.self.value.weight
+bert.encoder.layer.13.attention.self.value.bias
+bert.encoder.layer.13.attention.output.dense.weight
+bert.encoder.layer.13.attention.output.dense.bias
+bert.encoder.layer.13.attention.output.LayerNorm.weight
+bert.encoder.layer.13.attention.output.LayerNorm.bias
+bert.encoder.layer.13.intermediate.dense.weight
+bert.encoder.layer.13.intermediate.dense.bias
+bert.encoder.layer.13.output.dense.weight
+bert.encoder.layer.13.output.dense.bias
+bert.encoder.layer.13.output.LayerNorm.weight
+bert.encoder.layer.13.output.LayerNorm.bias
+bert.encoder.layer.14.attention.self.query.weight
+bert.encoder.layer.14.attention.self.query.bias
+bert.encoder.layer.14.attention.self.key.weight
+bert.encoder.layer.14.attention.self.key.bias
+bert.encoder.layer.14.attention.self.value.weight
+bert.encoder.layer.14.attention.self.value.bias
+bert.encoder.layer.14.attention.output.dense.weight
+bert.encoder.layer.14.attention.output.dense.bias
+bert.encoder.layer.14.attention.output.LayerNorm.weight
+bert.encoder.layer.14.attention.output.LayerNorm.bias
+bert.encoder.layer.14.intermediate.dense.weight
+bert.encoder.layer.14.intermediate.dense.bias
+bert.encoder.layer.14.output.dense.weight
+bert.encoder.layer.14.output.dense.bias
+bert.encoder.layer.14.output.LayerNorm.weight
+bert.encoder.layer.14.output.LayerNorm.bias
+bert.encoder.layer.15.attention.self.query.weight
+bert.encoder.layer.15.attention.self.query.bias
+bert.encoder.layer.15.attention.self.key.weight
+bert.encoder.layer.15.attention.self.key.bias
+bert.encoder.layer.15.attention.self.value.weight
+bert.encoder.layer.15.attention.self.value.bias
+bert.encoder.layer.15.attention.output.dense.weight
+bert.encoder.layer.15.attention.output.dense.bias
+bert.encoder.layer.15.attention.output.LayerNorm.weight
+bert.encoder.layer.15.attention.output.LayerNorm.bias
+bert.encoder.layer.15.intermediate.dense.weight
+bert.encoder.layer.15.intermediate.dense.bias
+bert.encoder.layer.15.output.dense.weight
+bert.encoder.layer.15.output.dense.bias
+bert.encoder.layer.15.output.LayerNorm.weight
+bert.encoder.layer.15.output.LayerNorm.bias
+bert.encoder.layer.16.attention.self.query.weight
+bert.encoder.layer.16.attention.self.query.bias
+bert.encoder.layer.16.attention.self.key.weight
+bert.encoder.layer.16.attention.self.key.bias
+bert.encoder.layer.16.attention.self.value.weight
+bert.encoder.layer.16.attention.self.value.bias
+bert.encoder.layer.16.attention.output.dense.weight
+bert.encoder.layer.16.attention.output.dense.bias
+bert.encoder.layer.16.attention.output.LayerNorm.weight
+bert.encoder.layer.16.attention.output.LayerNorm.bias
+bert.encoder.layer.16.intermediate.dense.weight
+bert.encoder.layer.16.intermediate.dense.bias
+bert.encoder.layer.16.output.dense.weight
+bert.encoder.layer.16.output.dense.bias
+bert.encoder.layer.16.output.LayerNorm.weight
+bert.encoder.layer.16.output.LayerNorm.bias
+bert.encoder.layer.17.attention.self.query.weight
+bert.encoder.layer.17.attention.self.query.bias
+bert.encoder.layer.17.attention.self.key.weight
+bert.encoder.layer.17.attention.self.key.bias
+bert.encoder.layer.17.attention.self.value.weight
+bert.encoder.layer.17.attention.self.value.bias
+bert.encoder.layer.17.attention.output.dense.weight
+bert.encoder.layer.17.attention.output.dense.bias
+bert.encoder.layer.17.attention.output.LayerNorm.weight
+bert.encoder.layer.17.attention.output.LayerNorm.bias
+bert.encoder.layer.17.intermediate.dense.weight
+bert.encoder.layer.17.intermediate.dense.bias
+bert.encoder.layer.17.output.dense.weight
+bert.encoder.layer.17.output.dense.bias
+bert.encoder.layer.17.output.LayerNorm.weight
+bert.encoder.layer.17.output.LayerNorm.bias
+bert.encoder.layer.18.attention.self.query.weight
+bert.encoder.layer.18.attention.self.query.bias
+bert.encoder.layer.18.attention.self.key.weight
+bert.encoder.layer.18.attention.self.key.bias
+bert.encoder.layer.18.attention.self.value.weight
+bert.encoder.layer.18.attention.self.value.bias
+bert.encoder.layer.18.attention.output.dense.weight
+bert.encoder.layer.18.attention.output.dense.bias
+bert.encoder.layer.18.attention.output.LayerNorm.weight
+bert.encoder.layer.18.attention.output.LayerNorm.bias
+bert.encoder.layer.18.intermediate.dense.weight
+bert.encoder.layer.18.intermediate.dense.bias
+bert.encoder.layer.18.output.dense.weight
+bert.encoder.layer.18.output.dense.bias
+bert.encoder.layer.18.output.LayerNorm.weight
+bert.encoder.layer.18.output.LayerNorm.bias
+bert.encoder.layer.19.attention.self.query.weight
+bert.encoder.layer.19.attention.self.query.bias
+bert.encoder.layer.19.attention.self.key.weight
+bert.encoder.layer.19.attention.self.key.bias
+bert.encoder.layer.19.attention.self.value.weight
+bert.encoder.layer.19.attention.self.value.bias
+bert.encoder.layer.19.attention.output.dense.weight
+bert.encoder.layer.19.attention.output.dense.bias
+bert.encoder.layer.19.attention.output.LayerNorm.weight
+bert.encoder.layer.19.attention.output.LayerNorm.bias
+bert.encoder.layer.19.intermediate.dense.weight
+bert.encoder.layer.19.intermediate.dense.bias
+bert.encoder.layer.19.output.dense.weight
+bert.encoder.layer.19.output.dense.bias
+bert.encoder.layer.19.output.LayerNorm.weight
+bert.encoder.layer.19.output.LayerNorm.bias
+bert.encoder.layer.20.attention.self.query.weight
+bert.encoder.layer.20.attention.self.query.bias
+bert.encoder.layer.20.attention.self.key.weight
+bert.encoder.layer.20.attention.self.key.bias
+bert.encoder.layer.20.attention.self.value.weight
+bert.encoder.layer.20.attention.self.value.bias
+bert.encoder.layer.20.attention.output.dense.weight
+bert.encoder.layer.20.attention.output.dense.bias
+bert.encoder.layer.20.attention.output.LayerNorm.weight
+bert.encoder.layer.20.attention.output.LayerNorm.bias
+bert.encoder.layer.20.intermediate.dense.weight
+bert.encoder.layer.20.intermediate.dense.bias
+bert.encoder.layer.20.output.dense.weight
+bert.encoder.layer.20.output.dense.bias
+bert.encoder.layer.20.output.LayerNorm.weight
+bert.encoder.layer.20.output.LayerNorm.bias
+bert.encoder.layer.21.attention.self.query.weight
+bert.encoder.layer.21.attention.self.query.bias
+bert.encoder.layer.21.attention.self.key.weight
+bert.encoder.layer.21.attention.self.key.bias
+bert.encoder.layer.21.attention.self.value.weight
+bert.encoder.layer.21.attention.self.value.bias
+bert.encoder.layer.21.attention.output.dense.weight
+bert.encoder.layer.21.attention.output.dense.bias
+bert.encoder.layer.21.attention.output.LayerNorm.weight
+bert.encoder.layer.21.attention.output.LayerNorm.bias
+bert.encoder.layer.21.intermediate.dense.weight
+bert.encoder.layer.21.intermediate.dense.bias
+bert.encoder.layer.21.output.dense.weight
+bert.encoder.layer.21.output.dense.bias
+bert.encoder.layer.21.output.LayerNorm.weight
+bert.encoder.layer.21.output.LayerNorm.bias
+bert.encoder.layer.22.attention.self.query.weight
+bert.encoder.layer.22.attention.self.query.bias
+bert.encoder.layer.22.attention.self.key.weight
+bert.encoder.layer.22.attention.self.key.bias
+bert.encoder.layer.22.attention.self.value.weight
+bert.encoder.layer.22.attention.self.value.bias
+bert.encoder.layer.22.attention.output.dense.weight
+bert.encoder.layer.22.attention.output.dense.bias
+bert.encoder.layer.22.attention.output.LayerNorm.weight
+bert.encoder.layer.22.attention.output.LayerNorm.bias
+bert.encoder.layer.22.intermediate.dense.weight
+bert.encoder.layer.22.intermediate.dense.bias
+bert.encoder.layer.22.output.dense.weight
+bert.encoder.layer.22.output.dense.bias
+bert.encoder.layer.22.output.LayerNorm.weight
+bert.encoder.layer.22.output.LayerNorm.bias
+bert.encoder.layer.23.attention.self.query.weight
+bert.encoder.layer.23.attention.self.query.bias
+bert.encoder.layer.23.attention.self.key.weight
+bert.encoder.layer.23.attention.self.key.bias
+bert.encoder.layer.23.attention.self.value.weight
+bert.encoder.layer.23.attention.self.value.bias
+bert.encoder.layer.23.attention.output.dense.weight
+bert.encoder.layer.23.attention.output.dense.bias
+bert.encoder.layer.23.attention.output.LayerNorm.weight
+bert.encoder.layer.23.attention.output.LayerNorm.bias
+bert.encoder.layer.23.intermediate.dense.weight
+bert.encoder.layer.23.intermediate.dense.bias
+bert.encoder.layer.23.output.dense.weight
+bert.encoder.layer.23.output.dense.bias
+bert.encoder.layer.23.output.LayerNorm.weight
+bert.encoder.layer.23.output.LayerNorm.bias
+bert.pooler.dense.weight
+bert.pooler.dense.bias
+bert.cls.predictions.bias
+bert.cls.predictions.transform.dense.weight
+bert.cls.predictions.transform.dense.bias
+bert.cls.predictions.transform.LayerNorm.weight
+bert.cls.predictions.transform.LayerNorm.bias
+bert.cls.predictions.decoder.weight
+bert.feat_regress.weight
+bert.feat_regress.bias
+bert.feat_regress.net.0.weight
+bert.feat_regress.net.0.bias
+bert.feat_regress.net.2.weight
+bert.feat_regress.net.2.bias
+bert.region_classifier.net.0.weight
+bert.region_classifier.net.0.bias
+bert.region_classifier.net.2.weight
+bert.region_classifier.net.2.bias
+bert.region_classifier.net.3.weight
+bert.region_classifier.net.3.bias
+bert.itm_output.weight
+bert.itm_output.bias
+
+Weights in loaded but not in model:
+bert.cls.predictions.bias
+bert.cls.predictions.decoder.weight
+bert.cls.predictions.transform.LayerNorm.bias
+bert.cls.predictions.transform.LayerNorm.weight
+bert.cls.predictions.transform.dense.bias
+bert.cls.predictions.transform.dense.weight
+bert.feat_regress.bias
+bert.feat_regress.net.0.bias
+bert.feat_regress.net.0.weight
+bert.feat_regress.net.2.bias
+bert.feat_regress.net.2.weight
+bert.feat_regress.weight
+bert.img_embeddings.mask_embedding.weight
+bert.itm_output.bias
+bert.itm_output.weight
+bert.region_classifier.net.0.bias
+bert.region_classifier.net.0.weight
+bert.region_classifier.net.2.bias
+bert.region_classifier.net.2.weight
+bert.region_classifier.net.3.bias
+bert.region_classifier.net.3.weight
+
+Weights in model but not in loaded:
+bert.embeddings.position_ids
+cls.predictions.bias
+cls.predictions.decoder.weight
+cls.predictions.transform.LayerNorm.bias
+cls.predictions.transform.LayerNorm.weight
+cls.predictions.transform.dense.bias
+cls.predictions.transform.dense.weight
+cls.seq_relationship.bias
+cls.seq_relationship.weight
+ctm_output.bias
+ctm_output.weight
+
+Total Iters: 11370
+Splits in Train data: ['traindev']
+Splits in Valid data: ['dev_seen']
+Batches: 1137
+Batch per epoch: 1137
+Total Iters: 11370
+Warm up Iters: 568
+The validation loss is 0.6911
+Acc score: 0.5580
+The training loss for Epoch 0 is 0.6176
+The validation loss is 0.6745
+Acc score: 0.6420
+The training loss for Epoch 1 is 0.4427
+The validation loss is 0.4160
+Acc score: 0.8380
+The training loss for Epoch 2 is 0.3147
+The validation loss is 0.2696
+Acc score: 0.9180
+The training loss for Epoch 3 is 0.1908
+The validation loss is 0.0752
+Acc score: 0.9740
+The training loss for Epoch 4 is 0.0963
+The validation loss is 0.0227
+Acc score: 0.9960
+The training loss for Epoch 5 is 0.0358
+The validation loss is 0.0371
+Acc score: 0.9940
+The training loss for Epoch 6 is 0.0197
+The validation loss is 0.0075
+Acc score: 0.9960
+The training loss for Epoch 7 is 0.0123
+The validation loss is 0.0011
+Acc score: 1.0000
+The training loss for Epoch 8 is 0.0044
+The validation loss is 0.0004
+Acc score: 1.0000
+The training loss for Epoch 9 is 0.0021
+The validation loss is 0.0003
+Acc score: 1.0000
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 44 seconds.
+Use 500 data in torch dataset
+
+The validation loss is 0.0003
+Acc score: 1.0000
+(100, 100)
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 43 seconds.
+Use 1000 data in torch dataset
+
+Traceback (most recent call last):
+  File "hm_pretrain_ctm.py", line 253, in <module>
+    main()
+  File "hm_pretrain_ctm.py", line 234, in main
+    dump=os.path.join(args.output, '{}_{}.csv'.format(args.exp, split))
+  File "hm_pretrain_ctm.py", line 144, in predict
+    id2ans, id2prob, evaluator = self.model.predict(eval_tuple)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/pretrain_bertU.py", line 737, in predict
+    ids, feats, boxes, sent, caption, target  = datum_tuple[:6]
+ValueError: not enough values to unpack (expected 6, got 5)

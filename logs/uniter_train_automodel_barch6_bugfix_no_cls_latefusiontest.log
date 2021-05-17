@@ -1,0 +1,254 @@
+2021-04-23 10:33:25.840107: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of RobertaModel were not initialized from the model checkpoint at /home/ML_courses/DL2020/efratblaier/test-mlm-large-batch-roberta-100-epochs-captions-no-rand and are newly initialized: ['roberta.pooler.dense.weight', 'roberta.pooler.dense.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Load 9096 data from split(s) traindev.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 9096 images in file data/HM_img.tsv in 60 seconds.
+Use 9096 data in torch dataset
+
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 41 seconds.
+Use 500 data in torch dataset
+
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+REINITING:  Linear(in_features=1792, out_features=3584, bias=True)
+REINITING:  GeLU()
+REINITING:  LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+REINITING:  Linear(in_features=3584, out_features=2, bias=True)
+REINITING:  Sequential(
+  (0): Linear(in_features=1792, out_features=3584, bias=True)
+  (1): GeLU()
+  (2): LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+  (3): Linear(in_features=3584, out_features=2, bias=True)
+)
+Load pre-trained model from ./data/uniter-large.pt
+
+Weights in loaded but not in model:
+cls.predictions.bias
+cls.predictions.decoder.weight
+cls.predictions.transform.LayerNorm.bias
+cls.predictions.transform.LayerNorm.weight
+cls.predictions.transform.dense.bias
+cls.predictions.transform.dense.weight
+feat_regress.bias
+feat_regress.net.0.bias
+feat_regress.net.0.weight
+feat_regress.net.2.bias
+feat_regress.net.2.weight
+feat_regress.weight
+img_embeddings.mask_embedding.weight
+itm_output.bias
+itm_output.weight
+region_classifier.net.0.bias
+region_classifier.net.0.weight
+region_classifier.net.2.bias
+region_classifier.net.2.weight
+region_classifier.net.3.bias
+region_classifier.net.3.weight
+
+Weights in model but not in loaded:
+embeddings.position_ids
+
+Total Iters: 3790
+Splits in Train data: ['traindev']
+Splits in Valid data: ['dev_seen']
+Batches: 1516
+/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torchcontrib/optim/swa.py:130: UserWarning: Casting swa_start, swa_freq to int
+  warnings.warn("Casting swa_start, swa_freq to int")
+tensor([-0.4387, -1.0353], device='cuda:0')
+
+Epoch(U) 0(250): Train AC 63.40 RA 59.7380 LOSS 1006.6925
+
+Epoch(U) 0(250): DEV AC 54.20 RA 65.1966 
+Epoch(U) 0(250): BEST AC 54.20 RA 65.1966 
+
+Epoch(U) 0(500): Train AC 65.22 RA 63.1823 LOSS 950.0614
+
+Epoch(U) 0(500): DEV AC 65.20 RA 72.3592 
+Epoch(U) 0(500): BEST AC 65.20 RA 72.3592 
+
+Epoch(U) 0(750): Train AC 67.67 RA 68.3216 LOSS 845.4529
+
+Epoch(U) 0(750): DEV AC 70.60 RA 80.1827 
+Epoch(U) 0(750): BEST AC 70.60 RA 80.1827 
+tensor([-0.1112, -2.2518], device='cuda:0')
+
+Epoch(U) 1(1000): Train AC 79.44 RA 84.9141 LOSS 702.5386
+
+Epoch(U) 1(1000): DEV AC 66.60 RA 85.7003 
+Epoch(U) 1(1000): BEST AC 66.60 RA 85.7003 
+
+Epoch(U) 1(1250): Train AC 79.96 RA 86.0175 LOSS 657.9147
+
+Epoch(U) 1(1250): DEV AC 73.60 RA 90.0146 
+Epoch(U) 1(1250): BEST AC 73.60 RA 90.0146 
+
+Epoch(U) 1(1500): Train AC 80.48 RA 86.9722 LOSS 613.6994
+
+Epoch(U) 1(1500): DEV AC 85.60 RA 93.8023 
+Epoch(U) 1(1500): BEST AC 85.60 RA 93.8023 
+tensor([-0.0199, -3.9278], device='cuda:0')
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 38 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(1750): Train AC 89.49 RA 95.6104 LOSS 424.2189
+
+Epoch(U) 2(1750): DEV AC 85.60 RA 94.9641 
+Epoch(U) 2(1750): BEST AC 85.60 RA 94.9641 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 38 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(2000): Train AC 90.43 RA 95.9761 LOSS 377.9884
+
+Epoch(U) 2(2000): DEV AC 92.60 RA 97.4108 
+Epoch(U) 2(2000): BEST AC 92.60 RA 97.4108 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 41 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(2250): Train AC 90.47 RA 96.0811 LOSS 390.0464
+
+Epoch(U) 2(2250): DEV AC 95.60 RA 99.0015 
+Epoch(U) 2(2250): BEST AC 95.60 RA 99.0015 
+tensor([-1.3126e-03, -6.6364e+00], device='cuda:0')
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 40 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 3(2500): Train AC 96.72 RA 99.1751 LOSS 188.5031
+
+Epoch(U) 3(2500): DEV AC 96.00 RA 99.3663 
+Epoch(U) 3(2500): BEST AC 96.00 RA 99.3663 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 38 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 3(2750): Train AC 96.66 RA 99.0197 LOSS 227.2139
+
+Epoch(U) 3(2750): DEV AC 97.00 RA 99.7584 
+Epoch(U) 3(2750): BEST AC 97.00 RA 99.7584 
+
+Epoch(U) 3(3000): Train AC 96.09 RA 98.8533 LOSS 315.1620
+
+Epoch(U) 3(3000): DEV AC 96.20 RA 99.2751 
+Epoch(U) 3(3000): BEST AC 97.00 RA 99.7584 
+tensor([-3.8286e-03, -5.5672e+00], device='cuda:0')
+
+Epoch(U) 4(3250): Train AC 95.95 RA 98.8784 LOSS 270.3083
+
+Epoch(U) 4(3250): DEV AC 97.00 RA 99.7024 
+Epoch(U) 4(3250): BEST AC 97.00 RA 99.7584 
+
+Epoch(U) 4(3500): Train AC 96.01 RA 98.9503 LOSS 239.6470
+
+Epoch(U) 4(3500): DEV AC 96.20 RA 99.6752 
+Epoch(U) 4(3500): BEST AC 97.00 RA 99.7584 
+
+Epoch(U) 4(3750): Train AC 95.75 RA 98.8024 LOSS 289.6763
+
+Epoch(U) 4(3750): DEV AC 97.40 RA 99.3647 
+Epoch(U) 4(3750): BEST AC 97.00 RA 99.7584 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 37 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+Load 2000 data from split(s) test_unseen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 2000 images in file data/HM_img.tsv in 39 seconds.
+Use 2000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 2000 entries, 0 to 1999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      2000 non-null   int64  
+ 1   proba   2000 non-null   float64
+ 2   label   2000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 47.0 KB
+None

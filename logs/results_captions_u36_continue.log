@@ -1,0 +1,982 @@
+2021-04-10 16:58:54.353730: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+data/train.jsonl
+data/image_captioning_train.csv
+Load 8596 data from split(s) train.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 8596 images in file data/HM_img.tsv in 37 seconds.
+Use 8596 data in torch dataset
+
+data/dev_seen.jsonl
+data/image_captioning_dev_seen.csv
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 28 seconds.
+Use 500 data in torch dataset
+
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+REINITING:  Linear(in_features=1024, out_features=2048, bias=True)
+REINITING:  GeLU()
+REINITING:  LayerNorm((2048,), eps=1e-12, elementwise_affine=True)
+REINITING:  Linear(in_features=2048, out_features=2, bias=True)
+REINITING:  Sequential(
+  (0): Linear(in_features=1024, out_features=2048, bias=True)
+  (1): GeLU()
+  (2): LayerNorm((2048,), eps=1e-12, elementwise_affine=True)
+  (3): Linear(in_features=2048, out_features=2, bias=True)
+)
+Load pre-trained model from ./data/LASTtraindev_orig.pth
+
+Weights in loaded but not in model:
+classifier.0.bias
+classifier.0.weight
+classifier.2.bias
+classifier.2.weight
+classifier.3.bias
+classifier.3.weight
+model.embeddings.LayerNorm.bias
+model.embeddings.LayerNorm.weight
+model.embeddings.position_embeddings.weight
+model.embeddings.position_ids
+model.embeddings.token_type_embeddings.weight
+model.embeddings.word_embeddings.weight
+model.encoder.layer.0.attention.output.LayerNorm.bias
+model.encoder.layer.0.attention.output.LayerNorm.weight
+model.encoder.layer.0.attention.output.dense.bias
+model.encoder.layer.0.attention.output.dense.weight
+model.encoder.layer.0.attention.self.key.bias
+model.encoder.layer.0.attention.self.key.weight
+model.encoder.layer.0.attention.self.query.bias
+model.encoder.layer.0.attention.self.query.weight
+model.encoder.layer.0.attention.self.value.bias
+model.encoder.layer.0.attention.self.value.weight
+model.encoder.layer.0.intermediate.dense.bias
+model.encoder.layer.0.intermediate.dense.weight
+model.encoder.layer.0.output.LayerNorm.bias
+model.encoder.layer.0.output.LayerNorm.weight
+model.encoder.layer.0.output.dense.bias
+model.encoder.layer.0.output.dense.weight
+model.encoder.layer.1.attention.output.LayerNorm.bias
+model.encoder.layer.1.attention.output.LayerNorm.weight
+model.encoder.layer.1.attention.output.dense.bias
+model.encoder.layer.1.attention.output.dense.weight
+model.encoder.layer.1.attention.self.key.bias
+model.encoder.layer.1.attention.self.key.weight
+model.encoder.layer.1.attention.self.query.bias
+model.encoder.layer.1.attention.self.query.weight
+model.encoder.layer.1.attention.self.value.bias
+model.encoder.layer.1.attention.self.value.weight
+model.encoder.layer.1.intermediate.dense.bias
+model.encoder.layer.1.intermediate.dense.weight
+model.encoder.layer.1.output.LayerNorm.bias
+model.encoder.layer.1.output.LayerNorm.weight
+model.encoder.layer.1.output.dense.bias
+model.encoder.layer.1.output.dense.weight
+model.encoder.layer.10.attention.output.LayerNorm.bias
+model.encoder.layer.10.attention.output.LayerNorm.weight
+model.encoder.layer.10.attention.output.dense.bias
+model.encoder.layer.10.attention.output.dense.weight
+model.encoder.layer.10.attention.self.key.bias
+model.encoder.layer.10.attention.self.key.weight
+model.encoder.layer.10.attention.self.query.bias
+model.encoder.layer.10.attention.self.query.weight
+model.encoder.layer.10.attention.self.value.bias
+model.encoder.layer.10.attention.self.value.weight
+model.encoder.layer.10.intermediate.dense.bias
+model.encoder.layer.10.intermediate.dense.weight
+model.encoder.layer.10.output.LayerNorm.bias
+model.encoder.layer.10.output.LayerNorm.weight
+model.encoder.layer.10.output.dense.bias
+model.encoder.layer.10.output.dense.weight
+model.encoder.layer.11.attention.output.LayerNorm.bias
+model.encoder.layer.11.attention.output.LayerNorm.weight
+model.encoder.layer.11.attention.output.dense.bias
+model.encoder.layer.11.attention.output.dense.weight
+model.encoder.layer.11.attention.self.key.bias
+model.encoder.layer.11.attention.self.key.weight
+model.encoder.layer.11.attention.self.query.bias
+model.encoder.layer.11.attention.self.query.weight
+model.encoder.layer.11.attention.self.value.bias
+model.encoder.layer.11.attention.self.value.weight
+model.encoder.layer.11.intermediate.dense.bias
+model.encoder.layer.11.intermediate.dense.weight
+model.encoder.layer.11.output.LayerNorm.bias
+model.encoder.layer.11.output.LayerNorm.weight
+model.encoder.layer.11.output.dense.bias
+model.encoder.layer.11.output.dense.weight
+model.encoder.layer.12.attention.output.LayerNorm.bias
+model.encoder.layer.12.attention.output.LayerNorm.weight
+model.encoder.layer.12.attention.output.dense.bias
+model.encoder.layer.12.attention.output.dense.weight
+model.encoder.layer.12.attention.self.key.bias
+model.encoder.layer.12.attention.self.key.weight
+model.encoder.layer.12.attention.self.query.bias
+model.encoder.layer.12.attention.self.query.weight
+model.encoder.layer.12.attention.self.value.bias
+model.encoder.layer.12.attention.self.value.weight
+model.encoder.layer.12.intermediate.dense.bias
+model.encoder.layer.12.intermediate.dense.weight
+model.encoder.layer.12.output.LayerNorm.bias
+model.encoder.layer.12.output.LayerNorm.weight
+model.encoder.layer.12.output.dense.bias
+model.encoder.layer.12.output.dense.weight
+model.encoder.layer.13.attention.output.LayerNorm.bias
+model.encoder.layer.13.attention.output.LayerNorm.weight
+model.encoder.layer.13.attention.output.dense.bias
+model.encoder.layer.13.attention.output.dense.weight
+model.encoder.layer.13.attention.self.key.bias
+model.encoder.layer.13.attention.self.key.weight
+model.encoder.layer.13.attention.self.query.bias
+model.encoder.layer.13.attention.self.query.weight
+model.encoder.layer.13.attention.self.value.bias
+model.encoder.layer.13.attention.self.value.weight
+model.encoder.layer.13.intermediate.dense.bias
+model.encoder.layer.13.intermediate.dense.weight
+model.encoder.layer.13.output.LayerNorm.bias
+model.encoder.layer.13.output.LayerNorm.weight
+model.encoder.layer.13.output.dense.bias
+model.encoder.layer.13.output.dense.weight
+model.encoder.layer.14.attention.output.LayerNorm.bias
+model.encoder.layer.14.attention.output.LayerNorm.weight
+model.encoder.layer.14.attention.output.dense.bias
+model.encoder.layer.14.attention.output.dense.weight
+model.encoder.layer.14.attention.self.key.bias
+model.encoder.layer.14.attention.self.key.weight
+model.encoder.layer.14.attention.self.query.bias
+model.encoder.layer.14.attention.self.query.weight
+model.encoder.layer.14.attention.self.value.bias
+model.encoder.layer.14.attention.self.value.weight
+model.encoder.layer.14.intermediate.dense.bias
+model.encoder.layer.14.intermediate.dense.weight
+model.encoder.layer.14.output.LayerNorm.bias
+model.encoder.layer.14.output.LayerNorm.weight
+model.encoder.layer.14.output.dense.bias
+model.encoder.layer.14.output.dense.weight
+model.encoder.layer.15.attention.output.LayerNorm.bias
+model.encoder.layer.15.attention.output.LayerNorm.weight
+model.encoder.layer.15.attention.output.dense.bias
+model.encoder.layer.15.attention.output.dense.weight
+model.encoder.layer.15.attention.self.key.bias
+model.encoder.layer.15.attention.self.key.weight
+model.encoder.layer.15.attention.self.query.bias
+model.encoder.layer.15.attention.self.query.weight
+model.encoder.layer.15.attention.self.value.bias
+model.encoder.layer.15.attention.self.value.weight
+model.encoder.layer.15.intermediate.dense.bias
+model.encoder.layer.15.intermediate.dense.weight
+model.encoder.layer.15.output.LayerNorm.bias
+model.encoder.layer.15.output.LayerNorm.weight
+model.encoder.layer.15.output.dense.bias
+model.encoder.layer.15.output.dense.weight
+model.encoder.layer.16.attention.output.LayerNorm.bias
+model.encoder.layer.16.attention.output.LayerNorm.weight
+model.encoder.layer.16.attention.output.dense.bias
+model.encoder.layer.16.attention.output.dense.weight
+model.encoder.layer.16.attention.self.key.bias
+model.encoder.layer.16.attention.self.key.weight
+model.encoder.layer.16.attention.self.query.bias
+model.encoder.layer.16.attention.self.query.weight
+model.encoder.layer.16.attention.self.value.bias
+model.encoder.layer.16.attention.self.value.weight
+model.encoder.layer.16.intermediate.dense.bias
+model.encoder.layer.16.intermediate.dense.weight
+model.encoder.layer.16.output.LayerNorm.bias
+model.encoder.layer.16.output.LayerNorm.weight
+model.encoder.layer.16.output.dense.bias
+model.encoder.layer.16.output.dense.weight
+model.encoder.layer.17.attention.output.LayerNorm.bias
+model.encoder.layer.17.attention.output.LayerNorm.weight
+model.encoder.layer.17.attention.output.dense.bias
+model.encoder.layer.17.attention.output.dense.weight
+model.encoder.layer.17.attention.self.key.bias
+model.encoder.layer.17.attention.self.key.weight
+model.encoder.layer.17.attention.self.query.bias
+model.encoder.layer.17.attention.self.query.weight
+model.encoder.layer.17.attention.self.value.bias
+model.encoder.layer.17.attention.self.value.weight
+model.encoder.layer.17.intermediate.dense.bias
+model.encoder.layer.17.intermediate.dense.weight
+model.encoder.layer.17.output.LayerNorm.bias
+model.encoder.layer.17.output.LayerNorm.weight
+model.encoder.layer.17.output.dense.bias
+model.encoder.layer.17.output.dense.weight
+model.encoder.layer.18.attention.output.LayerNorm.bias
+model.encoder.layer.18.attention.output.LayerNorm.weight
+model.encoder.layer.18.attention.output.dense.bias
+model.encoder.layer.18.attention.output.dense.weight
+model.encoder.layer.18.attention.self.key.bias
+model.encoder.layer.18.attention.self.key.weight
+model.encoder.layer.18.attention.self.query.bias
+model.encoder.layer.18.attention.self.query.weight
+model.encoder.layer.18.attention.self.value.bias
+model.encoder.layer.18.attention.self.value.weight
+model.encoder.layer.18.intermediate.dense.bias
+model.encoder.layer.18.intermediate.dense.weight
+model.encoder.layer.18.output.LayerNorm.bias
+model.encoder.layer.18.output.LayerNorm.weight
+model.encoder.layer.18.output.dense.bias
+model.encoder.layer.18.output.dense.weight
+model.encoder.layer.19.attention.output.LayerNorm.bias
+model.encoder.layer.19.attention.output.LayerNorm.weight
+model.encoder.layer.19.attention.output.dense.bias
+model.encoder.layer.19.attention.output.dense.weight
+model.encoder.layer.19.attention.self.key.bias
+model.encoder.layer.19.attention.self.key.weight
+model.encoder.layer.19.attention.self.query.bias
+model.encoder.layer.19.attention.self.query.weight
+model.encoder.layer.19.attention.self.value.bias
+model.encoder.layer.19.attention.self.value.weight
+model.encoder.layer.19.intermediate.dense.bias
+model.encoder.layer.19.intermediate.dense.weight
+model.encoder.layer.19.output.LayerNorm.bias
+model.encoder.layer.19.output.LayerNorm.weight
+model.encoder.layer.19.output.dense.bias
+model.encoder.layer.19.output.dense.weight
+model.encoder.layer.2.attention.output.LayerNorm.bias
+model.encoder.layer.2.attention.output.LayerNorm.weight
+model.encoder.layer.2.attention.output.dense.bias
+model.encoder.layer.2.attention.output.dense.weight
+model.encoder.layer.2.attention.self.key.bias
+model.encoder.layer.2.attention.self.key.weight
+model.encoder.layer.2.attention.self.query.bias
+model.encoder.layer.2.attention.self.query.weight
+model.encoder.layer.2.attention.self.value.bias
+model.encoder.layer.2.attention.self.value.weight
+model.encoder.layer.2.intermediate.dense.bias
+model.encoder.layer.2.intermediate.dense.weight
+model.encoder.layer.2.output.LayerNorm.bias
+model.encoder.layer.2.output.LayerNorm.weight
+model.encoder.layer.2.output.dense.bias
+model.encoder.layer.2.output.dense.weight
+model.encoder.layer.20.attention.output.LayerNorm.bias
+model.encoder.layer.20.attention.output.LayerNorm.weight
+model.encoder.layer.20.attention.output.dense.bias
+model.encoder.layer.20.attention.output.dense.weight
+model.encoder.layer.20.attention.self.key.bias
+model.encoder.layer.20.attention.self.key.weight
+model.encoder.layer.20.attention.self.query.bias
+model.encoder.layer.20.attention.self.query.weight
+model.encoder.layer.20.attention.self.value.bias
+model.encoder.layer.20.attention.self.value.weight
+model.encoder.layer.20.intermediate.dense.bias
+model.encoder.layer.20.intermediate.dense.weight
+model.encoder.layer.20.output.LayerNorm.bias
+model.encoder.layer.20.output.LayerNorm.weight
+model.encoder.layer.20.output.dense.bias
+model.encoder.layer.20.output.dense.weight
+model.encoder.layer.21.attention.output.LayerNorm.bias
+model.encoder.layer.21.attention.output.LayerNorm.weight
+model.encoder.layer.21.attention.output.dense.bias
+model.encoder.layer.21.attention.output.dense.weight
+model.encoder.layer.21.attention.self.key.bias
+model.encoder.layer.21.attention.self.key.weight
+model.encoder.layer.21.attention.self.query.bias
+model.encoder.layer.21.attention.self.query.weight
+model.encoder.layer.21.attention.self.value.bias
+model.encoder.layer.21.attention.self.value.weight
+model.encoder.layer.21.intermediate.dense.bias
+model.encoder.layer.21.intermediate.dense.weight
+model.encoder.layer.21.output.LayerNorm.bias
+model.encoder.layer.21.output.LayerNorm.weight
+model.encoder.layer.21.output.dense.bias
+model.encoder.layer.21.output.dense.weight
+model.encoder.layer.22.attention.output.LayerNorm.bias
+model.encoder.layer.22.attention.output.LayerNorm.weight
+model.encoder.layer.22.attention.output.dense.bias
+model.encoder.layer.22.attention.output.dense.weight
+model.encoder.layer.22.attention.self.key.bias
+model.encoder.layer.22.attention.self.key.weight
+model.encoder.layer.22.attention.self.query.bias
+model.encoder.layer.22.attention.self.query.weight
+model.encoder.layer.22.attention.self.value.bias
+model.encoder.layer.22.attention.self.value.weight
+model.encoder.layer.22.intermediate.dense.bias
+model.encoder.layer.22.intermediate.dense.weight
+model.encoder.layer.22.output.LayerNorm.bias
+model.encoder.layer.22.output.LayerNorm.weight
+model.encoder.layer.22.output.dense.bias
+model.encoder.layer.22.output.dense.weight
+model.encoder.layer.23.attention.output.LayerNorm.bias
+model.encoder.layer.23.attention.output.LayerNorm.weight
+model.encoder.layer.23.attention.output.dense.bias
+model.encoder.layer.23.attention.output.dense.weight
+model.encoder.layer.23.attention.self.key.bias
+model.encoder.layer.23.attention.self.key.weight
+model.encoder.layer.23.attention.self.query.bias
+model.encoder.layer.23.attention.self.query.weight
+model.encoder.layer.23.attention.self.value.bias
+model.encoder.layer.23.attention.self.value.weight
+model.encoder.layer.23.intermediate.dense.bias
+model.encoder.layer.23.intermediate.dense.weight
+model.encoder.layer.23.output.LayerNorm.bias
+model.encoder.layer.23.output.LayerNorm.weight
+model.encoder.layer.23.output.dense.bias
+model.encoder.layer.23.output.dense.weight
+model.encoder.layer.3.attention.output.LayerNorm.bias
+model.encoder.layer.3.attention.output.LayerNorm.weight
+model.encoder.layer.3.attention.output.dense.bias
+model.encoder.layer.3.attention.output.dense.weight
+model.encoder.layer.3.attention.self.key.bias
+model.encoder.layer.3.attention.self.key.weight
+model.encoder.layer.3.attention.self.query.bias
+model.encoder.layer.3.attention.self.query.weight
+model.encoder.layer.3.attention.self.value.bias
+model.encoder.layer.3.attention.self.value.weight
+model.encoder.layer.3.intermediate.dense.bias
+model.encoder.layer.3.intermediate.dense.weight
+model.encoder.layer.3.output.LayerNorm.bias
+model.encoder.layer.3.output.LayerNorm.weight
+model.encoder.layer.3.output.dense.bias
+model.encoder.layer.3.output.dense.weight
+model.encoder.layer.4.attention.output.LayerNorm.bias
+model.encoder.layer.4.attention.output.LayerNorm.weight
+model.encoder.layer.4.attention.output.dense.bias
+model.encoder.layer.4.attention.output.dense.weight
+model.encoder.layer.4.attention.self.key.bias
+model.encoder.layer.4.attention.self.key.weight
+model.encoder.layer.4.attention.self.query.bias
+model.encoder.layer.4.attention.self.query.weight
+model.encoder.layer.4.attention.self.value.bias
+model.encoder.layer.4.attention.self.value.weight
+model.encoder.layer.4.intermediate.dense.bias
+model.encoder.layer.4.intermediate.dense.weight
+model.encoder.layer.4.output.LayerNorm.bias
+model.encoder.layer.4.output.LayerNorm.weight
+model.encoder.layer.4.output.dense.bias
+model.encoder.layer.4.output.dense.weight
+model.encoder.layer.5.attention.output.LayerNorm.bias
+model.encoder.layer.5.attention.output.LayerNorm.weight
+model.encoder.layer.5.attention.output.dense.bias
+model.encoder.layer.5.attention.output.dense.weight
+model.encoder.layer.5.attention.self.key.bias
+model.encoder.layer.5.attention.self.key.weight
+model.encoder.layer.5.attention.self.query.bias
+model.encoder.layer.5.attention.self.query.weight
+model.encoder.layer.5.attention.self.value.bias
+model.encoder.layer.5.attention.self.value.weight
+model.encoder.layer.5.intermediate.dense.bias
+model.encoder.layer.5.intermediate.dense.weight
+model.encoder.layer.5.output.LayerNorm.bias
+model.encoder.layer.5.output.LayerNorm.weight
+model.encoder.layer.5.output.dense.bias
+model.encoder.layer.5.output.dense.weight
+model.encoder.layer.6.attention.output.LayerNorm.bias
+model.encoder.layer.6.attention.output.LayerNorm.weight
+model.encoder.layer.6.attention.output.dense.bias
+model.encoder.layer.6.attention.output.dense.weight
+model.encoder.layer.6.attention.self.key.bias
+model.encoder.layer.6.attention.self.key.weight
+model.encoder.layer.6.attention.self.query.bias
+model.encoder.layer.6.attention.self.query.weight
+model.encoder.layer.6.attention.self.value.bias
+model.encoder.layer.6.attention.self.value.weight
+model.encoder.layer.6.intermediate.dense.bias
+model.encoder.layer.6.intermediate.dense.weight
+model.encoder.layer.6.output.LayerNorm.bias
+model.encoder.layer.6.output.LayerNorm.weight
+model.encoder.layer.6.output.dense.bias
+model.encoder.layer.6.output.dense.weight
+model.encoder.layer.7.attention.output.LayerNorm.bias
+model.encoder.layer.7.attention.output.LayerNorm.weight
+model.encoder.layer.7.attention.output.dense.bias
+model.encoder.layer.7.attention.output.dense.weight
+model.encoder.layer.7.attention.self.key.bias
+model.encoder.layer.7.attention.self.key.weight
+model.encoder.layer.7.attention.self.query.bias
+model.encoder.layer.7.attention.self.query.weight
+model.encoder.layer.7.attention.self.value.bias
+model.encoder.layer.7.attention.self.value.weight
+model.encoder.layer.7.intermediate.dense.bias
+model.encoder.layer.7.intermediate.dense.weight
+model.encoder.layer.7.output.LayerNorm.bias
+model.encoder.layer.7.output.LayerNorm.weight
+model.encoder.layer.7.output.dense.bias
+model.encoder.layer.7.output.dense.weight
+model.encoder.layer.8.attention.output.LayerNorm.bias
+model.encoder.layer.8.attention.output.LayerNorm.weight
+model.encoder.layer.8.attention.output.dense.bias
+model.encoder.layer.8.attention.output.dense.weight
+model.encoder.layer.8.attention.self.key.bias
+model.encoder.layer.8.attention.self.key.weight
+model.encoder.layer.8.attention.self.query.bias
+model.encoder.layer.8.attention.self.query.weight
+model.encoder.layer.8.attention.self.value.bias
+model.encoder.layer.8.attention.self.value.weight
+model.encoder.layer.8.intermediate.dense.bias
+model.encoder.layer.8.intermediate.dense.weight
+model.encoder.layer.8.output.LayerNorm.bias
+model.encoder.layer.8.output.LayerNorm.weight
+model.encoder.layer.8.output.dense.bias
+model.encoder.layer.8.output.dense.weight
+model.encoder.layer.9.attention.output.LayerNorm.bias
+model.encoder.layer.9.attention.output.LayerNorm.weight
+model.encoder.layer.9.attention.output.dense.bias
+model.encoder.layer.9.attention.output.dense.weight
+model.encoder.layer.9.attention.self.key.bias
+model.encoder.layer.9.attention.self.key.weight
+model.encoder.layer.9.attention.self.query.bias
+model.encoder.layer.9.attention.self.query.weight
+model.encoder.layer.9.attention.self.value.bias
+model.encoder.layer.9.attention.self.value.weight
+model.encoder.layer.9.intermediate.dense.bias
+model.encoder.layer.9.intermediate.dense.weight
+model.encoder.layer.9.output.LayerNorm.bias
+model.encoder.layer.9.output.LayerNorm.weight
+model.encoder.layer.9.output.dense.bias
+model.encoder.layer.9.output.dense.weight
+model.img_embeddings.LayerNorm.bias
+model.img_embeddings.LayerNorm.weight
+model.img_embeddings.img_layer_norm.bias
+model.img_embeddings.img_layer_norm.weight
+model.img_embeddings.img_linear.bias
+model.img_embeddings.img_linear.weight
+model.img_embeddings.pos_layer_norm.bias
+model.img_embeddings.pos_layer_norm.weight
+model.img_embeddings.pos_linear.bias
+model.img_embeddings.pos_linear.weight
+model.pooler.dense.bias
+model.pooler.dense.weight
+
+Weights in model but not in loaded:
+embeddings.LayerNorm.bias
+embeddings.LayerNorm.weight
+embeddings.position_embeddings.weight
+embeddings.position_ids
+embeddings.token_type_embeddings.weight
+embeddings.word_embeddings.weight
+encoder.layer.0.attention.output.LayerNorm.bias
+encoder.layer.0.attention.output.LayerNorm.weight
+encoder.layer.0.attention.output.dense.bias
+encoder.layer.0.attention.output.dense.weight
+encoder.layer.0.attention.self.key.bias
+encoder.layer.0.attention.self.key.weight
+encoder.layer.0.attention.self.query.bias
+encoder.layer.0.attention.self.query.weight
+encoder.layer.0.attention.self.value.bias
+encoder.layer.0.attention.self.value.weight
+encoder.layer.0.intermediate.dense.bias
+encoder.layer.0.intermediate.dense.weight
+encoder.layer.0.output.LayerNorm.bias
+encoder.layer.0.output.LayerNorm.weight
+encoder.layer.0.output.dense.bias
+encoder.layer.0.output.dense.weight
+encoder.layer.1.attention.output.LayerNorm.bias
+encoder.layer.1.attention.output.LayerNorm.weight
+encoder.layer.1.attention.output.dense.bias
+encoder.layer.1.attention.output.dense.weight
+encoder.layer.1.attention.self.key.bias
+encoder.layer.1.attention.self.key.weight
+encoder.layer.1.attention.self.query.bias
+encoder.layer.1.attention.self.query.weight
+encoder.layer.1.attention.self.value.bias
+encoder.layer.1.attention.self.value.weight
+encoder.layer.1.intermediate.dense.bias
+encoder.layer.1.intermediate.dense.weight
+encoder.layer.1.output.LayerNorm.bias
+encoder.layer.1.output.LayerNorm.weight
+encoder.layer.1.output.dense.bias
+encoder.layer.1.output.dense.weight
+encoder.layer.10.attention.output.LayerNorm.bias
+encoder.layer.10.attention.output.LayerNorm.weight
+encoder.layer.10.attention.output.dense.bias
+encoder.layer.10.attention.output.dense.weight
+encoder.layer.10.attention.self.key.bias
+encoder.layer.10.attention.self.key.weight
+encoder.layer.10.attention.self.query.bias
+encoder.layer.10.attention.self.query.weight
+encoder.layer.10.attention.self.value.bias
+encoder.layer.10.attention.self.value.weight
+encoder.layer.10.intermediate.dense.bias
+encoder.layer.10.intermediate.dense.weight
+encoder.layer.10.output.LayerNorm.bias
+encoder.layer.10.output.LayerNorm.weight
+encoder.layer.10.output.dense.bias
+encoder.layer.10.output.dense.weight
+encoder.layer.11.attention.output.LayerNorm.bias
+encoder.layer.11.attention.output.LayerNorm.weight
+encoder.layer.11.attention.output.dense.bias
+encoder.layer.11.attention.output.dense.weight
+encoder.layer.11.attention.self.key.bias
+encoder.layer.11.attention.self.key.weight
+encoder.layer.11.attention.self.query.bias
+encoder.layer.11.attention.self.query.weight
+encoder.layer.11.attention.self.value.bias
+encoder.layer.11.attention.self.value.weight
+encoder.layer.11.intermediate.dense.bias
+encoder.layer.11.intermediate.dense.weight
+encoder.layer.11.output.LayerNorm.bias
+encoder.layer.11.output.LayerNorm.weight
+encoder.layer.11.output.dense.bias
+encoder.layer.11.output.dense.weight
+encoder.layer.12.attention.output.LayerNorm.bias
+encoder.layer.12.attention.output.LayerNorm.weight
+encoder.layer.12.attention.output.dense.bias
+encoder.layer.12.attention.output.dense.weight
+encoder.layer.12.attention.self.key.bias
+encoder.layer.12.attention.self.key.weight
+encoder.layer.12.attention.self.query.bias
+encoder.layer.12.attention.self.query.weight
+encoder.layer.12.attention.self.value.bias
+encoder.layer.12.attention.self.value.weight
+encoder.layer.12.intermediate.dense.bias
+encoder.layer.12.intermediate.dense.weight
+encoder.layer.12.output.LayerNorm.bias
+encoder.layer.12.output.LayerNorm.weight
+encoder.layer.12.output.dense.bias
+encoder.layer.12.output.dense.weight
+encoder.layer.13.attention.output.LayerNorm.bias
+encoder.layer.13.attention.output.LayerNorm.weight
+encoder.layer.13.attention.output.dense.bias
+encoder.layer.13.attention.output.dense.weight
+encoder.layer.13.attention.self.key.bias
+encoder.layer.13.attention.self.key.weight
+encoder.layer.13.attention.self.query.bias
+encoder.layer.13.attention.self.query.weight
+encoder.layer.13.attention.self.value.bias
+encoder.layer.13.attention.self.value.weight
+encoder.layer.13.intermediate.dense.bias
+encoder.layer.13.intermediate.dense.weight
+encoder.layer.13.output.LayerNorm.bias
+encoder.layer.13.output.LayerNorm.weight
+encoder.layer.13.output.dense.bias
+encoder.layer.13.output.dense.weight
+encoder.layer.14.attention.output.LayerNorm.bias
+encoder.layer.14.attention.output.LayerNorm.weight
+encoder.layer.14.attention.output.dense.bias
+encoder.layer.14.attention.output.dense.weight
+encoder.layer.14.attention.self.key.bias
+encoder.layer.14.attention.self.key.weight
+encoder.layer.14.attention.self.query.bias
+encoder.layer.14.attention.self.query.weight
+encoder.layer.14.attention.self.value.bias
+encoder.layer.14.attention.self.value.weight
+encoder.layer.14.intermediate.dense.bias
+encoder.layer.14.intermediate.dense.weight
+encoder.layer.14.output.LayerNorm.bias
+encoder.layer.14.output.LayerNorm.weight
+encoder.layer.14.output.dense.bias
+encoder.layer.14.output.dense.weight
+encoder.layer.15.attention.output.LayerNorm.bias
+encoder.layer.15.attention.output.LayerNorm.weight
+encoder.layer.15.attention.output.dense.bias
+encoder.layer.15.attention.output.dense.weight
+encoder.layer.15.attention.self.key.bias
+encoder.layer.15.attention.self.key.weight
+encoder.layer.15.attention.self.query.bias
+encoder.layer.15.attention.self.query.weight
+encoder.layer.15.attention.self.value.bias
+encoder.layer.15.attention.self.value.weight
+encoder.layer.15.intermediate.dense.bias
+encoder.layer.15.intermediate.dense.weight
+encoder.layer.15.output.LayerNorm.bias
+encoder.layer.15.output.LayerNorm.weight
+encoder.layer.15.output.dense.bias
+encoder.layer.15.output.dense.weight
+encoder.layer.16.attention.output.LayerNorm.bias
+encoder.layer.16.attention.output.LayerNorm.weight
+encoder.layer.16.attention.output.dense.bias
+encoder.layer.16.attention.output.dense.weight
+encoder.layer.16.attention.self.key.bias
+encoder.layer.16.attention.self.key.weight
+encoder.layer.16.attention.self.query.bias
+encoder.layer.16.attention.self.query.weight
+encoder.layer.16.attention.self.value.bias
+encoder.layer.16.attention.self.value.weight
+encoder.layer.16.intermediate.dense.bias
+encoder.layer.16.intermediate.dense.weight
+encoder.layer.16.output.LayerNorm.bias
+encoder.layer.16.output.LayerNorm.weight
+encoder.layer.16.output.dense.bias
+encoder.layer.16.output.dense.weight
+encoder.layer.17.attention.output.LayerNorm.bias
+encoder.layer.17.attention.output.LayerNorm.weight
+encoder.layer.17.attention.output.dense.bias
+encoder.layer.17.attention.output.dense.weight
+encoder.layer.17.attention.self.key.bias
+encoder.layer.17.attention.self.key.weight
+encoder.layer.17.attention.self.query.bias
+encoder.layer.17.attention.self.query.weight
+encoder.layer.17.attention.self.value.bias
+encoder.layer.17.attention.self.value.weight
+encoder.layer.17.intermediate.dense.bias
+encoder.layer.17.intermediate.dense.weight
+encoder.layer.17.output.LayerNorm.bias
+encoder.layer.17.output.LayerNorm.weight
+encoder.layer.17.output.dense.bias
+encoder.layer.17.output.dense.weight
+encoder.layer.18.attention.output.LayerNorm.bias
+encoder.layer.18.attention.output.LayerNorm.weight
+encoder.layer.18.attention.output.dense.bias
+encoder.layer.18.attention.output.dense.weight
+encoder.layer.18.attention.self.key.bias
+encoder.layer.18.attention.self.key.weight
+encoder.layer.18.attention.self.query.bias
+encoder.layer.18.attention.self.query.weight
+encoder.layer.18.attention.self.value.bias
+encoder.layer.18.attention.self.value.weight
+encoder.layer.18.intermediate.dense.bias
+encoder.layer.18.intermediate.dense.weight
+encoder.layer.18.output.LayerNorm.bias
+encoder.layer.18.output.LayerNorm.weight
+encoder.layer.18.output.dense.bias
+encoder.layer.18.output.dense.weight
+encoder.layer.19.attention.output.LayerNorm.bias
+encoder.layer.19.attention.output.LayerNorm.weight
+encoder.layer.19.attention.output.dense.bias
+encoder.layer.19.attention.output.dense.weight
+encoder.layer.19.attention.self.key.bias
+encoder.layer.19.attention.self.key.weight
+encoder.layer.19.attention.self.query.bias
+encoder.layer.19.attention.self.query.weight
+encoder.layer.19.attention.self.value.bias
+encoder.layer.19.attention.self.value.weight
+encoder.layer.19.intermediate.dense.bias
+encoder.layer.19.intermediate.dense.weight
+encoder.layer.19.output.LayerNorm.bias
+encoder.layer.19.output.LayerNorm.weight
+encoder.layer.19.output.dense.bias
+encoder.layer.19.output.dense.weight
+encoder.layer.2.attention.output.LayerNorm.bias
+encoder.layer.2.attention.output.LayerNorm.weight
+encoder.layer.2.attention.output.dense.bias
+encoder.layer.2.attention.output.dense.weight
+encoder.layer.2.attention.self.key.bias
+encoder.layer.2.attention.self.key.weight
+encoder.layer.2.attention.self.query.bias
+encoder.layer.2.attention.self.query.weight
+encoder.layer.2.attention.self.value.bias
+encoder.layer.2.attention.self.value.weight
+encoder.layer.2.intermediate.dense.bias
+encoder.layer.2.intermediate.dense.weight
+encoder.layer.2.output.LayerNorm.bias
+encoder.layer.2.output.LayerNorm.weight
+encoder.layer.2.output.dense.bias
+encoder.layer.2.output.dense.weight
+encoder.layer.20.attention.output.LayerNorm.bias
+encoder.layer.20.attention.output.LayerNorm.weight
+encoder.layer.20.attention.output.dense.bias
+encoder.layer.20.attention.output.dense.weight
+encoder.layer.20.attention.self.key.bias
+encoder.layer.20.attention.self.key.weight
+encoder.layer.20.attention.self.query.bias
+encoder.layer.20.attention.self.query.weight
+encoder.layer.20.attention.self.value.bias
+encoder.layer.20.attention.self.value.weight
+encoder.layer.20.intermediate.dense.bias
+encoder.layer.20.intermediate.dense.weight
+encoder.layer.20.output.LayerNorm.bias
+encoder.layer.20.output.LayerNorm.weight
+encoder.layer.20.output.dense.bias
+encoder.layer.20.output.dense.weight
+encoder.layer.21.attention.output.LayerNorm.bias
+encoder.layer.21.attention.output.LayerNorm.weight
+encoder.layer.21.attention.output.dense.bias
+encoder.layer.21.attention.output.dense.weight
+encoder.layer.21.attention.self.key.bias
+encoder.layer.21.attention.self.key.weight
+encoder.layer.21.attention.self.query.bias
+encoder.layer.21.attention.self.query.weight
+encoder.layer.21.attention.self.value.bias
+encoder.layer.21.attention.self.value.weight
+encoder.layer.21.intermediate.dense.bias
+encoder.layer.21.intermediate.dense.weight
+encoder.layer.21.output.LayerNorm.bias
+encoder.layer.21.output.LayerNorm.weight
+encoder.layer.21.output.dense.bias
+encoder.layer.21.output.dense.weight
+encoder.layer.22.attention.output.LayerNorm.bias
+encoder.layer.22.attention.output.LayerNorm.weight
+encoder.layer.22.attention.output.dense.bias
+encoder.layer.22.attention.output.dense.weight
+encoder.layer.22.attention.self.key.bias
+encoder.layer.22.attention.self.key.weight
+encoder.layer.22.attention.self.query.bias
+encoder.layer.22.attention.self.query.weight
+encoder.layer.22.attention.self.value.bias
+encoder.layer.22.attention.self.value.weight
+encoder.layer.22.intermediate.dense.bias
+encoder.layer.22.intermediate.dense.weight
+encoder.layer.22.output.LayerNorm.bias
+encoder.layer.22.output.LayerNorm.weight
+encoder.layer.22.output.dense.bias
+encoder.layer.22.output.dense.weight
+encoder.layer.23.attention.output.LayerNorm.bias
+encoder.layer.23.attention.output.LayerNorm.weight
+encoder.layer.23.attention.output.dense.bias
+encoder.layer.23.attention.output.dense.weight
+encoder.layer.23.attention.self.key.bias
+encoder.layer.23.attention.self.key.weight
+encoder.layer.23.attention.self.query.bias
+encoder.layer.23.attention.self.query.weight
+encoder.layer.23.attention.self.value.bias
+encoder.layer.23.attention.self.value.weight
+encoder.layer.23.intermediate.dense.bias
+encoder.layer.23.intermediate.dense.weight
+encoder.layer.23.output.LayerNorm.bias
+encoder.layer.23.output.LayerNorm.weight
+encoder.layer.23.output.dense.bias
+encoder.layer.23.output.dense.weight
+encoder.layer.3.attention.output.LayerNorm.bias
+encoder.layer.3.attention.output.LayerNorm.weight
+encoder.layer.3.attention.output.dense.bias
+encoder.layer.3.attention.output.dense.weight
+encoder.layer.3.attention.self.key.bias
+encoder.layer.3.attention.self.key.weight
+encoder.layer.3.attention.self.query.bias
+encoder.layer.3.attention.self.query.weight
+encoder.layer.3.attention.self.value.bias
+encoder.layer.3.attention.self.value.weight
+encoder.layer.3.intermediate.dense.bias
+encoder.layer.3.intermediate.dense.weight
+encoder.layer.3.output.LayerNorm.bias
+encoder.layer.3.output.LayerNorm.weight
+encoder.layer.3.output.dense.bias
+encoder.layer.3.output.dense.weight
+encoder.layer.4.attention.output.LayerNorm.bias
+encoder.layer.4.attention.output.LayerNorm.weight
+encoder.layer.4.attention.output.dense.bias
+encoder.layer.4.attention.output.dense.weight
+encoder.layer.4.attention.self.key.bias
+encoder.layer.4.attention.self.key.weight
+encoder.layer.4.attention.self.query.bias
+encoder.layer.4.attention.self.query.weight
+encoder.layer.4.attention.self.value.bias
+encoder.layer.4.attention.self.value.weight
+encoder.layer.4.intermediate.dense.bias
+encoder.layer.4.intermediate.dense.weight
+encoder.layer.4.output.LayerNorm.bias
+encoder.layer.4.output.LayerNorm.weight
+encoder.layer.4.output.dense.bias
+encoder.layer.4.output.dense.weight
+encoder.layer.5.attention.output.LayerNorm.bias
+encoder.layer.5.attention.output.LayerNorm.weight
+encoder.layer.5.attention.output.dense.bias
+encoder.layer.5.attention.output.dense.weight
+encoder.layer.5.attention.self.key.bias
+encoder.layer.5.attention.self.key.weight
+encoder.layer.5.attention.self.query.bias
+encoder.layer.5.attention.self.query.weight
+encoder.layer.5.attention.self.value.bias
+encoder.layer.5.attention.self.value.weight
+encoder.layer.5.intermediate.dense.bias
+encoder.layer.5.intermediate.dense.weight
+encoder.layer.5.output.LayerNorm.bias
+encoder.layer.5.output.LayerNorm.weight
+encoder.layer.5.output.dense.bias
+encoder.layer.5.output.dense.weight
+encoder.layer.6.attention.output.LayerNorm.bias
+encoder.layer.6.attention.output.LayerNorm.weight
+encoder.layer.6.attention.output.dense.bias
+encoder.layer.6.attention.output.dense.weight
+encoder.layer.6.attention.self.key.bias
+encoder.layer.6.attention.self.key.weight
+encoder.layer.6.attention.self.query.bias
+encoder.layer.6.attention.self.query.weight
+encoder.layer.6.attention.self.value.bias
+encoder.layer.6.attention.self.value.weight
+encoder.layer.6.intermediate.dense.bias
+encoder.layer.6.intermediate.dense.weight
+encoder.layer.6.output.LayerNorm.bias
+encoder.layer.6.output.LayerNorm.weight
+encoder.layer.6.output.dense.bias
+encoder.layer.6.output.dense.weight
+encoder.layer.7.attention.output.LayerNorm.bias
+encoder.layer.7.attention.output.LayerNorm.weight
+encoder.layer.7.attention.output.dense.bias
+encoder.layer.7.attention.output.dense.weight
+encoder.layer.7.attention.self.key.bias
+encoder.layer.7.attention.self.key.weight
+encoder.layer.7.attention.self.query.bias
+encoder.layer.7.attention.self.query.weight
+encoder.layer.7.attention.self.value.bias
+encoder.layer.7.attention.self.value.weight
+encoder.layer.7.intermediate.dense.bias
+encoder.layer.7.intermediate.dense.weight
+encoder.layer.7.output.LayerNorm.bias
+encoder.layer.7.output.LayerNorm.weight
+encoder.layer.7.output.dense.bias
+encoder.layer.7.output.dense.weight
+encoder.layer.8.attention.output.LayerNorm.bias
+encoder.layer.8.attention.output.LayerNorm.weight
+encoder.layer.8.attention.output.dense.bias
+encoder.layer.8.attention.output.dense.weight
+encoder.layer.8.attention.self.key.bias
+encoder.layer.8.attention.self.key.weight
+encoder.layer.8.attention.self.query.bias
+encoder.layer.8.attention.self.query.weight
+encoder.layer.8.attention.self.value.bias
+encoder.layer.8.attention.self.value.weight
+encoder.layer.8.intermediate.dense.bias
+encoder.layer.8.intermediate.dense.weight
+encoder.layer.8.output.LayerNorm.bias
+encoder.layer.8.output.LayerNorm.weight
+encoder.layer.8.output.dense.bias
+encoder.layer.8.output.dense.weight
+encoder.layer.9.attention.output.LayerNorm.bias
+encoder.layer.9.attention.output.LayerNorm.weight
+encoder.layer.9.attention.output.dense.bias
+encoder.layer.9.attention.output.dense.weight
+encoder.layer.9.attention.self.key.bias
+encoder.layer.9.attention.self.key.weight
+encoder.layer.9.attention.self.query.bias
+encoder.layer.9.attention.self.query.weight
+encoder.layer.9.attention.self.value.bias
+encoder.layer.9.attention.self.value.weight
+encoder.layer.9.intermediate.dense.bias
+encoder.layer.9.intermediate.dense.weight
+encoder.layer.9.output.LayerNorm.bias
+encoder.layer.9.output.LayerNorm.weight
+encoder.layer.9.output.dense.bias
+encoder.layer.9.output.dense.weight
+img_embeddings.LayerNorm.bias
+img_embeddings.LayerNorm.weight
+img_embeddings.img_layer_norm.bias
+img_embeddings.img_layer_norm.weight
+img_embeddings.img_linear.bias
+img_embeddings.img_linear.weight
+img_embeddings.pos_layer_norm.bias
+img_embeddings.pos_layer_norm.weight
+img_embeddings.pos_linear.bias
+img_embeddings.pos_linear.weight
+pooler.dense.bias
+pooler.dense.weight
+
+Total Iters: 5375
+Splits in Train data: ['train']
+Splits in Valid data: ['dev_seen']
+Batches: 1075
+/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torchcontrib/optim/swa.py:130: UserWarning: Casting swa_start, swa_freq to int
+  warnings.warn("Casting swa_start, swa_freq to int")
+tensor([-0.6744, -0.7122], device='cuda:0')
+
+Epoch(U) 0(250): Train AC 60.30 RA 50.7566 LOSS 1392.5115
+
+Epoch(U) 0(250): DEV AC 49.20 RA 51.0409 
+Epoch(U) 0(250): BEST AC 49.20 RA 51.0409 
+
+Epoch(U) 0(500): Train AC 63.08 RA 57.2412 LOSS 1317.3095
+
+Epoch(U) 0(500): DEV AC 53.80 RA 53.7325 
+Epoch(U) 0(500): BEST AC 53.80 RA 53.7325 
+
+Epoch(U) 0(750): Train AC 66.23 RA 62.1657 LOSS 1185.9571
+
+Epoch(U) 0(750): DEV AC 57.80 RA 59.2661 
+Epoch(U) 0(750): BEST AC 57.80 RA 59.2661 
+
+Epoch(U) 0(1000): Train AC 67.64 RA 64.9252 LOSS 1170.3799
+
+Epoch(U) 0(1000): DEV AC 52.60 RA 62.6394 
+Epoch(U) 0(1000): BEST AC 52.60 RA 62.6394 
+tensor([-0.3121, -1.3164], device='cuda:0')
+
+Epoch(U) 1(1250): Train AC 76.71 RA 76.9860 LOSS 1078.1777
+
+Epoch(U) 1(1250): DEV AC 58.00 RA 64.3933 
+Epoch(U) 1(1250): BEST AC 58.00 RA 64.3933 
+
+Epoch(U) 1(1500): Train AC 77.74 RA 80.0868 LOSS 986.1475
+
+Epoch(U) 1(1500): DEV AC 58.60 RA 66.4576 
+Epoch(U) 1(1500): BEST AC 58.60 RA 66.4576 
+
+Epoch(U) 1(1750): Train AC 76.87 RA 80.2077 LOSS 1049.4251
+
+Epoch(U) 1(1750): DEV AC 59.80 RA 66.5376 
+Epoch(U) 1(1750): BEST AC 59.80 RA 66.5376 
+
+Epoch(U) 1(2000): Train AC 77.31 RA 80.6396 LOSS 1010.3083
+
+Epoch(U) 1(2000): DEV AC 55.80 RA 60.1863 
+Epoch(U) 1(2000): BEST AC 59.80 RA 66.5376 
+tensor([-0.1544, -1.9447], device='cuda:0')
+
+Epoch(U) 2(2250): Train AC 84.62 RA 90.2262 LOSS 905.8433
+
+Epoch(U) 2(2250): DEV AC 59.80 RA 65.2958 
+Epoch(U) 2(2250): BEST AC 59.80 RA 66.5376 
+
+Epoch(U) 2(2500): Train AC 84.00 RA 89.4618 LOSS 821.1140
+
+Epoch(U) 2(2500): DEV AC 57.40 RA 67.4913 
+Epoch(U) 2(2500): BEST AC 57.40 RA 67.4913 
+
+Epoch(U) 2(2750): Train AC 83.73 RA 89.4699 LOSS 792.4828
+
+Epoch(U) 2(2750): DEV AC 59.80 RA 67.0785 
+Epoch(U) 2(2750): BEST AC 57.40 RA 67.4913 
+
+Epoch(U) 2(3000): Train AC 84.06 RA 89.7677 LOSS 762.8051
+
+Epoch(U) 2(3000): DEV AC 58.60 RA 70.4966 
+Epoch(U) 2(3000): BEST AC 58.60 RA 70.4966 
+tensor([-2.9085, -0.0561], device='cuda:0')
+
+Epoch(U) 3(3250): Train AC 87.00 RA 92.1606 LOSS 752.5590
+
+Epoch(U) 3(3250): DEV AC 59.20 RA 68.4851 
+Epoch(U) 3(3250): BEST AC 58.60 RA 70.4966 
+
+Epoch(U) 3(3500): Train AC 90.00 RA 94.4908 LOSS 630.4191
+
+Epoch(U) 3(3500): DEV AC 59.40 RA 67.4545 
+Epoch(U) 3(3500): BEST AC 58.60 RA 70.4966 
+
+Epoch(U) 3(3750): Train AC 89.81 RA 94.3915 LOSS 672.7231
+
+Epoch(U) 3(3750): DEV AC 61.40 RA 69.0691 
+Epoch(U) 3(3750): BEST AC 58.60 RA 70.4966 
+
+Epoch(U) 3(4000): Train AC 89.85 RA 94.7131 LOSS 640.7433
+
+Epoch(U) 3(4000): DEV AC 58.40 RA 68.1346 
+Epoch(U) 3(4000): BEST AC 58.60 RA 70.4966 
+
+Epoch(U) 3(4250): Train AC 89.50 RA 94.1635 LOSS 743.3313
+
+Epoch(U) 3(4250): DEV AC 61.40 RA 70.6006 
+Epoch(U) 3(4250): BEST AC 61.40 RA 70.6006 
+tensor([-0.0097, -4.6372], device='cuda:0')
+
+Epoch(U) 4(4500): Train AC 89.44 RA 93.6703 LOSS 748.4819
+
+Epoch(U) 4(4500): DEV AC 57.20 RA 71.5527 
+Epoch(U) 4(4500): BEST AC 57.20 RA 71.5527 
+
+Epoch(U) 4(4750): Train AC 89.28 RA 93.5945 LOSS 740.8856
+
+Epoch(U) 4(4750): DEV AC 62.40 RA 70.7222 
+Epoch(U) 4(4750): BEST AC 57.20 RA 71.5527 
+
+Epoch(U) 4(5000): Train AC 88.98 RA 93.5840 LOSS 707.6827
+
+Epoch(U) 4(5000): DEV AC 60.40 RA 69.4100 
+Epoch(U) 4(5000): BEST AC 57.20 RA 71.5527 
+
+Epoch(U) 4(5250): Train AC 88.57 RA 93.3016 LOSS 761.2478
+
+Epoch(U) 4(5250): DEV AC 57.20 RA 66.4688 
+Epoch(U) 4(5250): BEST AC 57.20 RA 71.5527 
+Load model from ./data/LASTtrain.pth
+data/dev_seen.jsonl
+data/image_captioning_dev_seen.csv
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 31 seconds.
+Use 500 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 500 entries, 0 to 499
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      500 non-null    int64  
+ 1   proba   500 non-null    float64
+ 2   label   500 non-null    int64  
+dtypes: float64(1), int64(2)
+memory usage: 11.8 KB
+None
+(0.612, 0.7125346049831175)

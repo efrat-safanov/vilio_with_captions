@@ -1,0 +1,689 @@
+2021-04-26 20:29:12.856703: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Load 8596 data from split(s) train.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 8596 images in file data/HM_img.tsv in 69 seconds.
+Use 8596 data in torch dataset
+
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 54 seconds.
+Use 500 data in torch dataset
+
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+REINITING:  Linear(in_features=1024, out_features=2048, bias=True)
+REINITING:  GeLU()
+REINITING:  LayerNorm((2048,), eps=1e-12, elementwise_affine=True)
+REINITING:  Linear(in_features=2048, out_features=2, bias=True)
+REINITING:  Sequential(
+  (0): Linear(in_features=1024, out_features=2048, bias=True)
+  (1): GeLU()
+  (2): LayerNorm((2048,), eps=1e-12, elementwise_affine=True)
+  (3): Linear(in_features=2048, out_features=2, bias=True)
+)
+Load pre-trained model from ./data/LASTPRetrain_BU.pth
+SAVING bert.embeddings.position_ids as embeddings.position_ids.
+SAVING bert.embeddings.word_embeddings.weight as embeddings.word_embeddings.weight.
+SAVING bert.embeddings.position_embeddings.weight as embeddings.position_embeddings.weight.
+SAVING bert.embeddings.token_type_embeddings.weight as embeddings.token_type_embeddings.weight.
+SAVING bert.embeddings.LayerNorm.weight as embeddings.LayerNorm.weight.
+SAVING bert.embeddings.LayerNorm.bias as embeddings.LayerNorm.bias.
+SAVING bert.img_embeddings.img_linear.weight as img_embeddings.img_linear.weight.
+SAVING bert.img_embeddings.img_linear.bias as img_embeddings.img_linear.bias.
+SAVING bert.img_embeddings.img_layer_norm.weight as img_embeddings.img_layer_norm.weight.
+SAVING bert.img_embeddings.img_layer_norm.bias as img_embeddings.img_layer_norm.bias.
+SAVING bert.img_embeddings.pos_layer_norm.weight as img_embeddings.pos_layer_norm.weight.
+SAVING bert.img_embeddings.pos_layer_norm.bias as img_embeddings.pos_layer_norm.bias.
+SAVING bert.img_embeddings.pos_linear.weight as img_embeddings.pos_linear.weight.
+SAVING bert.img_embeddings.pos_linear.bias as img_embeddings.pos_linear.bias.
+SAVING bert.img_embeddings.LayerNorm.weight as img_embeddings.LayerNorm.weight.
+SAVING bert.img_embeddings.LayerNorm.bias as img_embeddings.LayerNorm.bias.
+SAVING bert.encoder.layer.0.attention.self.query.weight as encoder.layer.0.attention.self.query.weight.
+SAVING bert.encoder.layer.0.attention.self.query.bias as encoder.layer.0.attention.self.query.bias.
+SAVING bert.encoder.layer.0.attention.self.key.weight as encoder.layer.0.attention.self.key.weight.
+SAVING bert.encoder.layer.0.attention.self.key.bias as encoder.layer.0.attention.self.key.bias.
+SAVING bert.encoder.layer.0.attention.self.value.weight as encoder.layer.0.attention.self.value.weight.
+SAVING bert.encoder.layer.0.attention.self.value.bias as encoder.layer.0.attention.self.value.bias.
+SAVING bert.encoder.layer.0.attention.output.dense.weight as encoder.layer.0.attention.output.dense.weight.
+SAVING bert.encoder.layer.0.attention.output.dense.bias as encoder.layer.0.attention.output.dense.bias.
+SAVING bert.encoder.layer.0.attention.output.LayerNorm.weight as encoder.layer.0.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.0.attention.output.LayerNorm.bias as encoder.layer.0.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.0.intermediate.dense.weight as encoder.layer.0.intermediate.dense.weight.
+SAVING bert.encoder.layer.0.intermediate.dense.bias as encoder.layer.0.intermediate.dense.bias.
+SAVING bert.encoder.layer.0.output.dense.weight as encoder.layer.0.output.dense.weight.
+SAVING bert.encoder.layer.0.output.dense.bias as encoder.layer.0.output.dense.bias.
+SAVING bert.encoder.layer.0.output.LayerNorm.weight as encoder.layer.0.output.LayerNorm.weight.
+SAVING bert.encoder.layer.0.output.LayerNorm.bias as encoder.layer.0.output.LayerNorm.bias.
+SAVING bert.encoder.layer.1.attention.self.query.weight as encoder.layer.1.attention.self.query.weight.
+SAVING bert.encoder.layer.1.attention.self.query.bias as encoder.layer.1.attention.self.query.bias.
+SAVING bert.encoder.layer.1.attention.self.key.weight as encoder.layer.1.attention.self.key.weight.
+SAVING bert.encoder.layer.1.attention.self.key.bias as encoder.layer.1.attention.self.key.bias.
+SAVING bert.encoder.layer.1.attention.self.value.weight as encoder.layer.1.attention.self.value.weight.
+SAVING bert.encoder.layer.1.attention.self.value.bias as encoder.layer.1.attention.self.value.bias.
+SAVING bert.encoder.layer.1.attention.output.dense.weight as encoder.layer.1.attention.output.dense.weight.
+SAVING bert.encoder.layer.1.attention.output.dense.bias as encoder.layer.1.attention.output.dense.bias.
+SAVING bert.encoder.layer.1.attention.output.LayerNorm.weight as encoder.layer.1.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.1.attention.output.LayerNorm.bias as encoder.layer.1.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.1.intermediate.dense.weight as encoder.layer.1.intermediate.dense.weight.
+SAVING bert.encoder.layer.1.intermediate.dense.bias as encoder.layer.1.intermediate.dense.bias.
+SAVING bert.encoder.layer.1.output.dense.weight as encoder.layer.1.output.dense.weight.
+SAVING bert.encoder.layer.1.output.dense.bias as encoder.layer.1.output.dense.bias.
+SAVING bert.encoder.layer.1.output.LayerNorm.weight as encoder.layer.1.output.LayerNorm.weight.
+SAVING bert.encoder.layer.1.output.LayerNorm.bias as encoder.layer.1.output.LayerNorm.bias.
+SAVING bert.encoder.layer.2.attention.self.query.weight as encoder.layer.2.attention.self.query.weight.
+SAVING bert.encoder.layer.2.attention.self.query.bias as encoder.layer.2.attention.self.query.bias.
+SAVING bert.encoder.layer.2.attention.self.key.weight as encoder.layer.2.attention.self.key.weight.
+SAVING bert.encoder.layer.2.attention.self.key.bias as encoder.layer.2.attention.self.key.bias.
+SAVING bert.encoder.layer.2.attention.self.value.weight as encoder.layer.2.attention.self.value.weight.
+SAVING bert.encoder.layer.2.attention.self.value.bias as encoder.layer.2.attention.self.value.bias.
+SAVING bert.encoder.layer.2.attention.output.dense.weight as encoder.layer.2.attention.output.dense.weight.
+SAVING bert.encoder.layer.2.attention.output.dense.bias as encoder.layer.2.attention.output.dense.bias.
+SAVING bert.encoder.layer.2.attention.output.LayerNorm.weight as encoder.layer.2.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.2.attention.output.LayerNorm.bias as encoder.layer.2.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.2.intermediate.dense.weight as encoder.layer.2.intermediate.dense.weight.
+SAVING bert.encoder.layer.2.intermediate.dense.bias as encoder.layer.2.intermediate.dense.bias.
+SAVING bert.encoder.layer.2.output.dense.weight as encoder.layer.2.output.dense.weight.
+SAVING bert.encoder.layer.2.output.dense.bias as encoder.layer.2.output.dense.bias.
+SAVING bert.encoder.layer.2.output.LayerNorm.weight as encoder.layer.2.output.LayerNorm.weight.
+SAVING bert.encoder.layer.2.output.LayerNorm.bias as encoder.layer.2.output.LayerNorm.bias.
+SAVING bert.encoder.layer.3.attention.self.query.weight as encoder.layer.3.attention.self.query.weight.
+SAVING bert.encoder.layer.3.attention.self.query.bias as encoder.layer.3.attention.self.query.bias.
+SAVING bert.encoder.layer.3.attention.self.key.weight as encoder.layer.3.attention.self.key.weight.
+SAVING bert.encoder.layer.3.attention.self.key.bias as encoder.layer.3.attention.self.key.bias.
+SAVING bert.encoder.layer.3.attention.self.value.weight as encoder.layer.3.attention.self.value.weight.
+SAVING bert.encoder.layer.3.attention.self.value.bias as encoder.layer.3.attention.self.value.bias.
+SAVING bert.encoder.layer.3.attention.output.dense.weight as encoder.layer.3.attention.output.dense.weight.
+SAVING bert.encoder.layer.3.attention.output.dense.bias as encoder.layer.3.attention.output.dense.bias.
+SAVING bert.encoder.layer.3.attention.output.LayerNorm.weight as encoder.layer.3.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.3.attention.output.LayerNorm.bias as encoder.layer.3.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.3.intermediate.dense.weight as encoder.layer.3.intermediate.dense.weight.
+SAVING bert.encoder.layer.3.intermediate.dense.bias as encoder.layer.3.intermediate.dense.bias.
+SAVING bert.encoder.layer.3.output.dense.weight as encoder.layer.3.output.dense.weight.
+SAVING bert.encoder.layer.3.output.dense.bias as encoder.layer.3.output.dense.bias.
+SAVING bert.encoder.layer.3.output.LayerNorm.weight as encoder.layer.3.output.LayerNorm.weight.
+SAVING bert.encoder.layer.3.output.LayerNorm.bias as encoder.layer.3.output.LayerNorm.bias.
+SAVING bert.encoder.layer.4.attention.self.query.weight as encoder.layer.4.attention.self.query.weight.
+SAVING bert.encoder.layer.4.attention.self.query.bias as encoder.layer.4.attention.self.query.bias.
+SAVING bert.encoder.layer.4.attention.self.key.weight as encoder.layer.4.attention.self.key.weight.
+SAVING bert.encoder.layer.4.attention.self.key.bias as encoder.layer.4.attention.self.key.bias.
+SAVING bert.encoder.layer.4.attention.self.value.weight as encoder.layer.4.attention.self.value.weight.
+SAVING bert.encoder.layer.4.attention.self.value.bias as encoder.layer.4.attention.self.value.bias.
+SAVING bert.encoder.layer.4.attention.output.dense.weight as encoder.layer.4.attention.output.dense.weight.
+SAVING bert.encoder.layer.4.attention.output.dense.bias as encoder.layer.4.attention.output.dense.bias.
+SAVING bert.encoder.layer.4.attention.output.LayerNorm.weight as encoder.layer.4.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.4.attention.output.LayerNorm.bias as encoder.layer.4.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.4.intermediate.dense.weight as encoder.layer.4.intermediate.dense.weight.
+SAVING bert.encoder.layer.4.intermediate.dense.bias as encoder.layer.4.intermediate.dense.bias.
+SAVING bert.encoder.layer.4.output.dense.weight as encoder.layer.4.output.dense.weight.
+SAVING bert.encoder.layer.4.output.dense.bias as encoder.layer.4.output.dense.bias.
+SAVING bert.encoder.layer.4.output.LayerNorm.weight as encoder.layer.4.output.LayerNorm.weight.
+SAVING bert.encoder.layer.4.output.LayerNorm.bias as encoder.layer.4.output.LayerNorm.bias.
+SAVING bert.encoder.layer.5.attention.self.query.weight as encoder.layer.5.attention.self.query.weight.
+SAVING bert.encoder.layer.5.attention.self.query.bias as encoder.layer.5.attention.self.query.bias.
+SAVING bert.encoder.layer.5.attention.self.key.weight as encoder.layer.5.attention.self.key.weight.
+SAVING bert.encoder.layer.5.attention.self.key.bias as encoder.layer.5.attention.self.key.bias.
+SAVING bert.encoder.layer.5.attention.self.value.weight as encoder.layer.5.attention.self.value.weight.
+SAVING bert.encoder.layer.5.attention.self.value.bias as encoder.layer.5.attention.self.value.bias.
+SAVING bert.encoder.layer.5.attention.output.dense.weight as encoder.layer.5.attention.output.dense.weight.
+SAVING bert.encoder.layer.5.attention.output.dense.bias as encoder.layer.5.attention.output.dense.bias.
+SAVING bert.encoder.layer.5.attention.output.LayerNorm.weight as encoder.layer.5.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.5.attention.output.LayerNorm.bias as encoder.layer.5.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.5.intermediate.dense.weight as encoder.layer.5.intermediate.dense.weight.
+SAVING bert.encoder.layer.5.intermediate.dense.bias as encoder.layer.5.intermediate.dense.bias.
+SAVING bert.encoder.layer.5.output.dense.weight as encoder.layer.5.output.dense.weight.
+SAVING bert.encoder.layer.5.output.dense.bias as encoder.layer.5.output.dense.bias.
+SAVING bert.encoder.layer.5.output.LayerNorm.weight as encoder.layer.5.output.LayerNorm.weight.
+SAVING bert.encoder.layer.5.output.LayerNorm.bias as encoder.layer.5.output.LayerNorm.bias.
+SAVING bert.encoder.layer.6.attention.self.query.weight as encoder.layer.6.attention.self.query.weight.
+SAVING bert.encoder.layer.6.attention.self.query.bias as encoder.layer.6.attention.self.query.bias.
+SAVING bert.encoder.layer.6.attention.self.key.weight as encoder.layer.6.attention.self.key.weight.
+SAVING bert.encoder.layer.6.attention.self.key.bias as encoder.layer.6.attention.self.key.bias.
+SAVING bert.encoder.layer.6.attention.self.value.weight as encoder.layer.6.attention.self.value.weight.
+SAVING bert.encoder.layer.6.attention.self.value.bias as encoder.layer.6.attention.self.value.bias.
+SAVING bert.encoder.layer.6.attention.output.dense.weight as encoder.layer.6.attention.output.dense.weight.
+SAVING bert.encoder.layer.6.attention.output.dense.bias as encoder.layer.6.attention.output.dense.bias.
+SAVING bert.encoder.layer.6.attention.output.LayerNorm.weight as encoder.layer.6.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.6.attention.output.LayerNorm.bias as encoder.layer.6.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.6.intermediate.dense.weight as encoder.layer.6.intermediate.dense.weight.
+SAVING bert.encoder.layer.6.intermediate.dense.bias as encoder.layer.6.intermediate.dense.bias.
+SAVING bert.encoder.layer.6.output.dense.weight as encoder.layer.6.output.dense.weight.
+SAVING bert.encoder.layer.6.output.dense.bias as encoder.layer.6.output.dense.bias.
+SAVING bert.encoder.layer.6.output.LayerNorm.weight as encoder.layer.6.output.LayerNorm.weight.
+SAVING bert.encoder.layer.6.output.LayerNorm.bias as encoder.layer.6.output.LayerNorm.bias.
+SAVING bert.encoder.layer.7.attention.self.query.weight as encoder.layer.7.attention.self.query.weight.
+SAVING bert.encoder.layer.7.attention.self.query.bias as encoder.layer.7.attention.self.query.bias.
+SAVING bert.encoder.layer.7.attention.self.key.weight as encoder.layer.7.attention.self.key.weight.
+SAVING bert.encoder.layer.7.attention.self.key.bias as encoder.layer.7.attention.self.key.bias.
+SAVING bert.encoder.layer.7.attention.self.value.weight as encoder.layer.7.attention.self.value.weight.
+SAVING bert.encoder.layer.7.attention.self.value.bias as encoder.layer.7.attention.self.value.bias.
+SAVING bert.encoder.layer.7.attention.output.dense.weight as encoder.layer.7.attention.output.dense.weight.
+SAVING bert.encoder.layer.7.attention.output.dense.bias as encoder.layer.7.attention.output.dense.bias.
+SAVING bert.encoder.layer.7.attention.output.LayerNorm.weight as encoder.layer.7.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.7.attention.output.LayerNorm.bias as encoder.layer.7.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.7.intermediate.dense.weight as encoder.layer.7.intermediate.dense.weight.
+SAVING bert.encoder.layer.7.intermediate.dense.bias as encoder.layer.7.intermediate.dense.bias.
+SAVING bert.encoder.layer.7.output.dense.weight as encoder.layer.7.output.dense.weight.
+SAVING bert.encoder.layer.7.output.dense.bias as encoder.layer.7.output.dense.bias.
+SAVING bert.encoder.layer.7.output.LayerNorm.weight as encoder.layer.7.output.LayerNorm.weight.
+SAVING bert.encoder.layer.7.output.LayerNorm.bias as encoder.layer.7.output.LayerNorm.bias.
+SAVING bert.encoder.layer.8.attention.self.query.weight as encoder.layer.8.attention.self.query.weight.
+SAVING bert.encoder.layer.8.attention.self.query.bias as encoder.layer.8.attention.self.query.bias.
+SAVING bert.encoder.layer.8.attention.self.key.weight as encoder.layer.8.attention.self.key.weight.
+SAVING bert.encoder.layer.8.attention.self.key.bias as encoder.layer.8.attention.self.key.bias.
+SAVING bert.encoder.layer.8.attention.self.value.weight as encoder.layer.8.attention.self.value.weight.
+SAVING bert.encoder.layer.8.attention.self.value.bias as encoder.layer.8.attention.self.value.bias.
+SAVING bert.encoder.layer.8.attention.output.dense.weight as encoder.layer.8.attention.output.dense.weight.
+SAVING bert.encoder.layer.8.attention.output.dense.bias as encoder.layer.8.attention.output.dense.bias.
+SAVING bert.encoder.layer.8.attention.output.LayerNorm.weight as encoder.layer.8.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.8.attention.output.LayerNorm.bias as encoder.layer.8.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.8.intermediate.dense.weight as encoder.layer.8.intermediate.dense.weight.
+SAVING bert.encoder.layer.8.intermediate.dense.bias as encoder.layer.8.intermediate.dense.bias.
+SAVING bert.encoder.layer.8.output.dense.weight as encoder.layer.8.output.dense.weight.
+SAVING bert.encoder.layer.8.output.dense.bias as encoder.layer.8.output.dense.bias.
+SAVING bert.encoder.layer.8.output.LayerNorm.weight as encoder.layer.8.output.LayerNorm.weight.
+SAVING bert.encoder.layer.8.output.LayerNorm.bias as encoder.layer.8.output.LayerNorm.bias.
+SAVING bert.encoder.layer.9.attention.self.query.weight as encoder.layer.9.attention.self.query.weight.
+SAVING bert.encoder.layer.9.attention.self.query.bias as encoder.layer.9.attention.self.query.bias.
+SAVING bert.encoder.layer.9.attention.self.key.weight as encoder.layer.9.attention.self.key.weight.
+SAVING bert.encoder.layer.9.attention.self.key.bias as encoder.layer.9.attention.self.key.bias.
+SAVING bert.encoder.layer.9.attention.self.value.weight as encoder.layer.9.attention.self.value.weight.
+SAVING bert.encoder.layer.9.attention.self.value.bias as encoder.layer.9.attention.self.value.bias.
+SAVING bert.encoder.layer.9.attention.output.dense.weight as encoder.layer.9.attention.output.dense.weight.
+SAVING bert.encoder.layer.9.attention.output.dense.bias as encoder.layer.9.attention.output.dense.bias.
+SAVING bert.encoder.layer.9.attention.output.LayerNorm.weight as encoder.layer.9.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.9.attention.output.LayerNorm.bias as encoder.layer.9.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.9.intermediate.dense.weight as encoder.layer.9.intermediate.dense.weight.
+SAVING bert.encoder.layer.9.intermediate.dense.bias as encoder.layer.9.intermediate.dense.bias.
+SAVING bert.encoder.layer.9.output.dense.weight as encoder.layer.9.output.dense.weight.
+SAVING bert.encoder.layer.9.output.dense.bias as encoder.layer.9.output.dense.bias.
+SAVING bert.encoder.layer.9.output.LayerNorm.weight as encoder.layer.9.output.LayerNorm.weight.
+SAVING bert.encoder.layer.9.output.LayerNorm.bias as encoder.layer.9.output.LayerNorm.bias.
+SAVING bert.encoder.layer.10.attention.self.query.weight as encoder.layer.10.attention.self.query.weight.
+SAVING bert.encoder.layer.10.attention.self.query.bias as encoder.layer.10.attention.self.query.bias.
+SAVING bert.encoder.layer.10.attention.self.key.weight as encoder.layer.10.attention.self.key.weight.
+SAVING bert.encoder.layer.10.attention.self.key.bias as encoder.layer.10.attention.self.key.bias.
+SAVING bert.encoder.layer.10.attention.self.value.weight as encoder.layer.10.attention.self.value.weight.
+SAVING bert.encoder.layer.10.attention.self.value.bias as encoder.layer.10.attention.self.value.bias.
+SAVING bert.encoder.layer.10.attention.output.dense.weight as encoder.layer.10.attention.output.dense.weight.
+SAVING bert.encoder.layer.10.attention.output.dense.bias as encoder.layer.10.attention.output.dense.bias.
+SAVING bert.encoder.layer.10.attention.output.LayerNorm.weight as encoder.layer.10.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.10.attention.output.LayerNorm.bias as encoder.layer.10.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.10.intermediate.dense.weight as encoder.layer.10.intermediate.dense.weight.
+SAVING bert.encoder.layer.10.intermediate.dense.bias as encoder.layer.10.intermediate.dense.bias.
+SAVING bert.encoder.layer.10.output.dense.weight as encoder.layer.10.output.dense.weight.
+SAVING bert.encoder.layer.10.output.dense.bias as encoder.layer.10.output.dense.bias.
+SAVING bert.encoder.layer.10.output.LayerNorm.weight as encoder.layer.10.output.LayerNorm.weight.
+SAVING bert.encoder.layer.10.output.LayerNorm.bias as encoder.layer.10.output.LayerNorm.bias.
+SAVING bert.encoder.layer.11.attention.self.query.weight as encoder.layer.11.attention.self.query.weight.
+SAVING bert.encoder.layer.11.attention.self.query.bias as encoder.layer.11.attention.self.query.bias.
+SAVING bert.encoder.layer.11.attention.self.key.weight as encoder.layer.11.attention.self.key.weight.
+SAVING bert.encoder.layer.11.attention.self.key.bias as encoder.layer.11.attention.self.key.bias.
+SAVING bert.encoder.layer.11.attention.self.value.weight as encoder.layer.11.attention.self.value.weight.
+SAVING bert.encoder.layer.11.attention.self.value.bias as encoder.layer.11.attention.self.value.bias.
+SAVING bert.encoder.layer.11.attention.output.dense.weight as encoder.layer.11.attention.output.dense.weight.
+SAVING bert.encoder.layer.11.attention.output.dense.bias as encoder.layer.11.attention.output.dense.bias.
+SAVING bert.encoder.layer.11.attention.output.LayerNorm.weight as encoder.layer.11.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.11.attention.output.LayerNorm.bias as encoder.layer.11.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.11.intermediate.dense.weight as encoder.layer.11.intermediate.dense.weight.
+SAVING bert.encoder.layer.11.intermediate.dense.bias as encoder.layer.11.intermediate.dense.bias.
+SAVING bert.encoder.layer.11.output.dense.weight as encoder.layer.11.output.dense.weight.
+SAVING bert.encoder.layer.11.output.dense.bias as encoder.layer.11.output.dense.bias.
+SAVING bert.encoder.layer.11.output.LayerNorm.weight as encoder.layer.11.output.LayerNorm.weight.
+SAVING bert.encoder.layer.11.output.LayerNorm.bias as encoder.layer.11.output.LayerNorm.bias.
+SAVING bert.encoder.layer.12.attention.self.query.weight as encoder.layer.12.attention.self.query.weight.
+SAVING bert.encoder.layer.12.attention.self.query.bias as encoder.layer.12.attention.self.query.bias.
+SAVING bert.encoder.layer.12.attention.self.key.weight as encoder.layer.12.attention.self.key.weight.
+SAVING bert.encoder.layer.12.attention.self.key.bias as encoder.layer.12.attention.self.key.bias.
+SAVING bert.encoder.layer.12.attention.self.value.weight as encoder.layer.12.attention.self.value.weight.
+SAVING bert.encoder.layer.12.attention.self.value.bias as encoder.layer.12.attention.self.value.bias.
+SAVING bert.encoder.layer.12.attention.output.dense.weight as encoder.layer.12.attention.output.dense.weight.
+SAVING bert.encoder.layer.12.attention.output.dense.bias as encoder.layer.12.attention.output.dense.bias.
+SAVING bert.encoder.layer.12.attention.output.LayerNorm.weight as encoder.layer.12.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.12.attention.output.LayerNorm.bias as encoder.layer.12.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.12.intermediate.dense.weight as encoder.layer.12.intermediate.dense.weight.
+SAVING bert.encoder.layer.12.intermediate.dense.bias as encoder.layer.12.intermediate.dense.bias.
+SAVING bert.encoder.layer.12.output.dense.weight as encoder.layer.12.output.dense.weight.
+SAVING bert.encoder.layer.12.output.dense.bias as encoder.layer.12.output.dense.bias.
+SAVING bert.encoder.layer.12.output.LayerNorm.weight as encoder.layer.12.output.LayerNorm.weight.
+SAVING bert.encoder.layer.12.output.LayerNorm.bias as encoder.layer.12.output.LayerNorm.bias.
+SAVING bert.encoder.layer.13.attention.self.query.weight as encoder.layer.13.attention.self.query.weight.
+SAVING bert.encoder.layer.13.attention.self.query.bias as encoder.layer.13.attention.self.query.bias.
+SAVING bert.encoder.layer.13.attention.self.key.weight as encoder.layer.13.attention.self.key.weight.
+SAVING bert.encoder.layer.13.attention.self.key.bias as encoder.layer.13.attention.self.key.bias.
+SAVING bert.encoder.layer.13.attention.self.value.weight as encoder.layer.13.attention.self.value.weight.
+SAVING bert.encoder.layer.13.attention.self.value.bias as encoder.layer.13.attention.self.value.bias.
+SAVING bert.encoder.layer.13.attention.output.dense.weight as encoder.layer.13.attention.output.dense.weight.
+SAVING bert.encoder.layer.13.attention.output.dense.bias as encoder.layer.13.attention.output.dense.bias.
+SAVING bert.encoder.layer.13.attention.output.LayerNorm.weight as encoder.layer.13.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.13.attention.output.LayerNorm.bias as encoder.layer.13.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.13.intermediate.dense.weight as encoder.layer.13.intermediate.dense.weight.
+SAVING bert.encoder.layer.13.intermediate.dense.bias as encoder.layer.13.intermediate.dense.bias.
+SAVING bert.encoder.layer.13.output.dense.weight as encoder.layer.13.output.dense.weight.
+SAVING bert.encoder.layer.13.output.dense.bias as encoder.layer.13.output.dense.bias.
+SAVING bert.encoder.layer.13.output.LayerNorm.weight as encoder.layer.13.output.LayerNorm.weight.
+SAVING bert.encoder.layer.13.output.LayerNorm.bias as encoder.layer.13.output.LayerNorm.bias.
+SAVING bert.encoder.layer.14.attention.self.query.weight as encoder.layer.14.attention.self.query.weight.
+SAVING bert.encoder.layer.14.attention.self.query.bias as encoder.layer.14.attention.self.query.bias.
+SAVING bert.encoder.layer.14.attention.self.key.weight as encoder.layer.14.attention.self.key.weight.
+SAVING bert.encoder.layer.14.attention.self.key.bias as encoder.layer.14.attention.self.key.bias.
+SAVING bert.encoder.layer.14.attention.self.value.weight as encoder.layer.14.attention.self.value.weight.
+SAVING bert.encoder.layer.14.attention.self.value.bias as encoder.layer.14.attention.self.value.bias.
+SAVING bert.encoder.layer.14.attention.output.dense.weight as encoder.layer.14.attention.output.dense.weight.
+SAVING bert.encoder.layer.14.attention.output.dense.bias as encoder.layer.14.attention.output.dense.bias.
+SAVING bert.encoder.layer.14.attention.output.LayerNorm.weight as encoder.layer.14.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.14.attention.output.LayerNorm.bias as encoder.layer.14.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.14.intermediate.dense.weight as encoder.layer.14.intermediate.dense.weight.
+SAVING bert.encoder.layer.14.intermediate.dense.bias as encoder.layer.14.intermediate.dense.bias.
+SAVING bert.encoder.layer.14.output.dense.weight as encoder.layer.14.output.dense.weight.
+SAVING bert.encoder.layer.14.output.dense.bias as encoder.layer.14.output.dense.bias.
+SAVING bert.encoder.layer.14.output.LayerNorm.weight as encoder.layer.14.output.LayerNorm.weight.
+SAVING bert.encoder.layer.14.output.LayerNorm.bias as encoder.layer.14.output.LayerNorm.bias.
+SAVING bert.encoder.layer.15.attention.self.query.weight as encoder.layer.15.attention.self.query.weight.
+SAVING bert.encoder.layer.15.attention.self.query.bias as encoder.layer.15.attention.self.query.bias.
+SAVING bert.encoder.layer.15.attention.self.key.weight as encoder.layer.15.attention.self.key.weight.
+SAVING bert.encoder.layer.15.attention.self.key.bias as encoder.layer.15.attention.self.key.bias.
+SAVING bert.encoder.layer.15.attention.self.value.weight as encoder.layer.15.attention.self.value.weight.
+SAVING bert.encoder.layer.15.attention.self.value.bias as encoder.layer.15.attention.self.value.bias.
+SAVING bert.encoder.layer.15.attention.output.dense.weight as encoder.layer.15.attention.output.dense.weight.
+SAVING bert.encoder.layer.15.attention.output.dense.bias as encoder.layer.15.attention.output.dense.bias.
+SAVING bert.encoder.layer.15.attention.output.LayerNorm.weight as encoder.layer.15.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.15.attention.output.LayerNorm.bias as encoder.layer.15.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.15.intermediate.dense.weight as encoder.layer.15.intermediate.dense.weight.
+SAVING bert.encoder.layer.15.intermediate.dense.bias as encoder.layer.15.intermediate.dense.bias.
+SAVING bert.encoder.layer.15.output.dense.weight as encoder.layer.15.output.dense.weight.
+SAVING bert.encoder.layer.15.output.dense.bias as encoder.layer.15.output.dense.bias.
+SAVING bert.encoder.layer.15.output.LayerNorm.weight as encoder.layer.15.output.LayerNorm.weight.
+SAVING bert.encoder.layer.15.output.LayerNorm.bias as encoder.layer.15.output.LayerNorm.bias.
+SAVING bert.encoder.layer.16.attention.self.query.weight as encoder.layer.16.attention.self.query.weight.
+SAVING bert.encoder.layer.16.attention.self.query.bias as encoder.layer.16.attention.self.query.bias.
+SAVING bert.encoder.layer.16.attention.self.key.weight as encoder.layer.16.attention.self.key.weight.
+SAVING bert.encoder.layer.16.attention.self.key.bias as encoder.layer.16.attention.self.key.bias.
+SAVING bert.encoder.layer.16.attention.self.value.weight as encoder.layer.16.attention.self.value.weight.
+SAVING bert.encoder.layer.16.attention.self.value.bias as encoder.layer.16.attention.self.value.bias.
+SAVING bert.encoder.layer.16.attention.output.dense.weight as encoder.layer.16.attention.output.dense.weight.
+SAVING bert.encoder.layer.16.attention.output.dense.bias as encoder.layer.16.attention.output.dense.bias.
+SAVING bert.encoder.layer.16.attention.output.LayerNorm.weight as encoder.layer.16.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.16.attention.output.LayerNorm.bias as encoder.layer.16.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.16.intermediate.dense.weight as encoder.layer.16.intermediate.dense.weight.
+SAVING bert.encoder.layer.16.intermediate.dense.bias as encoder.layer.16.intermediate.dense.bias.
+SAVING bert.encoder.layer.16.output.dense.weight as encoder.layer.16.output.dense.weight.
+SAVING bert.encoder.layer.16.output.dense.bias as encoder.layer.16.output.dense.bias.
+SAVING bert.encoder.layer.16.output.LayerNorm.weight as encoder.layer.16.output.LayerNorm.weight.
+SAVING bert.encoder.layer.16.output.LayerNorm.bias as encoder.layer.16.output.LayerNorm.bias.
+SAVING bert.encoder.layer.17.attention.self.query.weight as encoder.layer.17.attention.self.query.weight.
+SAVING bert.encoder.layer.17.attention.self.query.bias as encoder.layer.17.attention.self.query.bias.
+SAVING bert.encoder.layer.17.attention.self.key.weight as encoder.layer.17.attention.self.key.weight.
+SAVING bert.encoder.layer.17.attention.self.key.bias as encoder.layer.17.attention.self.key.bias.
+SAVING bert.encoder.layer.17.attention.self.value.weight as encoder.layer.17.attention.self.value.weight.
+SAVING bert.encoder.layer.17.attention.self.value.bias as encoder.layer.17.attention.self.value.bias.
+SAVING bert.encoder.layer.17.attention.output.dense.weight as encoder.layer.17.attention.output.dense.weight.
+SAVING bert.encoder.layer.17.attention.output.dense.bias as encoder.layer.17.attention.output.dense.bias.
+SAVING bert.encoder.layer.17.attention.output.LayerNorm.weight as encoder.layer.17.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.17.attention.output.LayerNorm.bias as encoder.layer.17.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.17.intermediate.dense.weight as encoder.layer.17.intermediate.dense.weight.
+SAVING bert.encoder.layer.17.intermediate.dense.bias as encoder.layer.17.intermediate.dense.bias.
+SAVING bert.encoder.layer.17.output.dense.weight as encoder.layer.17.output.dense.weight.
+SAVING bert.encoder.layer.17.output.dense.bias as encoder.layer.17.output.dense.bias.
+SAVING bert.encoder.layer.17.output.LayerNorm.weight as encoder.layer.17.output.LayerNorm.weight.
+SAVING bert.encoder.layer.17.output.LayerNorm.bias as encoder.layer.17.output.LayerNorm.bias.
+SAVING bert.encoder.layer.18.attention.self.query.weight as encoder.layer.18.attention.self.query.weight.
+SAVING bert.encoder.layer.18.attention.self.query.bias as encoder.layer.18.attention.self.query.bias.
+SAVING bert.encoder.layer.18.attention.self.key.weight as encoder.layer.18.attention.self.key.weight.
+SAVING bert.encoder.layer.18.attention.self.key.bias as encoder.layer.18.attention.self.key.bias.
+SAVING bert.encoder.layer.18.attention.self.value.weight as encoder.layer.18.attention.self.value.weight.
+SAVING bert.encoder.layer.18.attention.self.value.bias as encoder.layer.18.attention.self.value.bias.
+SAVING bert.encoder.layer.18.attention.output.dense.weight as encoder.layer.18.attention.output.dense.weight.
+SAVING bert.encoder.layer.18.attention.output.dense.bias as encoder.layer.18.attention.output.dense.bias.
+SAVING bert.encoder.layer.18.attention.output.LayerNorm.weight as encoder.layer.18.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.18.attention.output.LayerNorm.bias as encoder.layer.18.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.18.intermediate.dense.weight as encoder.layer.18.intermediate.dense.weight.
+SAVING bert.encoder.layer.18.intermediate.dense.bias as encoder.layer.18.intermediate.dense.bias.
+SAVING bert.encoder.layer.18.output.dense.weight as encoder.layer.18.output.dense.weight.
+SAVING bert.encoder.layer.18.output.dense.bias as encoder.layer.18.output.dense.bias.
+SAVING bert.encoder.layer.18.output.LayerNorm.weight as encoder.layer.18.output.LayerNorm.weight.
+SAVING bert.encoder.layer.18.output.LayerNorm.bias as encoder.layer.18.output.LayerNorm.bias.
+SAVING bert.encoder.layer.19.attention.self.query.weight as encoder.layer.19.attention.self.query.weight.
+SAVING bert.encoder.layer.19.attention.self.query.bias as encoder.layer.19.attention.self.query.bias.
+SAVING bert.encoder.layer.19.attention.self.key.weight as encoder.layer.19.attention.self.key.weight.
+SAVING bert.encoder.layer.19.attention.self.key.bias as encoder.layer.19.attention.self.key.bias.
+SAVING bert.encoder.layer.19.attention.self.value.weight as encoder.layer.19.attention.self.value.weight.
+SAVING bert.encoder.layer.19.attention.self.value.bias as encoder.layer.19.attention.self.value.bias.
+SAVING bert.encoder.layer.19.attention.output.dense.weight as encoder.layer.19.attention.output.dense.weight.
+SAVING bert.encoder.layer.19.attention.output.dense.bias as encoder.layer.19.attention.output.dense.bias.
+SAVING bert.encoder.layer.19.attention.output.LayerNorm.weight as encoder.layer.19.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.19.attention.output.LayerNorm.bias as encoder.layer.19.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.19.intermediate.dense.weight as encoder.layer.19.intermediate.dense.weight.
+SAVING bert.encoder.layer.19.intermediate.dense.bias as encoder.layer.19.intermediate.dense.bias.
+SAVING bert.encoder.layer.19.output.dense.weight as encoder.layer.19.output.dense.weight.
+SAVING bert.encoder.layer.19.output.dense.bias as encoder.layer.19.output.dense.bias.
+SAVING bert.encoder.layer.19.output.LayerNorm.weight as encoder.layer.19.output.LayerNorm.weight.
+SAVING bert.encoder.layer.19.output.LayerNorm.bias as encoder.layer.19.output.LayerNorm.bias.
+SAVING bert.encoder.layer.20.attention.self.query.weight as encoder.layer.20.attention.self.query.weight.
+SAVING bert.encoder.layer.20.attention.self.query.bias as encoder.layer.20.attention.self.query.bias.
+SAVING bert.encoder.layer.20.attention.self.key.weight as encoder.layer.20.attention.self.key.weight.
+SAVING bert.encoder.layer.20.attention.self.key.bias as encoder.layer.20.attention.self.key.bias.
+SAVING bert.encoder.layer.20.attention.self.value.weight as encoder.layer.20.attention.self.value.weight.
+SAVING bert.encoder.layer.20.attention.self.value.bias as encoder.layer.20.attention.self.value.bias.
+SAVING bert.encoder.layer.20.attention.output.dense.weight as encoder.layer.20.attention.output.dense.weight.
+SAVING bert.encoder.layer.20.attention.output.dense.bias as encoder.layer.20.attention.output.dense.bias.
+SAVING bert.encoder.layer.20.attention.output.LayerNorm.weight as encoder.layer.20.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.20.attention.output.LayerNorm.bias as encoder.layer.20.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.20.intermediate.dense.weight as encoder.layer.20.intermediate.dense.weight.
+SAVING bert.encoder.layer.20.intermediate.dense.bias as encoder.layer.20.intermediate.dense.bias.
+SAVING bert.encoder.layer.20.output.dense.weight as encoder.layer.20.output.dense.weight.
+SAVING bert.encoder.layer.20.output.dense.bias as encoder.layer.20.output.dense.bias.
+SAVING bert.encoder.layer.20.output.LayerNorm.weight as encoder.layer.20.output.LayerNorm.weight.
+SAVING bert.encoder.layer.20.output.LayerNorm.bias as encoder.layer.20.output.LayerNorm.bias.
+SAVING bert.encoder.layer.21.attention.self.query.weight as encoder.layer.21.attention.self.query.weight.
+SAVING bert.encoder.layer.21.attention.self.query.bias as encoder.layer.21.attention.self.query.bias.
+SAVING bert.encoder.layer.21.attention.self.key.weight as encoder.layer.21.attention.self.key.weight.
+SAVING bert.encoder.layer.21.attention.self.key.bias as encoder.layer.21.attention.self.key.bias.
+SAVING bert.encoder.layer.21.attention.self.value.weight as encoder.layer.21.attention.self.value.weight.
+SAVING bert.encoder.layer.21.attention.self.value.bias as encoder.layer.21.attention.self.value.bias.
+SAVING bert.encoder.layer.21.attention.output.dense.weight as encoder.layer.21.attention.output.dense.weight.
+SAVING bert.encoder.layer.21.attention.output.dense.bias as encoder.layer.21.attention.output.dense.bias.
+SAVING bert.encoder.layer.21.attention.output.LayerNorm.weight as encoder.layer.21.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.21.attention.output.LayerNorm.bias as encoder.layer.21.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.21.intermediate.dense.weight as encoder.layer.21.intermediate.dense.weight.
+SAVING bert.encoder.layer.21.intermediate.dense.bias as encoder.layer.21.intermediate.dense.bias.
+SAVING bert.encoder.layer.21.output.dense.weight as encoder.layer.21.output.dense.weight.
+SAVING bert.encoder.layer.21.output.dense.bias as encoder.layer.21.output.dense.bias.
+SAVING bert.encoder.layer.21.output.LayerNorm.weight as encoder.layer.21.output.LayerNorm.weight.
+SAVING bert.encoder.layer.21.output.LayerNorm.bias as encoder.layer.21.output.LayerNorm.bias.
+SAVING bert.encoder.layer.22.attention.self.query.weight as encoder.layer.22.attention.self.query.weight.
+SAVING bert.encoder.layer.22.attention.self.query.bias as encoder.layer.22.attention.self.query.bias.
+SAVING bert.encoder.layer.22.attention.self.key.weight as encoder.layer.22.attention.self.key.weight.
+SAVING bert.encoder.layer.22.attention.self.key.bias as encoder.layer.22.attention.self.key.bias.
+SAVING bert.encoder.layer.22.attention.self.value.weight as encoder.layer.22.attention.self.value.weight.
+SAVING bert.encoder.layer.22.attention.self.value.bias as encoder.layer.22.attention.self.value.bias.
+SAVING bert.encoder.layer.22.attention.output.dense.weight as encoder.layer.22.attention.output.dense.weight.
+SAVING bert.encoder.layer.22.attention.output.dense.bias as encoder.layer.22.attention.output.dense.bias.
+SAVING bert.encoder.layer.22.attention.output.LayerNorm.weight as encoder.layer.22.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.22.attention.output.LayerNorm.bias as encoder.layer.22.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.22.intermediate.dense.weight as encoder.layer.22.intermediate.dense.weight.
+SAVING bert.encoder.layer.22.intermediate.dense.bias as encoder.layer.22.intermediate.dense.bias.
+SAVING bert.encoder.layer.22.output.dense.weight as encoder.layer.22.output.dense.weight.
+SAVING bert.encoder.layer.22.output.dense.bias as encoder.layer.22.output.dense.bias.
+SAVING bert.encoder.layer.22.output.LayerNorm.weight as encoder.layer.22.output.LayerNorm.weight.
+SAVING bert.encoder.layer.22.output.LayerNorm.bias as encoder.layer.22.output.LayerNorm.bias.
+SAVING bert.encoder.layer.23.attention.self.query.weight as encoder.layer.23.attention.self.query.weight.
+SAVING bert.encoder.layer.23.attention.self.query.bias as encoder.layer.23.attention.self.query.bias.
+SAVING bert.encoder.layer.23.attention.self.key.weight as encoder.layer.23.attention.self.key.weight.
+SAVING bert.encoder.layer.23.attention.self.key.bias as encoder.layer.23.attention.self.key.bias.
+SAVING bert.encoder.layer.23.attention.self.value.weight as encoder.layer.23.attention.self.value.weight.
+SAVING bert.encoder.layer.23.attention.self.value.bias as encoder.layer.23.attention.self.value.bias.
+SAVING bert.encoder.layer.23.attention.output.dense.weight as encoder.layer.23.attention.output.dense.weight.
+SAVING bert.encoder.layer.23.attention.output.dense.bias as encoder.layer.23.attention.output.dense.bias.
+SAVING bert.encoder.layer.23.attention.output.LayerNorm.weight as encoder.layer.23.attention.output.LayerNorm.weight.
+SAVING bert.encoder.layer.23.attention.output.LayerNorm.bias as encoder.layer.23.attention.output.LayerNorm.bias.
+SAVING bert.encoder.layer.23.intermediate.dense.weight as encoder.layer.23.intermediate.dense.weight.
+SAVING bert.encoder.layer.23.intermediate.dense.bias as encoder.layer.23.intermediate.dense.bias.
+SAVING bert.encoder.layer.23.output.dense.weight as encoder.layer.23.output.dense.weight.
+SAVING bert.encoder.layer.23.output.dense.bias as encoder.layer.23.output.dense.bias.
+SAVING bert.encoder.layer.23.output.LayerNorm.weight as encoder.layer.23.output.LayerNorm.weight.
+SAVING bert.encoder.layer.23.output.LayerNorm.bias as encoder.layer.23.output.LayerNorm.bias.
+SAVING bert.pooler.dense.weight as pooler.dense.weight.
+SAVING bert.pooler.dense.bias as pooler.dense.bias.
+
+Weights in loaded but not in model:
+cls.predictions.bias
+cls.predictions.decoder.weight
+cls.predictions.transform.LayerNorm.bias
+cls.predictions.transform.LayerNorm.weight
+cls.predictions.transform.dense.bias
+cls.predictions.transform.dense.weight
+cls.seq_relationship.bias
+cls.seq_relationship.weight
+ctm_output.bias
+ctm_output.weight
+
+Weights in model but not in loaded:
+
+Total Iters: 5375
+Splits in Train data: ['train']
+Splits in Valid data: ['dev_seen']
+Batches: 1075
+/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torchcontrib/optim/swa.py:130: UserWarning: Casting swa_start, swa_freq to int
+  warnings.warn("Casting swa_start, swa_freq to int")
+tensor([-1.9010, -0.1618], device='cuda:0')
+
+Epoch(U) 0(250): Train AC 57.60 RA 49.9905 LOSS 1464.7942
+
+Epoch(U) 0(250): DEV AC 52.00 RA 51.1066 
+Epoch(U) 0(250): BEST AC 52.00 RA 51.1066 
+
+Epoch(U) 0(500): Train AC 59.48 RA 50.3334 LOSS 1370.0289
+
+Epoch(U) 0(500): DEV AC 53.60 RA 55.4272 
+Epoch(U) 0(500): BEST AC 53.60 RA 55.4272 
+
+Epoch(U) 0(750): Train AC 61.18 RA 52.5415 LOSS 1359.9194
+
+Epoch(U) 0(750): DEV AC 50.60 RA 53.0588 
+Epoch(U) 0(750): BEST AC 53.60 RA 55.4272 
+
+Epoch(U) 0(1000): Train AC 61.52 RA 54.5269 LOSS 1332.6307
+
+Epoch(U) 0(1000): DEV AC 56.40 RA 59.3653 
+Epoch(U) 0(1000): BEST AC 56.40 RA 59.3653 
+tensor([-0.4286, -1.0540], device='cuda:0')
+
+Epoch(U) 1(1250): Train AC 62.14 RA 48.9880 LOSS 1339.1440
+
+Epoch(U) 1(1250): DEV AC 50.60 RA 56.1569 
+Epoch(U) 1(1250): BEST AC 56.40 RA 59.3653 
+
+Epoch(U) 1(1500): Train AC 65.38 RA 58.4027 LOSS 1263.9831
+
+Epoch(U) 1(1500): DEV AC 60.00 RA 65.9247 
+Epoch(U) 1(1500): BEST AC 60.00 RA 65.9247 
+
+Epoch(U) 1(1750): Train AC 68.07 RA 66.5085 LOSS 1149.6099
+
+Epoch(U) 1(1750): DEV AC 60.80 RA 70.5878 
+Epoch(U) 1(1750): BEST AC 60.80 RA 70.5878 
+
+Epoch(U) 1(2000): Train AC 69.95 RA 70.5717 LOSS 1077.9554
+
+Epoch(U) 1(2000): DEV AC 64.20 RA 69.5572 
+Epoch(U) 1(2000): BEST AC 60.80 RA 70.5878 
+tensor([-0.4030, -1.1035], device='cuda:0')
+
+Epoch(U) 2(2250): Train AC 83.38 RA 88.3891 LOSS 937.6846
+
+Epoch(U) 2(2250): DEV AC 62.00 RA 70.4485 
+Epoch(U) 2(2250): BEST AC 60.80 RA 70.5878 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 63 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(2500): Train AC 83.50 RA 88.4793 LOSS 814.1160
+
+Epoch(U) 2(2500): DEV AC 59.20 RA 72.0008 
+Epoch(U) 2(2500): BEST AC 59.20 RA 72.0008 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 38 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(2750): Train AC 83.88 RA 88.3848 LOSS 858.5460
+
+Epoch(U) 2(2750): DEV AC 67.20 RA 72.8697 
+Epoch(U) 2(2750): BEST AC 67.20 RA 72.8697 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 38 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 2(3000): Train AC 84.62 RA 89.1631 LOSS 752.4924
+
+Epoch(U) 2(3000): DEV AC 63.20 RA 73.0057 
+Epoch(U) 2(3000): BEST AC 63.20 RA 73.0057 
+tensor([-1.7313, -0.1949], device='cuda:0')
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 40 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 3(3250): Train AC 91.00 RA 96.5142 LOSS 797.3966
+
+Epoch(U) 3(3250): DEV AC 63.60 RA 73.5466 
+Epoch(U) 3(3250): BEST AC 63.60 RA 73.5466 
+
+Epoch(U) 3(3500): Train AC 91.14 RA 95.3827 LOSS 698.3993
+
+Epoch(U) 3(3500): DEV AC 63.80 RA 73.2938 
+Epoch(U) 3(3500): BEST AC 63.60 RA 73.5466 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 46 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 3(3750): Train AC 91.50 RA 95.4552 LOSS 684.1482
+
+Epoch(U) 3(3750): DEV AC 62.80 RA 73.7898 
+Epoch(U) 3(3750): BEST AC 62.80 RA 73.7898 
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 42 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None
+
+Epoch(U) 3(4000): Train AC 91.45 RA 95.3572 LOSS 760.4222
+
+Epoch(U) 3(4000): DEV AC 65.40 RA 74.5515 
+Epoch(U) 3(4000): BEST AC 65.40 RA 74.5515 
+
+Epoch(U) 3(4250): Train AC 91.18 RA 94.7246 LOSS 800.2417
+
+Epoch(U) 3(4250): DEV AC 63.20 RA 74.1643 
+Epoch(U) 3(4250): BEST AC 65.40 RA 74.5515 
+tensor([-1.6405e-03, -6.4136e+00], device='cuda:0')
+
+Epoch(U) 4(4500): Train AC 93.12 RA 95.7171 LOSS 719.5113
+
+Epoch(U) 4(4500): DEV AC 60.60 RA 73.7802 
+Epoch(U) 4(4500): BEST AC 65.40 RA 74.5515 
+
+Epoch(U) 4(4750): Train AC 92.50 RA 95.5153 LOSS 739.3511
+
+Epoch(U) 4(4750): DEV AC 67.40 RA 73.0377 
+Epoch(U) 4(4750): BEST AC 65.40 RA 74.5515 
+
+Epoch(U) 4(5000): Train AC 92.54 RA 95.5013 LOSS 710.6590
+
+Epoch(U) 4(5000): DEV AC 59.80 RA 72.1144 
+Epoch(U) 4(5000): BEST AC 65.40 RA 74.5515 
+
+Epoch(U) 4(5250): Train AC 92.54 RA 95.3507 LOSS 739.0394
+
+Epoch(U) 4(5250): DEV AC 59.80 RA 71.0774 
+Epoch(U) 4(5250): BEST AC 65.40 RA 74.5515 
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 41 seconds.
+Use 500 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 500 entries, 0 to 499
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      500 non-null    int64  
+ 1   proba   500 non-null    float64
+ 2   label   500 non-null    int64  
+dtypes: float64(1), int64(2)
+memory usage: 11.8 KB
+None
+(0.648, 0.7463634763405931)
+Load 1000 data from split(s) test_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 1000 images in file data/HM_img.tsv in 46 seconds.
+Use 1000 data in torch dataset
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1000 entries, 0 to 999
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      1000 non-null   int64  
+ 1   proba   1000 non-null   float64
+ 2   label   1000 non-null   int64  
+dtypes: float64(1), int64(2)
+memory usage: 23.6 KB
+None

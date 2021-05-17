@@ -1,0 +1,24 @@
+2021-04-16 12:43:43.918134: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+Traceback (most recent call last):
+  File "hm.py", line 391, in <module>
+    main()
+  File "hm.py", line 345, in main
+    hm = HM()
+  File "hm.py", line 76, in __init__
+    self.model = ModelU(args)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/entryU.py", line 68, in __init__
+    self.unimodal_model = AutoModel.from_pretrained(tr_unimodal_name, output_hidden_states=True)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_auto.py", line 513, in from_pretrained
+    pretrained_model_name_or_path, return_unused_kwargs=True, **kwargs
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/configuration_auto.py", line 205, in from_pretrained
+    config_dict, _ = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/configuration_utils.py", line 332, in get_config_dict
+    config_file = hf_bucket_url(pretrained_model_name_or_path, filename=CONFIG_NAME, use_cdn=False)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/file_utils.py", line 574, in hf_bucket_url
+    legacy_format = "/" not in model_id
+TypeError: argument of type 'bool' is not iterable

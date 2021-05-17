@@ -208,7 +208,8 @@ class ModelU(nn.Module):
             input_ids, capt_ids, img_feats, img_pos_feats, attn_masks, gather_index = self.preprocess_bert(sents, captions, visual_feats, self.num_features, self.tokenizer)
 
         seq_out, pooled_output = self.model(input_ids.cuda(), None, img_feats.cuda(), img_pos_feats.cuda(), attn_masks.cuda(), gather_index=gather_index.cuda())
-        unimodal_out = self.unimodal_model(capt_ids.cuda())
+        #unimodal_out = self.unimodal_model(capt_ids.cuda())
+        unimodal_out = self.unimodal_model(input_ids.cuda())
         #print(len(unimodal_out))
         #print(unimodal_out[0].shape)
         #print(len(unimodal_out[1]))

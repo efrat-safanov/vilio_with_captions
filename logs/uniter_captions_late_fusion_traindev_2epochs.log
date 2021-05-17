@@ -1,0 +1,286 @@
+2021-04-16 09:12:57.449271: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of the model checkpoint at /home/ML_courses/DL2020/efratblaier/test-mlm-large-batch-roberta-100-epochs-captions-no-rand were not used when initializing RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight', 'lm_head.decoder.bias']
+- This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+- This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at /home/ML_courses/DL2020/efratblaier/test-mlm-large-batch-roberta-100-epochs-captions-no-rand and are newly initialized: ['roberta.pooler.dense.weight', 'roberta.pooler.dense.bias', 'classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Load 8596 data from split(s) train.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 8596 images in file data/HM_img.tsv in 47 seconds.
+Use 8596 data in torch dataset
+
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 36 seconds.
+Use 500 data in torch dataset
+
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+REINITING:  Linear(in_features=1792, out_features=3584, bias=True)
+REINITING:  GeLU()
+REINITING:  LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+REINITING:  Linear(in_features=3584, out_features=2, bias=True)
+REINITING:  Sequential(
+  (0): Linear(in_features=1792, out_features=3584, bias=True)
+  (1): GeLU()
+  (2): LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+  (3): Linear(in_features=3584, out_features=2, bias=True)
+)
+Load pre-trained model from ./data/uniter-large.pt
+
+Weights in loaded but not in model:
+cls.predictions.bias
+cls.predictions.decoder.weight
+cls.predictions.transform.LayerNorm.bias
+cls.predictions.transform.LayerNorm.weight
+cls.predictions.transform.dense.bias
+cls.predictions.transform.dense.weight
+feat_regress.bias
+feat_regress.net.0.bias
+feat_regress.net.0.weight
+feat_regress.net.2.bias
+feat_regress.net.2.weight
+feat_regress.weight
+img_embeddings.mask_embedding.weight
+itm_output.bias
+itm_output.weight
+region_classifier.net.0.bias
+region_classifier.net.0.weight
+region_classifier.net.2.bias
+region_classifier.net.2.weight
+region_classifier.net.3.bias
+region_classifier.net.3.weight
+
+Weights in model but not in loaded:
+embeddings.position_ids
+
+Total Iters: 2150
+Splits in Train data: ['train']
+Splits in Valid data: ['dev_seen']
+Batches: 1075
+/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torchcontrib/optim/swa.py:130: UserWarning: Casting swa_start, swa_freq to int
+  warnings.warn("Casting swa_start, swa_freq to int")
+tensor([-0.3612, -1.1936], device='cuda:0')
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(250): Train AC 60.30 RA 53.8258 LOSS 1398.7711
+
+Epoch(U) 0(250): DEV AC 61.60 RA 67.2705 
+Epoch(U) 0(250): BEST AC 61.60 RA 67.2705 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(500): Train AC 64.60 RA 63.1239 LOSS 1230.3565
+
+Epoch(U) 0(500): DEV AC 56.80 RA 68.8659 
+Epoch(U) 0(500): BEST AC 56.80 RA 68.8659 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(750): Train AC 66.83 RA 67.6611 LOSS 1145.9922
+
+Epoch(U) 0(750): DEV AC 53.80 RA 67.8338 
+Epoch(U) 0(750): BEST AC 56.80 RA 68.8659 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(1000): Train AC 68.88 RA 70.9498 LOSS 1071.2782
+
+Epoch(U) 0(1000): DEV AC 61.80 RA 72.6729 
+Epoch(U) 0(1000): BEST AC 61.80 RA 72.6729 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+tensor([-0.0696, -2.7001], device='cuda:0')
+
+Epoch(U) 1(1250): Train AC 84.07 RA 90.5376 LOSS 847.2811
+
+Epoch(U) 1(1250): DEV AC 66.20 RA 74.3499 
+Epoch(U) 1(1250): BEST AC 66.20 RA 74.3499 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 1(1500): Train AC 83.35 RA 90.2231 LOSS 813.5117
+
+Epoch(U) 1(1500): DEV AC 64.60 RA 75.1660 
+Epoch(U) 1(1500): BEST AC 64.60 RA 75.1660 
+Traceback (most recent call last):
+  File "hm.py", line 391, in <module>
+    main()
+  File "hm.py", line 358, in main
+    hm.train(hm.train_tuple, hm.valid_tuple)
+  File "hm.py", line 185, in train
+    logit = self.model(sent, caption, (feats, boxes))
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/entryU.py", line 210, in forward
+    unimodal_out = self.unimodal_model(capt_ids.cuda())
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_roberta.py", line 476, in forward
+    return_dict=return_dict,
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_bert.py", line 829, in forward
+    return_dict=return_dict,
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_bert.py", line 484, in forward
+    output_attentions,
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_bert.py", line 406, in forward
+    hidden_states, attention_mask, head_mask, output_attentions=output_attentions,
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_bert.py", line 346, in forward
+    hidden_states, attention_mask, head_mask, encoder_hidden_states, encoder_attention_mask, output_attentions,
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio/src/vilio/transformers/modeling_bert.py", line 281, in forward
+    attention_probs = self.dropout(attention_probs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/modules/dropout.py", line 58, in forward
+    return F.dropout(input, self.p, self.training, self.inplace)
+  File "/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torch/nn/functional.py", line 973, in dropout
+    else _VF.dropout(input, p, training))
+RuntimeError: CUDA out of memory. Tried to allocate 20.00 MiB (GPU 0; 11.93 GiB total capacity; 11.10 GiB already allocated; 19.94 MiB free; 11.30 GiB reserved in total by PyTorch)
+2021-04-16 09:33:37.794292: I tensorflow/stream_executor/platform/default/dso_loader.cc:48] Successfully opened dynamic library libcudart.so.10.1
+Some weights of BertU were not initialized from the model checkpoint at bert-large-cased and are newly initialized: ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Some weights of RobertaModel were not initialized from the model checkpoint at /home/ML_courses/DL2020/efratblaier/test-mlm-large-batch-roberta-100-epochs-captions-no-rand and are newly initialized: ['roberta.pooler.dense.weight', 'roberta.pooler.dense.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Load 9096 data from split(s) traindev.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 9096 images in file data/HM_img.tsv in 66 seconds.
+Use 9096 data in torch dataset
+
+Load 500 data from split(s) dev_seen.
+Start to load Faster-RCNN detected objects from data/HM_img.tsv
+Loaded 500 images in file data/HM_img.tsv in 50 seconds.
+Use 500 data in torch dataset
+
+UNEXPECTED:  []
+MISSING:  ['bert.img_embeddings.img_linear.weight', 'bert.img_embeddings.img_linear.bias', 'bert.img_embeddings.img_layer_norm.weight', 'bert.img_embeddings.img_layer_norm.bias', 'bert.img_embeddings.pos_layer_norm.weight', 'bert.img_embeddings.pos_layer_norm.bias', 'bert.img_embeddings.pos_linear.weight', 'bert.img_embeddings.pos_linear.bias', 'bert.img_embeddings.LayerNorm.weight', 'bert.img_embeddings.LayerNorm.bias']
+ERRORS:  []
+REINITING:  Linear(in_features=1792, out_features=3584, bias=True)
+REINITING:  GeLU()
+REINITING:  LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+REINITING:  Linear(in_features=3584, out_features=2, bias=True)
+REINITING:  Sequential(
+  (0): Linear(in_features=1792, out_features=3584, bias=True)
+  (1): GeLU()
+  (2): LayerNorm((3584,), eps=1e-12, elementwise_affine=True)
+  (3): Linear(in_features=3584, out_features=2, bias=True)
+)
+Load pre-trained model from ./data/uniter-large.pt
+
+Weights in loaded but not in model:
+cls.predictions.bias
+cls.predictions.decoder.weight
+cls.predictions.transform.LayerNorm.bias
+cls.predictions.transform.LayerNorm.weight
+cls.predictions.transform.dense.bias
+cls.predictions.transform.dense.weight
+feat_regress.bias
+feat_regress.net.0.bias
+feat_regress.net.0.weight
+feat_regress.net.2.bias
+feat_regress.net.2.weight
+feat_regress.weight
+img_embeddings.mask_embedding.weight
+itm_output.bias
+itm_output.weight
+region_classifier.net.0.bias
+region_classifier.net.0.weight
+region_classifier.net.2.bias
+region_classifier.net.2.weight
+region_classifier.net.3.bias
+region_classifier.net.3.weight
+
+Weights in model but not in loaded:
+embeddings.position_ids
+
+Total Iters: 2274
+Splits in Train data: ['traindev']
+Splits in Valid data: ['dev_seen']
+Batches: 1137
+/home/ML_courses/DL2020/efratblaier/vilio_env/lib/python3.7/site-packages/torchcontrib/optim/swa.py:130: UserWarning: Casting swa_start, swa_freq to int
+  warnings.warn("Casting swa_start, swa_freq to int")
+tensor([-0.3827, -1.1457], device='cuda:0')
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(250): Train AC 61.05 RA 57.7562 LOSS 1403.7893
+
+Epoch(U) 0(250): DEV AC 51.60 RA 54.8543 
+Epoch(U) 0(250): BEST AC 51.60 RA 54.8543 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(500): Train AC 61.48 RA 60.9143 LOSS 1367.5761
+
+Epoch(U) 0(500): DEV AC 54.20 RA 69.0835 
+Epoch(U) 0(500): BEST AC 54.20 RA 69.0835 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(750): Train AC 64.47 RA 64.2929 LOSS 1219.3768
+
+Epoch(U) 0(750): DEV AC 66.80 RA 77.1359 
+Epoch(U) 0(750): BEST AC 66.80 RA 77.1359 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 0(1000): Train AC 66.62 RA 67.7534 LOSS 1113.0547
+
+Epoch(U) 0(1000): DEV AC 66.20 RA 81.3429 
+Epoch(U) 0(1000): BEST AC 66.20 RA 81.3429 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+tensor([-1.0930, -0.4083], device='cuda:0')
+
+Epoch(U) 1(1250): Train AC 83.19 RA 88.4806 LOSS 907.5665
+
+Epoch(U) 1(1250): DEV AC 74.00 RA 85.0250 
+Epoch(U) 1(1250): BEST AC 74.00 RA 85.0250 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+
+Epoch(U) 1(1500): Train AC 83.47 RA 88.8882 LOSS 813.6084
+
+Epoch(U) 1(1500): DEV AC 74.20 RA 87.1982 
+Epoch(U) 1(1500): BEST AC 74.20 RA 87.1982 
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+/home/ML_courses/DL2020/efratblaier/vilio/entryU.py:174: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  caption_input_ids = torch.tensor(input_ids)
+Killed
